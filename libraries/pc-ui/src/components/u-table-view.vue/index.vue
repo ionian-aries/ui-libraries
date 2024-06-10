@@ -359,6 +359,8 @@ export default {
         defaultColumnWidth: [String, Number],
         thEllipsis: { type: Boolean, default: false }, // 表头是否缩略展示
         ellipsis: { type: Boolean, default: false }, // 单元格是否缩略展示
+        subForm: { type: Boolean, default: false }, // 是否是子表单
+        showSubFormDropColumn: { type: Boolean, default: false }, // 是否展示子表单放置列
     },
     data() {
         return {
@@ -476,6 +478,9 @@ export default {
         },
         hasGroupedColumn() {
             return !!Object.keys(this.columnGroupVMs).length;
+        },
+        isDesignerSubForm() {
+            return this.$env.VUE_APP_DESIGNER && this.subForm;
         },
     },
     watch: {
@@ -790,6 +795,7 @@ export default {
             return options;
         },
         normalizeDataSource(dataSource) {
+            if (this.isDesignerSubForm) dataSource = [{}]; // IDE中的子表单只渲染一行数据
             const options = this.getDataSourceOptions();
             const isNew = typeof this.pagination !== 'undefined';
             const Constructor = isNew ? DataSourceNew : DataSource;
