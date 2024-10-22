@@ -31,7 +31,7 @@ export const Default = {
       return {
         data: async (params) => {
           const initialData = [];
-          const total = 5;
+          const total = 200;
           for (let i = 0; i < total; i++) {
             initialData.push({
               index: i,
@@ -87,49 +87,26 @@ export const Default = {
       onSortChange(...arg) {
         console.log(arg, 'arg===');
       },
+      onDragSortChange(...arg) {
+        console.log(arg, 'arg===');
+      }
     },
     template: `<el-table-pro
     row-key="index"
    :dataSource="data"
    :selectedRowKeys.sync="selectedRowKeys"
    @sort-change="onSortChange"
+   :pagination="false"
+   :height="400"
+   :onRowClick="log"
+   dragSort="row"
+   :onDragSort="onDragSortChange"
+    :scroll="{ type: 'virtual', rowHeight: 69, bufferSize: 10 }"
     >
 
-    <el-table-column-pro title="申请人"  colKey="channel"   :sorter="true"  fixed= 'left'   :width="500">
+    <el-table-column-pro title="申请人" type="multiple"       >
     <template #cell="cell">
       <div>{{selectedRowKeys}}</div>
-    </template>
-    </el-table-column-pro>
-
-    
-    <el-table-column-pro title="渠道" colKey="channel"  :width="500" :sorter="true" fixed= 'left'>
-      <template #cell="cell">
-        <div>{{ cell.item.channel }}</div>
-      </template>
-    </el-table-column-pro>
-        <el-table-column-pro title="渠道" colKey="channel"  :width="500" :sorter="true" fixed= 'left' >
-    <template #cell="cell">
-      <div>{{ cell.item.channel }}</div>
-    </template>
-    </el-table-column-pro>
-
-     <el-table-column-pro title="渠道" colKey="channel"  :width="500" :sorter="true" fixed= 'left' >
-      <template #cell="cell">
-        <div>{{ cell.item.channel }}</div>
-      </template>
-    </el-table-column-pro>
-
-
-    <el-table-column-pro title="渠道" colKey="channel"  :width="500" :sorter="true" fixed= 'left' >
-    <template #cell="cell">
-      <div>{{ cell.item.channel }}</div>
-    </template>
-    </el-table-column-pro>
-
-
-    <el-table-column-pro title="渠道" colKey="channel"  :width="500" :sorter="true" fixed= 'left' >
-    <template #cell="cell">
-      <div>{{ cell.item.channel }}</div>
     </template>
     </el-table-column-pro>
 
@@ -139,8 +116,8 @@ export const Default = {
     </template>
     </el-table-column-pro>
    
-    <el-table-column-pro title="渠道" colKey="time1" width="300">
-    </el-table-column-pro>
+    <el-table-column-pro title="渠道" colKey="createTime" width="300"> </el-table-column-pro>
+
     </el-table-pro>`,
   }),
 };

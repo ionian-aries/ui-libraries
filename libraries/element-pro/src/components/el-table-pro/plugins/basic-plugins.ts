@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 /* 组件功能扩展插件 */
 // export {};
 import _, { isFunction, isNil } from 'lodash';
@@ -13,26 +14,58 @@ export const useUpdateSync = createUseUpdateSync([
 ]);
 
 export const useTable = {
-  props: ['onPageChange', 'page', 'pageSize', 'pageSizeOptions', 'showTotal', 'showJumper'],
+  props: [
+    'onPageChange',
+    'page',
+    'pageSize',
+    'pageSizeOptions',
+    'showTotal',
+    'showJumper',
+  ],
   setup(props, ctx) {
     const current = props.useRef('page', (v) => v ?? 1);
+    const pageSize = props.useRef('pageSize', (v) => v ?? 10);
     const sorting = props.useComputed('sorting', (value) => value);
     const renderSlot = (vnodes) => {
       return vnodes.flatMap((vnode) => {
         if (!vnode.tag?.includes('ElTableColumnPro')) return [];
         const attrs = _.get(vnode, 'data.attrs', {});
+        console.log(attrs, '===');
+        // let cellProps = {};
+
         const nodePath = _.get(attrs, 'data-nodepath');
         const { cell, title } = _.get(vnode, 'data.scopedSlots', {});
-        const cellProps = _.isFunction(cell) && !attrs.type
-          ? {
-            cell: (h, { row, rowIndex, col }) => cell({ item: row, index: rowIndex, col }),
-          }
-          : {};
+        // cellProps = _.isFunction(cell) && !attrs.type
+        //   ? {
+        //     cell: (h, { row, rowIndex, col }) => cell({ item: row, index: rowIndex, col }),
+        //   }
+        //   : {};
         const titleProps = _.isFunction(title)
           ? {
             title: (h, { row, rowIndex, col }) => title({ row, index: rowIndex, col }),
           }
           : {};
+        // if (attrs.type === 'number') {
+        //   cellProps = {
+        //     cell: (h, { row, rowIndex }) => pageSize.value * (current.value - 1) + rowIndex + 1,
+        //   };
+        // }
+        const cellRender = ({ type, cell }) => _.cond([
+          [
+            _.matches({ type: 'number' }),
+            () => ({
+              cell: (h, { row, rowIndex }) => pageSize.value * (current.value - 1) + rowIndex + 1,
+            }),
+          ],
+          [_.matches({ type: _.isString }), () => ({})],
+          [
+            _.matches({ cell: _.isFunction }),
+            () => ({
+              cell: (h, { row, rowIndex, col }) => cell({ item: row, index: rowIndex, col }),
+            }),
+          ],
+        ])({ type, cell });
+        const cellProps = cellRender({ type: attrs.type, cell });
         return [
           {
             ...attrs,
@@ -47,7 +80,6 @@ export const useTable = {
     };
 
     const onLoadData = props.get('onLoadData');
-    const pageSize = props.useRef('pageSize', (v) => v ?? 10);
 
     const onPageChange = props.useComputed('onPageChange', (value) => {
       return (pageInfo) => {
@@ -70,19 +102,16 @@ export const useTable = {
       }
     });
 
-    const totalContent = props.useComputed('showTotal', (value: boolean) => value ?? true);
-    const showJumper = props.useComputed('showJumper', (value: boolean) => value ?? true);
-
-    // const pageSize = props.useComputed('pageSize', (value) => {
-    //   return _.toNumber(value) || 10;
-    // });
+    const totalContent = props.useComputed(
+      'showTotal',
+      (value: boolean) => value ?? true,
+    );
+    const showJumper = props.useComputed(
+      'showJumper',
+      (value: boolean) => value ?? true,
+    );
 
     const total = props.useComputed('total', (value) => value ?? 10);
-
-    const defaultCurrent = props.useComputed(
-      'defaultCurrent',
-      (value) => value,
-    );
 
     const paginationProps = props.useComputed('pagination');
     const pagination = computed(() => {
@@ -101,6 +130,7 @@ export const useTable = {
 
     // 产品要求默认开边框
     const bordered = props.useComputed('bordered', (v) => (isNil(v) ? true : v));
+
     const onSortChange = props.useComputed('onSortChange', (value) => {
       return (...arg) => {
         _.attempt(onLoadData, {
@@ -129,7 +159,10 @@ export const useTable = {
       pagination,
       onSortChange,
       bordered,
-      onSelectChange: (selectedRowKeys: Array<string | number>, context: SelectOptions<any>) => {
+      onSelectChange: (
+        selectedRowKeys: Array<string | number>,
+        context: SelectOptions<any>,
+      ) => {
         const onSelectChange = props.get('onSelectChange');
 
         if (isFunction(onSelectChange)) {
