@@ -464,7 +464,8 @@
     {
         "name": "UAlert",
         "ideusage": {
-            "idetype": "container"
+            "idetype": "container",
+            "disableSlotAutoFill": ["title"]
         }
     },
     {
@@ -562,9 +563,10 @@
             ],
             "displaySlotInline": {
                 "cell": "['index', 'radio', 'checkbox', 'dragHandler'].includes(this.getAttribute('type')?.value)",
-                "title": "['index', 'radio', 'checkbox'].includes(this.getAttribute('type')?.value)"
+                "title": true
             },
-            "forceUpdateWhenAttributeChange": "parent"
+            "forceUpdateWhenAttributeChange": "parent",
+            "disableSlotAutoFill": ["title"]
         }
     },
     {
@@ -687,11 +689,20 @@
         "ideusage": {
             "idetype": "container",
             "additionalAttribute": {
-                ":dataSource": "\"[{}]\"",
-                ":colnum": "\"1\""
+                ":dataSource": "\"[{}, {}, {}]\""
             },
             "childAccept": false,
-            "useTemplateInDefaultSlot": true
+            "useTemplateInDefaultSlot": true,
+            "style": [
+                {
+                    "selector": ".u-for-com-item:not(:first-child)",
+                    "declaration": "opacity: 0.4; cursor: not-allowed !important; pointer-events: none"
+                },
+                {
+                    "selector": ".u-for-com-frag:not(:first-child)",
+                    "declaration": "opacity: 0.4; cursor: not-allowed !important; pointer-events: none"
+                }
+            ]
         }
     },
     {
@@ -1208,7 +1219,8 @@
                 "head": false,
                 "heading": false
             },
-            "useFeedbackWrapper": true
+            "useFeedbackWrapper": true,
+            "feedbackAliaName": "this.getElement(el => el.slotTarget === 'title').elements?.filter(el => el.tag==='u-text')?.reduce((pre, cur) => pre += cur?.source?.bindAttrs?.find(attr => attr.name === 'text')?.value, '') || '弹窗'"
         }
     },
     {
