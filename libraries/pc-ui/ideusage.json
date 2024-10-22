@@ -1219,7 +1219,8 @@
                 "head": false,
                 "heading": false
             },
-            "useFeedbackWrapper": true
+            "useFeedbackWrapper": true,
+            "feedbackAliaName": "this.getElement(el => el.slotTarget === 'title').elements?.filter(el => el.tag==='u-text')?.reduce((pre, cur) => pre += cur?.source?.bindAttrs?.find(attr => attr.name === 'text')?.value, '') || '弹窗'"
         }
     },
     {
