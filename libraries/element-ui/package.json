@@ -97,6 +97,7 @@
     "build": "lcap-scripts build && npm run lowcode",
     "pub": "npm run build && npm run deploy",
     "deploy": "lcap-scripts deploy",
+    "deploy:one": "lcap-scripts deploy --images",
     "deploy:dev": "lcap-scripts deploy --platform http://devtest.lcap.codewave-dev.163yun.com/",
     "deploy:test": "lcap-scripts deploy --platform http://defaulttenant.lcap.codewave-test.163yun.com/",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
