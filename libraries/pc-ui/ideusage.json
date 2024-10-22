@@ -464,7 +464,8 @@
     {
         "name": "UAlert",
         "ideusage": {
-            "idetype": "container"
+            "idetype": "container",
+            "disableSlotAutoFill": ["title"]
         }
     },
     {
@@ -562,9 +563,10 @@
             ],
             "displaySlotInline": {
                 "cell": "['index', 'radio', 'checkbox', 'dragHandler'].includes(this.getAttribute('type')?.value)",
-                "title": "['index', 'radio', 'checkbox'].includes(this.getAttribute('type')?.value)"
+                "title": true
             },
-            "forceUpdateWhenAttributeChange": "parent"
+            "forceUpdateWhenAttributeChange": "parent",
+            "disableSlotAutoFill": ["title"]
         }
     },
     {
