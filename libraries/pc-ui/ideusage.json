@@ -402,6 +402,9 @@
             },
             "additionalAttribute": {
                 ":autoplay": "\"false\""
+            },
+            "events": {
+                "click": true
             }
         }
     },
