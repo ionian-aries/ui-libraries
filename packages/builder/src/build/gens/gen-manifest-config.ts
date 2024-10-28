@@ -19,7 +19,7 @@ const getManifest = (type, outDir) => {
       `${outDir}/theme/index.html`,
     ],
     style: [
-      `${outDir}/index.css-rules-map.json`,
+      `${outDir}/index.css-info-map.json`,
     ],
     package: ['source.zip'],
     i18n: [`${outDir}/i18n.json`],

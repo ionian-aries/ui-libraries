@@ -5,7 +5,7 @@ import type { LcapBuildOptions } from './types';
 import logger from '../utils/logger';
 import { buildIDE } from './build-ide';
 import { buildTheme } from './build-theme';
-import buildCSSRules from './build-css-rules';
+import buildCSSInfo from './build-css-info';
 import { buildNaslExtension } from './build-extension';
 import { execSync } from '../utils/exec';
 import genNaslUIConfig from './gens/gen-nasl-ui';
@@ -151,7 +151,7 @@ export function buildManifest(options: LcapBuildOptions) {
 
 export async function buildNaslUILibrary(options: LcapBuildOptions) {
   buildNaslUI(options);
-  buildCSSRules(options);
+  options.reportCSSInfo && buildCSSInfo(options);
   await buildTheme(options);
   buildI18N(options);
   await buildDecalaration(options);

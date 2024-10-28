@@ -8,18 +8,16 @@ import * as postcss from 'postcss';
 import { camelCase, kebabCase, capitalize } from 'lodash';
 import type {
   LcapBuildOptions, CSSValue, CSSRule, SupportedCSSProperty,
-} from '../build/types';
+} from './types';
 
-function parseCSSRules(cssContent: string, componentNames: string[], cssRulesDesc: Record<string, Record<string, string>>, options: LcapBuildOptions) {
+function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc: Record<string, Record<string, string>>, options: LcapBuildOptions) {
   const root = postcss.parse(cssContent);
 
   const mockStateRE = /:(hover|active|focus)/g;
   const hashClassRE = /\.([a-zA-Z0-9][a-zA-Z0-9_-]*?)__[a-zA-Z0-9-]{6,}/g; // @TODO: 目前是两个下划线
 
   // eslint-disable-next-line no-shadow
-  const getSelectorComponentName = options.getSelectorComponentName || ((selector: string, componentNames: string[]) => {
-    const selectorComponentNameMap = options.selectorComponentNameMap || {};
-    if (selectorComponentNameMap[selector]) return selectorComponentNameMap[selector];
+  const inferSelectorComponentName = options.reportCSSInfo?.inferSelectorComponentName || ((selector: string, componentNames: string[]) => {
     return componentNames.find((name) => {
       name = kebabCase(name);
       return new RegExp(`^\\.${name}_|^\\[class\\*=${name}__\\]`).test(selector);
@@ -71,7 +69,7 @@ function parseCSSRules(cssContent: string, componentNames: string[], cssRulesDes
       const selector = selectors.join(',');
       if (!selector) return;
 
-      const componentName = getSelectorComponentName?.(selector, componentNames);
+      const componentName = inferSelectorComponentName?.(selector, componentNames);
       if (!componentName) return;
 
       const componentCSSInfo = componentCSSInfoMap[componentName] = componentCSSInfoMap[componentName] || {
@@ -81,6 +79,9 @@ function parseCSSRules(cssContent: string, componentNames: string[], cssRulesDes
         mainSelectorSet: new Set(),
       };
       mainSelectors.forEach((mainSelector) => componentCSSInfo.mainSelectorSet.add(mainSelector));
+      if (options.reportCSSInfo?.addComponentMainSelectors?.[componentName]) {
+        options.reportCSSInfo.addComponentMainSelectors[componentName].forEach((mainSelector) => componentCSSInfo.mainSelectorSet.add(mainSelector));
+      }
 
       const parsedStyle: Record<SupportedCSSProperty, CSSValue> = {} as Record<SupportedCSSProperty, CSSValue>;
       node.nodes.forEach((decl) => {
@@ -275,17 +276,17 @@ function collectComponentNames(componentList: any) {
   return componentNames;
 }
 
-export default function buildCSSRules(options: LcapBuildOptions) {
+export default function buildCSSInfo(options: LcapBuildOptions) {
   const componentList = fs.readJSONSync(path.resolve(options.rootPath, options.destDir, 'nasl.ui.json'), 'utf-8');
   const componentNames = collectComponentNames(componentList);
 
   const cssContent = fs.readFileSync(path.resolve(options.rootPath, options.destDir, 'index.css'), 'utf-8');
 
-  const cssRulesDescPath = path.resolve(options.rootPath, 'index.css-rules-desc.json');
+  const cssRulesDescPath = path.resolve(options.rootPath, 'index.css-info-desc.json');
   const cssRulesDesc = fs.existsSync(cssRulesDescPath) ? fs.readJSONSync(cssRulesDescPath) : {};
-  const result = parseCSSRules(cssContent, componentNames, cssRulesDesc, options);
+  const result = parseCSSInfo(cssContent, componentNames, cssRulesDesc, options);
 
-  fs.writeJSONSync(path.resolve(options.rootPath, options.destDir, 'index.css-rules-map.json'), result.componentCSSInfoMap, { spaces: 2 });
-  fs.writeJSONSync(path.resolve(options.rootPath, 'index.css-rules-desc.json'), result.cssRulesDesc, { spaces: 2 });
+  fs.writeJSONSync(path.resolve(options.rootPath, options.destDir, 'index.css-info-map.json'), result.componentCSSInfoMap, { spaces: 2 });
+  fs.writeJSONSync(path.resolve(options.rootPath, 'index.css-info-desc.json'), result.cssRulesDesc, { spaces: 2 });
   fs.writeFileSync(path.resolve(options.rootPath, options.destDir, 'index.css'), result.cssContent);
 }

@@ -39,8 +39,11 @@ export interface LcapBuildOptions {
   destDir: string;
   pnpm?: boolean;
   dependencies?: Dependency[];
-  selectorComponentNameMap?: Record<string, string>;
-  getSelectorComponentName?: (selector: string, componentNames: string[]) => string | undefined;
+  reportCSSInfo?: {
+    enabled: true,
+    addComponentMainSelectors?: Map<string, string[]>;
+    inferSelectorComponentName?: (selector: string, componentNames: string[]) => string | undefined;
+  };
 }
 
 export const SupportedCSSProperties = [
