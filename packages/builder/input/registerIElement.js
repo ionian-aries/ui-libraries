@@ -1,6 +1,6 @@
 /* eslint-disable no-cond-assign, no-multi-assign, no-restricted-syntax */
 
-export default function registerIElement(methods) {
+export default function registerIElement(methods, options = {}) {
   // inspecting element 模式
   let inspecting = false;
   // 当前组件的主要选择器
@@ -31,10 +31,12 @@ export default function registerIElement(methods) {
     INSPECTOR = document.createElement('div');
     INSPECTOR.id = 'ide-inspector';
     INSPECTOR.classList.add('ide-inspector');
-    INSPECTOR.innerHTML = `<div class="ide-inspector__popover">
-        <div class="ide-inspector__title"></div>
-        <div class="ide-inspector__content"></div>
-    </div>`;
+    if (!options.addPopoverManually) {
+      INSPECTOR.innerHTML = `<div class="ide-inspector__popover">
+          <div class="ide-inspector__title"></div>
+          <div class="ide-inspector__content"></div>
+      </div>`;
+    }
     document.body.appendChild(INSPECTOR);
   }
   initInspector();
@@ -46,8 +48,10 @@ export default function registerIElement(methods) {
     }
 
     const rect = el.getBoundingClientRect();
-    INSPECTOR.children[0].children[0].textContent = el.tagName.toLowerCase() + Array.from(el.classList).map((cls) => `.${cls}`).join('');
-    INSPECTOR.children[0].children[1].textContent = `${rect.width}px × ${rect.height}px`;
+    if (!options.addPopoverManually) {
+      INSPECTOR.children[0].children[0].textContent = el.tagName.toLowerCase() + Array.from(el.classList).map((cls) => `.${cls}`).join('');
+      INSPECTOR.children[0].children[1].textContent = `${rect.width}px × ${rect.height}px`;
+    }
 
     Object.assign(INSPECTOR.style, {
       display: 'block',
@@ -61,7 +65,9 @@ export default function registerIElement(methods) {
   function sendIElementResult() {
     // eslint-disable-next-line no-use-before-define
     selectedElementResult = getIElementResult();
-    window.top.postMessage({ from: 'lcap-theme', type: 'iElementResult', data: selectedElementResult }, '*');
+    const payload = { from: 'lcap-theme', type: 'iElementResult', data: selectedElementResult };
+    if (options.postMessage) options.postMessage(payload);
+    else window.top.postMessage(payload, '*');
   }
 
   function onMouseMove(e) {
@@ -89,14 +95,18 @@ export default function registerIElement(methods) {
     mainSelectors = data.mainSelectors;
     mainSelectorStr = mainSelectors.join(',');
     selectors = data.selectors;
-    window.addEventListener('mousemove', onMouseMove);
-    window.addEventListener('click', onClick);
+    if (!options.addEventsManually) {
+      window.addEventListener('mousemove', onMouseMove);
+      window.addEventListener('click', onClick);
+    }
   };
 
   methods.cancelIElement = () => {
     inspecting = false;
-    window.removeEventListener('mousemove', onMouseMove);
-    window.removeEventListener('click', onClick);
+    if (!options.addEventsManually) {
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('click', onClick);
+    }
   };
 
   methods.clearIElement = (data) => {
@@ -174,6 +184,14 @@ export default function registerIElement(methods) {
 
   methods.hideInspector = () => {
     INSPECTOR.style.display = 'none';
+  };
+
+  return {
+    get inspecting() {
+      return inspecting;
+    },
+    onMouseMove,
+    onClick,
   };
 }
 
