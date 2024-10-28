@@ -227,12 +227,12 @@ function parseCSSRules(cssContent: string, componentNames: string[], cssRulesDes
       Object.keys(StateMap).forEach((state) => {
         const selector = `${mainSelector}:${state},${mainSelector}._${state}`;
         const mainSelectorCSSRule = componentCSSInfo.cssRuleMap.get(mainSelector);
-        const mainSelectorDescription = mainSelectorCSSRule?.description;
+        // const mainSelectorDescription = cssRulesDesc[componentName]?.[mainSelector] || mainSelectorCSSRule?.description;
 
         if (!componentCSSInfo.cssRuleMap.has(selector)) {
           const cssRule: CSSRule = {
             selector,
-            description: mainSelectorDescription ? `${mainSelectorDescription}:${StateMap[state]}` : '',
+            description: '', // mainSelectorDescription ? `${mainSelectorDescription}:${StateMap[state]}` : '',
             parsedStyle: {},
           };
           componentCSSInfo.cssRules.push(cssRule);
