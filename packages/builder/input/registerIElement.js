@@ -116,7 +116,9 @@ export default function registerIElement(methods) {
   function getRelatedElement(el, relation) {
     if (!el) return undefined;
 
-    if (relation === 'parent') {
+    if (relation === 'self') {
+      return el;
+    } if (relation === 'parent') {
       return el.parentElement.closest(mainSelectorStr);
     } if (relation === 'prev') {
       while (el = el.previousElementSibling) {
