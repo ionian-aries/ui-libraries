@@ -47,7 +47,7 @@
 - :active 叫 :鼠标按下
 - :disabled 叫 :禁用态
 - :focus 叫 :获得焦点
-- :visited 叫 :访问过
+- :visited 叫 :已访问
 - 按钮等组件的 :active, .is-active 叫 :鼠标按下, tab 等组件的 .is-active 叫 :选中态
 - :after 伪元素叫 ::after, :before 伪元素叫 ::before
 

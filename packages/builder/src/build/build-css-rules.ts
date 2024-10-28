@@ -5,7 +5,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import * as postcss from 'postcss';
-import { camelCase, capitalize } from 'lodash';
+import { camelCase, kebabCase, capitalize } from 'lodash';
 import type {
   LcapBuildOptions, CSSValue, CSSRule, SupportedCSSProperty,
 } from '../build/types';
@@ -13,38 +13,74 @@ import type {
 function parseCSSRules(cssContent: string, componentNames: string[], cssRulesDesc: Record<string, Record<string, string>>, options: LcapBuildOptions) {
   const root = postcss.parse(cssContent);
 
-  const mockStateRE = /:(hover|active)/g;
+  const mockStateRE = /:(hover|active|focus)/g;
   const hashClassRE = /\.([a-zA-Z0-9][a-zA-Z0-9_-]*?)__[a-zA-Z0-9-]{6,}/g; // @TODO: 目前是两个下划线
 
   // eslint-disable-next-line no-shadow
   const getSelectorComponentName = options.getSelectorComponentName || ((selector: string, componentNames: string[]) => {
     const selectorComponentNameMap = options.selectorComponentNameMap || {};
     if (selectorComponentNameMap[selector]) return selectorComponentNameMap[selector];
-    return componentNames.find((name) => new RegExp(`^\\.${name}_|^\\[class\\*=${name}__\\]`).test(selector));
+    return componentNames.find((name) => {
+      name = kebabCase(name);
+      return new RegExp(`^\\.${name}_|^\\[class\\*=${name}__\\]`).test(selector);
+    });
   });
 
-  const cssRulesMap: Record<string, CSSRule[]> = {};
+  function getMainSubSelector(subSelector: string) {
+    const cap = subSelector.slice(1).match(/[[.:]/);
+    return cap ? subSelector.slice(0, (cap.index || subSelector.length - 1) + 1) : subSelector;
+  }
+
+  const componentCSSInfoMap: Record<string, {
+    cssRules: CSSRule[],
+    cssRuleMap: Map<string, CSSRule>,
+    mainSelectorSet: Set<string>,
+    mainSelectors: string[],
+  }> = {};
 
   root.nodes.forEach((node) => {
     if (node.type === 'rule') {
-      const selectors = node.selector
+      let selectors = node.selector
         .replace(/\s+/g, ' ') // 抹平换行符
         .replace(/\s*([>+~,])\s*/g, '$1') // 统一去除空格
         .split(/,/g)
         .flatMap((sel) => (mockStateRE.test(sel) ? [sel, sel.replace(mockStateRE, '._$1')] : [sel])); // 增加模拟伪类
 
-      node.selector = selectors.join(',');
+      node.selector = selectors.join(','); // 更新 CSS 代码中的选择器
 
-      const selector = selectors
+      selectors = selectors
         .filter((sel) => !/^-(moz|webkit|ms|o)-|^_/.test(sel)) // 过滤掉浏览器前缀和 _ 开头的选择器
-        .map((sel) => sel.replace(hashClassRE, '[class*=$1__]')) // hash 类名改为 [class*=] 属性选择器
-        .join(',');
+        .map((sel) => sel.replace(hashClassRE, '[class*=$1__]')); // hash 类名改为 [class*=] 属性选择器
 
+      const mainSelectors: string[] = [];
+
+      selectors.forEach((selector) => {
+        let mainSelector = '';
+        const re = /[ +>~]/g;
+        let cap;
+        let lastIndex = 0;
+        while ((cap = re.exec(selector))) {
+          mainSelector += getMainSubSelector(selector.slice(lastIndex, cap.index)) + cap[0];
+          lastIndex = cap.index + 1;
+        }
+        mainSelector += getMainSubSelector(selector.slice(lastIndex));
+
+        mainSelectors.push(mainSelector);
+      });
+
+      const selector = selectors.join(',');
       if (!selector) return;
 
       const componentName = getSelectorComponentName?.(selector, componentNames);
       if (!componentName) return;
-      const currentCSSRules = cssRulesMap[componentName] = cssRulesMap[componentName] || [];
+
+      const componentCSSInfo = componentCSSInfoMap[componentName] = componentCSSInfoMap[componentName] || {
+        cssRules: [],
+        cssRuleMap: new Map(),
+        mainSelectors: [],
+        mainSelectorSet: new Set(),
+      };
+      mainSelectors.forEach((mainSelector) => componentCSSInfo.mainSelectorSet.add(mainSelector));
 
       const parsedStyle: Record<SupportedCSSProperty, CSSValue> = {} as Record<SupportedCSSProperty, CSSValue>;
       node.nodes.forEach((decl) => {
@@ -156,40 +192,82 @@ function parseCSSRules(cssContent: string, componentNames: string[], cssRulesDes
           parsedStyle[camelCase(decl.prop)] = patchImportant({ defaultValue: decl.value });
         }
       });
-      currentCSSRules.push({
+      const cssRule: CSSRule = {
         selector,
         description: '', // cssRuleSelectors[selector] || lastRuleDesc || '',
         // code: node.toString().replace(/^[\s\S]*?\{/, '{'),
         parsedStyle,
-      });
+      };
+      componentCSSInfo.cssRules.push(cssRule);
+      componentCSSInfo.cssRuleMap.set(selector, cssRule);
     }
   });
 
-  Object.keys(cssRulesMap).forEach((componentName) => {
-    const cssRules = cssRulesMap[componentName];
+  Object.keys(componentCSSInfoMap).forEach((componentName) => {
+    const componentCSSInfo = componentCSSInfoMap[componentName];
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const mainSelector of componentCSSInfo.mainSelectorSet) {
+      if (!componentCSSInfo.cssRuleMap.has(mainSelector)) {
+        const cssRule: CSSRule = {
+          selector: mainSelector,
+          description: '',
+          parsedStyle: {},
+        };
+        componentCSSInfo.cssRules.push(cssRule);
+        componentCSSInfo.cssRuleMap.set(mainSelector, cssRule);
+      }
+
+      const StateMap = {
+        hover: '鼠标移入',
+        active: '鼠标按下',
+        focus: '获得焦点',
+        // visited: '已访问',
+      };
+      Object.keys(StateMap).forEach((state) => {
+        const selector = `${mainSelector}:${state},${mainSelector}._${state}`;
+        const mainSelectorCSSRule = componentCSSInfo.cssRuleMap.get(mainSelector);
+        const mainSelectorDescription = mainSelectorCSSRule?.description;
+
+        if (!componentCSSInfo.cssRuleMap.has(selector)) {
+          const cssRule: CSSRule = {
+            selector,
+            description: mainSelectorDescription ? `${mainSelectorDescription}:${StateMap[state]}` : '',
+            parsedStyle: {},
+          };
+          componentCSSInfo.cssRules.push(cssRule);
+          componentCSSInfo.cssRuleMap.set(selector, cssRule);
+        }
+      });
+    }
+
     let cssDescMap = cssRulesDesc[componentName];
     if (!cssDescMap) cssDescMap = cssRulesDesc[componentName] = {};
 
-    const selectorSet = new Set();
-    cssRules.forEach((rule) => {
+    componentCSSInfo.cssRules.forEach((rule) => {
       rule.description = cssDescMap[rule.selector] = cssDescMap[rule.selector] || '';
-      selectorSet.add(rule.selector);
     });
     Object.keys(cssDescMap).forEach((selector) => {
-      if (!selectorSet.has(selector)) delete cssDescMap[selector];
+      if (!componentCSSInfo.cssRuleMap.has(selector)) delete cssDescMap[selector];
     });
+
+    componentCSSInfo.mainSelectors = Array.from(componentCSSInfo.mainSelectorSet);
+
+    const finalComponentCSSInfo = componentCSSInfo as any;
+    delete finalComponentCSSInfo.mainSelectorSet;
+    delete finalComponentCSSInfo.cssRuleMap;
   });
   Object.keys(cssRulesDesc).forEach((componentName) => {
-    if (!cssRulesMap[componentName]) delete cssRulesDesc[componentName];
+    if (!componentCSSInfoMap[componentName]) delete cssRulesDesc[componentName];
   });
 
-  return { cssRulesMap, cssRulesDesc, cssContent: root.toResult().css };
+  return { componentCSSInfoMap, cssRulesDesc, cssContent: root.toResult().css };
 }
 
 function collectComponentNames(componentList: any) {
   const componentNames: string[] = [];
   componentList.forEach((component) => {
-    componentNames.push(component.kebabName);
+    componentNames.push(component.name);
     if (component.children) {
       componentNames.push(...collectComponentNames(component.children));
     }
@@ -207,7 +285,7 @@ export default function buildCSSRules(options: LcapBuildOptions) {
   const cssRulesDesc = fs.existsSync(cssRulesDescPath) ? fs.readJSONSync(cssRulesDescPath) : {};
   const result = parseCSSRules(cssContent, componentNames, cssRulesDesc, options);
 
-  fs.writeJSONSync(path.resolve(options.rootPath, options.destDir, 'index.css-rules-map.json'), result.cssRulesMap, { spaces: 2 });
+  fs.writeJSONSync(path.resolve(options.rootPath, options.destDir, 'index.css-rules-map.json'), result.componentCSSInfoMap, { spaces: 2 });
   fs.writeJSONSync(path.resolve(options.rootPath, 'index.css-rules-desc.json'), result.cssRulesDesc, { spaces: 2 });
   fs.writeFileSync(path.resolve(options.rootPath, options.destDir, 'index.css'), result.cssContent);
 }

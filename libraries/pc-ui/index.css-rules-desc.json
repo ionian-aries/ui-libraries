@@ -1,9 +1,9 @@
 {
-  "e-watermark": {
+  "EWatermark": {
     "[class*=e-watermark__]": "水印",
     "[class*=e-watermark__][display=full]": "水印:全屏显示"
   },
-  "u-link": {
+  "ULink": {
     "[class*=u-link__]": "链接",
     "[class*=u-link__]:hover,[class*=u-link__]._hover": "链接:鼠标移入",
     "[class*=u-link__][hoverType=color]:hover,[class*=u-link__][hoverType=color]._hover": "链接:鼠标移入(颜色变化)",
@@ -25,7 +25,7 @@
     "[class*=u-link__][display=block]": "链接:块级显示",
     "[class*=u-link__]:lang(en)": "链接:英文"
   },
-  "u-list-view": {
+  "UListView": {
     "[class*=u-list-view__]": "数据列表",
     "[class*=u-list-view__]:focus": "数据列表:获得焦点",
     "[class*=u-list-view__][disabled]": "数据列表:禁用态",
@@ -55,7 +55,7 @@
     "[class*=u-list-view__][width=full]": "数据列表:全宽度",
     "[class*=u-list-view__][width=auto]": "数据列表:自动宽度"
   },
-  "u-alert": {
+  "UAlert": {
     "[class*=u-alert__]": "警告",
     "[class*=u-alert__][bordered]": "警告:有边框",
     "[class*=u-alert__][type=info]": "警告:信息类型",
@@ -67,14 +67,14 @@
     "[class*=u-alert__][type=warning] [class*=u-alert_icon__]:after": "警告:警告类型>图标::after",
     "[class*=u-alert__][type=error] [class*=u-alert_icon__]:after": "警告:错误类型>图标::after"
   },
-  "u-badge": {
+  "UBadge": {
     "[class*=u-badge__]": "徽章",
     "[class*=u-badge__][corner]": "徽章:角标",
     "[class*=u-badge__][corner] [class*=u-badge_value__]": "徽章:角标>值",
     "[class*=u-badge__][dot] [class*=u-badge_value__]": "徽章:点>值",
     "[class*=u-badge__][display=block]": "徽章:块级显示"
   },
-  "u-button": {
+  "UButton": {
     "[class*=u-button__]": "按钮",
     "[class*=u-button__]:hover,[class*=u-button__]._hover": "按钮:鼠标移入",
     "[class*=u-button__]:focus": "按钮:获得焦点",
@@ -123,15 +123,15 @@
     "[class*=u-button__] [class^=i-ico_lcp-iconv]": "按钮>图标",
     "[class*=u-button__][loading] [class^=i-ico_lcp-iconv]": "按钮:加载中>图标"
   },
-  "u-calendar-view": {
+  "UCalendarView": {
     "[class*=u-calendar-view__]": "日历视图",
     "[class*=u-calendar-view__] [class*=u-calendar-view_month__][size$=mini]": "日历视图>月视图:迷你"
   },
-  "u-capsules": {
+  "UCapsules": {
     "[class*=u-capsules__]": "胶囊",
     "[class*=u-capsules__]:focus": "胶囊:获得焦点"
   },
-  "u-card": {
+  "UCard": {
     "[class*=u-card__]": "卡片",
     "[class*=u-card__][shadow=always]": "卡片:始终有阴影",
     "[class*=u-card__][shadow=hover]:hover,[class*=u-card__][shadow=hover]._hover": "卡片:鼠标移入时有阴影",
@@ -142,12 +142,12 @@
     "[class*=u-card__][designer]": "卡片:设计师模式",
     "[class*=u-card__][designer] [s-empty=true]": "卡片:设计师模式>空状态"
   },
-  "u-carousel": {
+  "UCarousel": {
     "[class*=u-carousel__]": "轮播",
     "[class*=u-carousel__]:hover [class*=u-carousel_button__],[class*=u-carousel__]._hover [class*=u-carousel_button__]": "轮播:鼠标移入>按钮",
     "[class*=u-carousel__] [class*=u-carousel_loadContent__]": "轮播>加载内容"
   },
-  "u-checkbox": {
+  "UCheckbox": {
     "[class*=u-checkbox__]": "复选框",
     "[class*=u-checkbox__]:focus": "复选框:获得焦点",
     "[class*=u-checkbox__]:focus [class*=u-checkbox_box__],[class*=u-checkbox__]:focus [class*=u-checkbox_box__][status=true]": "复选框:获得焦点>复选框盒子",
@@ -162,7 +162,7 @@
     "[class*=u-checkbox__][preview=true]:not([show-title])": "复选框:预览模式:不显示标题",
     "[class*=u-checkbox__][preview=true]": "复选框:预览模式"
   },
-  "u-text": {
+  "UText": {
     "[class*=u-text__]": "文本",
     "[class*=u-text__][size=small]": "文本:小",
     "[class*=u-text__][size=normal]": "文本:正常",
@@ -181,14 +181,14 @@
     "[class*=u-text__][overflow=nowrap],[class*=u-text__][wrap=nowrap]": "文本:不换行",
     "[class*=u-text__][display=block]": "文本:块级显示"
   },
-  "u-checkboxes": {
+  "UCheckboxes": {
     "[class*=u-checkboxes__]>*:not(:last-child)": "复选框组>非最后一个子元素",
     "[class*=u-checkboxes__] [class*=u-checkboxes_loadContent__]": "复选框组>加载内容",
     "[class*=u-checkboxes__][direction=vertical]": "复选框组:垂直方向",
     "[class*=u-checkboxes__][direction]": "复选框组:方向",
     "[class*=u-checkboxes__][isSetColumn=true]>label,[class*=u-checkboxes__][direction=vertical]>label": "复选框组:设置列或垂直方向>标签"
   },
-  "u-circular-progress": {
+  "UCircularProgress": {
     "[class*=u-circular-progress__]": "圆形进度条",
     "[class*=u-circular-progress__][size=small]": "圆形进度条:小",
     "[class*=u-circular-progress__][size=large]": "圆形进度条:大",
@@ -200,7 +200,7 @@
     "[class*=u-circular-progress__][size=huge] [class*=u-circular-progress_track__],[class*=u-circular-progress__][size=huge] [class*=u-circular-progress_trail__]": "圆形进度条:超大>轨道",
     "[class*=u-circular-progress__][size=huge] [class*=u-circular-progress_percent__]": "大型圆形进度条百分比"
   },
-  "u-collapse": {
+  "UCollapse": {
     "[class*=u-collapse__]": "折叠面板",
     "[class*=u-collapse__][appear=simple]": "折叠面板:简洁外观",
     "[class*=u-collapse__][fill=head] [class*=u-collapse_item_head__],[class*=u-collapse__][fill=content] [class*=u-collapse_item_content__]": "折叠面板:填充头部或内容",
@@ -218,18 +218,18 @@
     "[class*=u-collapse__][display=filled] [class*=u-collapse_item_head__]": "折叠面板:填充显示>头部",
     "[class*=u-collapse__][display=filled] [class*=u-collapse_item_body__]": "折叠面板:填充显示>主体"
   },
-  "u-combo-slider": {
+  "UComboSlider": {
     "[class*=u-combo-slider__]": "组合滑块"
   },
-  "u-copy": {
+  "UCopy": {
     "[class*=u-copy__]": "复制组件"
   },
-  "u-modal": {
+  "UModal": {
     "[class*=u-modal__]": "模态框",
     "[class*=u-modal__]:before": "模态框::before",
     "[class*=u-modal__][static]": "模态框:静态"
   },
-  "u-drawer": {
+  "UDrawer": {
     "[class*=u-drawer__]": "抽屉",
     "[class*=u-drawer__]:focus": "抽屉:获得焦点",
     "[class*=u-drawer__][placement=right] [class*=u-drawer_drawer__]": "抽屉:右侧>抽屉",
@@ -252,7 +252,7 @@
     "[class*=u-drawer__][placement=top]>[class*=u-drawer_drawer__][size=auto],[class*=u-drawer__][placement=bottom]>[class*=u-drawer_drawer__][size=auto]": "抽屉:上下侧>自动尺寸",
     "[class*=u-drawer__]:after": "抽屉::after"
   },
-  "u-validator": {
+  "UValidator": {
     "[class*=u-validator__]": "验证器",
     "[class*=u-validator__][placement=bottom] [class*=u-validator_message__]": "验证器:底部>消息",
     "[class*=u-validator__][placement=bottom] [class*=u-validator_message__][color=error]": "验证器:底部>消息:错误",
@@ -265,7 +265,7 @@
     "[class*=u-validator__][placement=bottom][display=appear] [class*=u-validator_message__]": "验证器:底部显示>消息",
     "[class*=u-validator__][placement=bottom][display=appear] [class*=u-validator_message__][color=error]": "验证器:底部显示>消息:错误"
   },
-  "u-form": {
+  "UForm": {
     "[class*=u-form__][layout=inline],[class*=u-form__][layout=inline-flex]": "表单:内联布局",
     "[class*=u-form__][layout=inline] [class*=u-form_item__],[class*=u-form__][layout=inline-flex] [class*=u-form_item__]": "表单:内联布局>表单项",
     "[class*=u-form__][layout=inline] [class*=u-form_item__]:not(:last-child)": "表单:内联布局>表单项:非最后一项",
@@ -298,7 +298,7 @@
     "[class*=u-form__][label-layout=block][layout=inline] [class*=u-form_item__],[class*=u-form__][label-layout=block][layout=inline] [class*=u-form_item__][label-layout=block]": "表单:标签块布局>内联布局>表单项",
     "[class*=u-form__][class*=u-form_colon__] [class*=u-form_item__] [class*=u-form_item_label__] [class*=u-form_item_text__]:not(:empty):not([designer-empty]):after": "表单:带冒号>表单项>标签>文本:非空::after"
   },
-  "u-grid-layout": {
+  "UGridLayout": {
     "[class*=u-grid-layout__]": "网格布局",
     "[class*=u-grid-layout__]>[class*=u-grid-layout_row__]+[class*=u-grid-layout_row__]": "网格布局>行+行",
     "[class*=u-grid-layout__][gap=compact]>[class*=u-grid-layout_row__]+[class*=u-grid-layout_row__]": "网格布局:紧凑间距>行+行",
@@ -319,7 +319,7 @@
     "[class*=u-grid-layout__]>[class*=u-grid-layout_row__][gap=large]>[class*=u-grid-layout_column__]": "网格布局>行:大间距>列",
     "[class*=u-grid-layout__]>[class*=u-grid-layout_row__][gap=huge]>[class*=u-grid-layout_column__]": "网格布局>行:巨大间距>列"
   },
-  "u-grid-view": {
+  "UGridView": {
     "[class*=u-grid-view__]": "网格视图",
     "[class*=u-grid-view__]:focus": "网格视图:获得焦点",
     "[class*=u-grid-view__][disabled]": "网格视图:禁用态",
@@ -350,10 +350,10 @@
     "[class*=u-grid-view__][width=auto]": "网格视图:自动宽度",
     "[class*=u-grid-view__] [class*=u-grid-view_item__]": "网格视图>项目"
   },
-  "u-info-list": {
+  "UInfoList": {
     "[class*=u-info-list__]": "信息列表"
   },
-  "u-input": {
+  "UInput": {
     "[class*=u-input__]": "输入框",
     "[class*=u-input__][disabled] [class*=u-input_clearable__]:hover:before,[class*=u-input__][disabled] [class*=u-input_clearable__]._hover:before,[class*=u-input__][disabled] [class*=u-input_password__]:hover:before,[class*=u-input__][disabled] [class*=u-input_password__]._hover:before": "输入框:禁用态>可清除:鼠标移入::before,输入框:禁用态>密码:鼠标移入::before",
     "[class*=u-input__][readonly] [class*=u-input_clearable__]:hover:before,[class*=u-input__][readonly] [class*=u-input_clearable__]._hover:before,[class*=u-input__][readonly] [class*=u-input_password__]:hover:before,[class*=u-input__][readonly] [class*=u-input_password__]._hover:before": "输入框:只读>可清除:鼠标移入::before,输入框:只读>密码:鼠标移入::before",
@@ -406,7 +406,7 @@
     "[class*=u-input__][width=full]": "输入框:全宽度",
     "[class*=u-input__][height=full]": "输入框:全高度"
   },
-  "u-label": {
+  "ULabel": {
     "[class*=u-label__]": "标签",
     "[class*=u-label__][color=primary]": "标签:主要颜色",
     "[class*=u-label__][color=success]": "标签:成功颜色",
@@ -450,7 +450,7 @@
     "[class*=u-label__][type=line][size=large]": "标签:线条类型:大尺寸",
     "[class*=u-label__][type=line][size=huge]": "标签:线条类型:超大尺寸"
   },
-  "u-linear-layout": {
+  "ULinearLayout": {
     "[class*=u-linear-layout__][type=root]": "线性布局:根类型",
     "[class*=u-linear-layout__]": "线性布局",
     "[class*=u-linear-layout__][display=inline],[class*=u-linear-layout__][inline]": "线性布局:内联显示",
@@ -512,18 +512,18 @@
     "[class*=u-linear-layout__][mode=flex][alignment=baseline]": "线性布局:弹性模式>基线对齐",
     "[class*=u-linear-layout__][mode=flex][alignment=stretch]": "线性布局:弹性模式>拉伸对齐"
   },
-  "u-absolute-layout": {
+  "UAbsoluteLayout": {
     "[class*=u-absolute-layout__]": "绝对布局",
     "[class*=u-absolute-layout__][class*=u-absolute-layout_empty__]": "绝对布局:空状态",
     "[class*=u-absolute-layout__]>*": "绝对布局>所有子元素",
     "[class*=u-absolute-layout__]>[vusion-node-path]": "绝对布局>带有vusion节点路径的元素"
   },
-  "u-linear-progress": {
+  "ULinearProgress": {
     "[class*=u-linear-progress__][direction=vertical]": "线性进度条:垂直方向",
     "[class*=u-linear-progress__][direction=vertical] [class*=u-linear-progress_track__]": "线性进度条:垂直方向>轨道",
     "[class*=u-linear-progress__][direction=vertical] [class*=u-linear-progress_trail__]": "线性进度条:垂直方向>尾迹"
   },
-  "u-navbar": {
+  "UNavbar": {
     "[class*=u-navbar__]": "导航栏",
     "[class*=u-navbar__][alignment=center] [class*=u-navbar_middle__]": "导航栏:居中对齐>中间部分",
     "[class*=u-navbar__][alignment=right] [class*=u-navbar_middle__]": "导航栏:右对齐>中间部分",
@@ -552,7 +552,7 @@
     "[class*=u-navbar__][animation=\"4\"] [class*=u-navbar_item__][selected]:before,[class*=u-navbar__][animation=\"4\"] [class*=u-navbar_item__][selected]:after": "导航栏:动画4>导航项:选中态::before, 导航栏:动画4>导航项:选中态::after",
     "[class*=u-navbar__][animation=\"4\"] [class*=u-navbar_item__][disabled]:before,[class*=u-navbar__][animation=\"4\"] [class*=u-navbar_item__][disabled]:after": "导航栏:动画4>导航项:禁用态::before, 导航栏:动画4>导航项:禁用态::after"
   },
-  "u-select": {
+  "USelect": {
     "[class*=u-select__]": "选择框",
     "[class*=u-select__]:hover,[class*=u-select__]._hover": "选择框:鼠标移入",
     "[class*=u-select__]:focus,[class*=u-select__][opened]": "选择框:获得焦点, 选择框:打开",
@@ -667,7 +667,7 @@
     "[class*=u-select__][color=error]": "错误颜色选择框",
     "[class*=u-select__][color=inverse]": "反色选择框"
   },
-  "u-number-input": {
+  "UNumberInput": {
     "[class*=u-number-input__]": "数字输入框",
     "[class*=u-number-input__]:not([hide-buttons=true])": "数字输入框:显示按钮",
     "[class*=u-number-input__][button-display=bothEnds]:not([hide-buttons=true])": "数字输入框:两端显示按钮",
@@ -723,7 +723,7 @@
     "[class*=u-number-input__][button-display=bothEnds]:not([hide-buttons=true]) [class^=u-input_suffix__]": "数字输入框:两端按钮:显示>后缀",
     "[class*=u-number-input__][button-display=tail]:not([hide-buttons=true])[prefix][clearable]:hover input,[class*=u-number-input__][button-display=tail]:not([hide-buttons=true])[prefix][clearable]._hover input,[class*=u-number-input__][button-display=tail]:not([hide-buttons=true])[prefix][clearable][focuse] input": "数字输入框:尾部按钮:显示:前缀:可清除:鼠标移入/获得焦点>输入框"
   },
-  "u-pagination": {
+  "UPagination": {
     "[class*=u-pagination__]": "分页",
     "[class*=u-pagination__] a:not(:last-child)": "分页>a:非最后一个",
     "[class*=u-pagination__][disabled]": "分页:禁用态",
@@ -739,7 +739,7 @@
     "[class*=u-pagination__][size=small] [class*=u-pagination_item__]": "分页:小>项",
     "[class*=u-pagination__][size=small] a:not(:last-child)": "分页:小>a:非最后一个"
   },
-  "u-panel": {
+  "UPanel": {
     "[class*=u-panel__]": "面板",
     "[class*=u-panel__][shadow=always]": "面板:始终有阴影",
     "[class*=u-panel__][shadow=hover]:hover,[class*=u-panel__][shadow=hover]._hover": "面板:鼠标移入有阴影",
@@ -747,24 +747,24 @@
     "[class*=u-panel__][shadow=never]": "面板:无阴影",
     "[class*=u-panel__][bordered]": "面板:有边框"
   },
-  "u-popup-combination": {
+  "UPopupCombination": {
     "[class*=u-popup-combination__]": "弹出组合",
     "[class*=u-popup-combination__][display=block]": "弹出组合:块级显示",
     "[class*=u-popup-combination__][ellipsis]": "弹出组合:省略号",
     "[class*=u-popup-combination__][ellipsis] [class*=u-popup-combination_reference__]": "弹出组合:省略号>参考",
     "[class*=u-popup-combination__][ellipsis] [class*=u-popup-combination_reference__]>*": "弹出组合:省略号>参考>所有子元素"
   },
-  "u-radios": {
+  "URadios": {
     "[class*=u-radios__]>*:not(:last-child)": "单选按钮组>非最后一个子元素",
     "[class*=u-radios__] [class*=u-radios_loadContent__]": "单选按钮组>加载内容",
     "[class*=u-radios__][direction=vertical]": "单选按钮组:垂直方向",
     "[class*=u-radios__][direction]": "单选按钮组:方向"
   },
-  "u-rate": {
+  "URate": {
     "[class*=u-rate__][readonly] [class*=u-rate_item__]": "评分:只读>项",
     "[class*=u-rate__][readonly] [class*=u-rate_item__]:hover,[class*=u-rate__][readonly] [class*=u-rate_item__]._hover": "评分:只读>项:鼠标移入"
   },
-  "u-cascader": {
+  "UCascader": {
     "[class*=u-cascader__]": "级联选择器",
     "[class*=u-cascader__][opened]:after": "级联选择器:打开::after",
     "[class*=u-cascader__]:after": "级联选择器::after",
@@ -791,7 +791,7 @@
     "[class*=u-cascader__][width=full]": "级联选择器:全宽度",
     "[class*=u-cascader__][height=full]": "级联选择器:全高度"
   },
-  "u-date-picker": {
+  "UDatePicker": {
     "[class*=u-date-picker__]": "日期选择器",
     "[class*=u-date-picker__][width=mini]": "日期选择器:迷你宽度",
     "[class*=u-date-picker__][width=mini] [class*=u-date-picker_input__]": "日期选择器:迷你宽度>输入框",
@@ -815,7 +815,7 @@
     "[class*=u-date-picker__][width=full] [class*=u-date-picker_input__]": "日期选择器:全宽度>输入框",
     "[class*=u-date-picker__][height=full] [class*=u-date-picker_input__]": "日期选择器:全高度>输入框"
   },
-  "u-time-picker": {
+  "UTimePicker": {
     "[class*=u-time-picker__]": "时间选择器",
     "[class*=u-time-picker__][width=mini]": "时间选择器:迷你宽度",
     "[class*=u-time-picker__][width=mini] [class*=u-time-picker_input__]": "时间选择器:迷你宽度>输入框",
@@ -840,7 +840,7 @@
     "[class*=u-time-picker__][height=full] [class*=u-time-picker_input__]": "时间选择器:全高度>输入框",
     "[class*=u-time-picker__] [class*=u-time-picker_dot__]": "时间选择器>时间点"
   },
-  "u-date-time-picker": {
+  "UDateTimePicker": {
     "[class*=u-date-time-picker__]": "日期时间选择器",
     "[class*=u-date-time-picker__][width=mini]": "日期时间选择器:迷你宽度",
     "[class*=u-date-time-picker__][width=mini] [class*=u-date-time-picker_input__]": "日期时间选择器:迷你宽度>输入框",
@@ -864,7 +864,7 @@
     "[class*=u-date-time-picker__][width=full] [class*=u-date-time-picker_input__]": "日期时间选择器:全宽度>输入框",
     "[class*=u-date-time-picker__][height=full] [class*=u-date-time-picker_input__]": "日期时间选择器:全高度>输入框"
   },
-  "u-tabs": {
+  "UTabs": {
     "[class*=u-tabs__]": "标签页",
     "[class*=u-tabs__][appear=square]>[class*=u-tabs_head__],[class*=u-tabs__][appear=round]>[class*=u-tabs_head__],[class*=u-tabs__][appear=line]>[class*=u-tabs_head__]": "标签页:方形/圆形/线形>头部",
     "[class*=u-tabs__][item-width=full] [class*=u-tabs_scroll__]": "标签页:全宽度>滚动",
@@ -917,7 +917,7 @@
     "[class*=u-tabs__][display=filled] [class*=u-tabs_body__]": "标签页:填充显示>主体",
     "[class*=u-tabs__] [class*=u-tabs_loadContent__]": "标签页>加载内容"
   },
-  "u-selectable-steps": {
+  "USelectableSteps": {
     "[class*=u-selectable-steps__][readonly] [class*=u-selectable-steps_item-body__]": "可选择步骤:只读>项主体",
     "[class*=u-selectable-steps__][shape-size=large] [class*=u-selectable-steps_radio__]": "可选择步骤:大尺寸>单选按钮",
     "[class*=u-selectable-steps__][counter] [class*=u-selectable-steps_head__]": "可选择步骤:计数器>头部",
@@ -945,7 +945,7 @@
     "[class*=u-selectable-steps__][direction=vertical] [class*=u-selectable-steps_item__][desc]:after": "可选择步骤:垂直方向>有描述项::after",
     "[class*=u-selectable-steps__][direction=vertical] [class*=u-selectable-steps_body__]": "可选择步骤:垂直方向>主体"
   },
-  "u-sidebar": {
+  "USidebar": {
     "[class*=u-sidebar__]": "侧边栏",
     "[class*=u-sidebar__][collapse] [class^=u-text]": "侧边栏:折叠>文本",
     "[class*=u-sidebar__]::-webkit-scrollbar": "侧边栏::-webkit-scrollbar",
@@ -954,7 +954,7 @@
     "[class*=u-sidebar__][size=small] [class*=u-sidebar_item__]": "侧边栏:小尺寸>项",
     "[class*=u-sidebar__][size=small] [class*=u-sidebar_item__][selected]": "侧边栏:小尺寸>选中项"
   },
-  "u-switch": {
+  "USwitch": {
     "[class*=u-switch__]": "开关",
     "[class*=u-switch__]:focus": "开关:获得焦点",
     "[class*=u-switch__][checked]": "开关:选中",
@@ -974,11 +974,11 @@
     "[class*=u-switch__][checked] [class*=u-switch_text__]": "开关:选中>文本",
     "[class*=u-switch__][size=small][checked] [class*=u-switch_text__]": "开关:小尺寸且选中>文本"
   },
-  "u-table-view": {
+  "UTableView": {
     "[class*=u-table-view__]": "表格视图",
     "[class*=u-table-view__][editable] td": "表格视图:可编辑>单元格"
   },
-  "u-textarea": {
+  "UTextarea": {
     "[class*=u-textarea__]": "文本域",
     "[class*=u-textarea__][disabled] [class*=u-textarea_clearable__]:hover:before,[class*=u-textarea__][disabled] [class*=u-textarea_clearable__]._hover:before,[class*=u-textarea__][disabled] [class*=u-textarea_password__]:hover:before,[class*=u-textarea__][disabled] [class*=u-textarea_password__]._hover:before": "文本域:禁用态>可清除或密码:鼠标移入::before",
     "[class*=u-textarea__][readonly] [class*=u-textarea_clearable__]:hover:before,[class*=u-textarea__][readonly] [class*=u-textarea_clearable__]._hover:before,[class*=u-textarea__][readonly] [class*=u-textarea_password__]:hover:before,[class*=u-textarea__][readonly] [class*=u-textarea_password__]._hover:before": "文本域:只读>可清除或密码:鼠标移入::before",
@@ -1031,31 +1031,31 @@
     "[class*=u-textarea__][height=full]": "全高度文本域",
     "[class*=u-textarea__][size^=full]": "全尺寸文本域"
   },
-  "u-timeline": {
+  "UTimeline": {
     "[class*=u-timeline__]": "时间轴",
     "[class*=u-timeline__] li:last-child [uname=tail]": "时间轴最后一项的尾部",
     "[class*=u-timeline__][pending=true] li:nth-last-of-type(2) [uname=content]": "时间轴倒数第二项内容（待处理）",
     "[class*=u-timeline__][pending=true] li:nth-last-of-type(2) [uname=tail]": "时间轴倒数第二项尾部（待处理）",
     "[class*=u-timeline__] [class*=u-timeline_loadContent__]": "时间轴加载内容"
   },
-  "u-toc": {
+  "UToc": {
     "[class*=u-toc__]": "目录",
     "[class*=u-toc__]:before,[class*=u-toc__]:after": "目录::before和::after",
     "[class*=u-toc__]:before": "目录::before",
     "[class*=u-toc__]:after": "目录::after"
   },
-  "u-iframe": {
+  "UIframe": {
     "[class*=u-iframe__]": "内嵌框架",
     "[class*=u-iframe__] iframe": "内嵌框架中的iframe",
     "[class*=u-iframe__] [class*=u-iframe_loading__]": "内嵌框架加载中"
   },
-  "u-image": {
+  "UImage": {
     "[class*=u-image__]": "图片",
     "[class*=u-image__] img": "图片中的img",
     "[class*=u-image__] img[preview]": "可预览的图片",
     "[class*=u-image__] [class*=u-image_loading__]": "图片加载中"
   },
-  "u-transfer": {
+  "UTransfer": {
     "[class*=u-transfer__]": "穿梭框",
     "[class*=u-transfer__][size^=normal] [class*=u-transfer_listView__]": "正常尺寸穿梭框列表视图",
     "[class*=u-transfer__][size^=large] [class*=u-transfer_listView__]": "大尺寸穿梭框列表视图",
@@ -1068,7 +1068,7 @@
     "[class*=u-transfer__][size$=full] [class*=u-transfer_listView__]": "全尺寸穿梭框列表视图",
     "[class*=u-transfer__][size$=auto] [class*=u-transfer_listView__]": "自动尺寸穿梭框列表视图"
   },
-  "u-tree-view-new": {
+  "UTreeViewNew": {
     "[class*=u-tree-view-new__]": "新树视图",
     "[class*=u-tree-view-new__][readonly-mode=initial]": "新树视图（只读模式）",
     "[class*=u-tree-view-new__][size=mini] [class*=u-tree-view-new_node_expander__]": "迷你尺寸新树视图节点展开器",
@@ -1076,7 +1076,7 @@
     "[class*=u-tree-view-new__][size=mini] [class*=u-tree-view-new_node_text__]": "迷你尺寸新树视图节点文本",
     "[class*=u-tree-view-new__][display=full]": "全显示新树视图"
   },
-  "u-tree-select-new": {
+  "UTreeSelectNew": {
     "[class*=u-tree-select-new__]": "新树选择",
     "[class*=u-tree-select-new__]:hover,[class*=u-tree-select-new__]._hover": "新树选择:鼠标移入",
     "[class*=u-tree-select-new__]:focus": "新树选择:获得焦点",
@@ -1168,14 +1168,14 @@
     "[class*=u-tree-select-new__][width=full] [class*=u-tree-select-new_item__]": "树选择器(全宽度)>项",
     "[class*=u-tree-select-new__][height=full]": "树选择器(全高度)"
   },
-  "u-uploader": {
+  "UUploader": {
     "[class*=u-uploader__]": "上传器",
     "[class*=u-uploader__][display=inline]": "上传器(内联显示)"
   },
-  "u-taskbox": {
+  "UTaskbox": {
     "[class*=u-taskbox__]": "任务盒"
   },
-  "u-multi-layout": {
+  "UMultiLayout": {
     "[class*=u-multi-layout__]": "多布局",
     "[class*=u-multi-layout__][direction=horizontal]": "多布局(水平)",
     "[class*=u-multi-layout__][direction=vertical]": "多布局(垂直)",
@@ -1201,7 +1201,7 @@
     "[class*=u-multi-layout__][alignment=baseline]": "多布局:基线对齐",
     "[class*=u-multi-layout__][alignment=stretch]": "多布局:拉伸对齐"
   },
-  "u-dropdown": {
+  "UDropdown": {
     "[class*=u-dropdown__]": "下拉菜单",
     "[class*=u-dropdown__][disabled]": "下拉菜单:禁用态",
     "[class*=u-dropdown__]:not(:last-child)": "下拉菜单:非最后一个子项",
@@ -1224,7 +1224,7 @@
     "[class*=u-dropdown__][type=primary][disabled],[class*=u-dropdown__][type=primary_secondary][disabled],[class*=u-dropdown__][type=normal][disabled],[class*=u-dropdown__][type=more][disabled]": "下拉菜单:主要/次要/普通/更多类型:禁用态",
     "[class*=u-dropdown__][type=more]:hover [class*=u-dropdown_iconMore__],[class*=u-dropdown__][type=more]._hover [class*=u-dropdown_iconMore__],[class*=u-dropdown__][type=more]:active [class*=u-dropdown_iconMore__],[class*=u-dropdown__][type=more]._active [class*=u-dropdown_iconMore__],[class*=u-dropdown_iconMore__]:hover,[class*=u-dropdown_iconMore__]._hover": "下拉菜单:更多类型>更多图标:鼠标移入/鼠标按下"
   },
-  "u-navbar-multi": {
+  "UNavbarMulti": {
     "[class*=u-navbar-multi__]": "多功能导航栏",
     "[class*=u-navbar-multi__]:after": "多功能导航栏::after",
     "[class*=u-navbar-multi__][alignment=center] [class*=u-navbar-multi_middle__]": "多功能导航栏:居中对齐>中间部分",
@@ -1255,20 +1255,20 @@
     "[class*=u-navbar-multi__][animation=\"4\"] [class*=u-navbar-multi_item__][selected]:before,[class*=u-navbar-multi__][animation=\"4\"] [class*=u-navbar-multi_item__][selected]:after": "多功能导航栏:动画4>项目:选中态::before和::after",
     "[class*=u-navbar-multi__][animation=\"4\"] [class*=u-navbar-multi_item__][disabled]:before,[class*=u-navbar-multi__][animation=\"4\"] [class*=u-navbar-multi_item__][disabled]:after": "多功能导航栏:动画4>项目:禁用态::before和::after"
   },
-  "u-divider": {
+  "UDivider": {
     "[class*=u-divider__]": "分隔符",
     "[class*=u-divider__][direction=column]": "分隔符:列方向",
     "[class*=u-divider__]:before,[class*=u-divider__]:after": "分隔符::before和::after",
     "[class*=u-divider__][direction=column]:before,[class*=u-divider__][direction=column]:after": "分隔符:列方向::before和::after",
     "[class*=u-divider__]:before": "分隔符::before"
   },
-  "u-process-button": {
+  "UProcessButton": {
     "[class*=u-process-button__]>a": "流程按钮>a"
   },
-  "u-process-taskbox": {
+  "UProcessTaskbox": {
     "[class*=u-process-taskbox__]": "流程任务框"
   },
-  "u-process-graph": {
+  "UProcessGraph": {
     "[class*=u-process-graph__]": "流程图"
   }
 }
