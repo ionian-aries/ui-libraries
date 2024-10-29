@@ -1,4 +1,4 @@
-/* eslint-disable no-cond-assign, no-multi-assign, no-restricted-syntax */
+/* eslint-disable no-cond-assign, no-multi-assign, no-restricted-syntax, no-use-before-define */
 
 export default function registerIElement(methods, options = {}) {
   // inspecting element 模式
@@ -19,7 +19,7 @@ export default function registerIElement(methods, options = {}) {
       parent: false, prev: false, next: false, children: false,
     },
   };
-  // 当前 hover 的元素
+  // 唯一审查的元素
   let tempElement = null;
   // 审查器popover
   let INSPECTOR = null;
@@ -38,10 +38,18 @@ export default function registerIElement(methods, options = {}) {
       </div>`;
     }
     document.body.appendChild(INSPECTOR);
+
+    if (!options.addEventsManually) {
+      window.removeEventListener('scroll', onScrollOrResize);
+      window.removeEventListener('resize', onScrollOrResize);
+      window.addEventListener('scroll', onScrollOrResize);
+      window.addEventListener('resize', onScrollOrResize);
+    }
   }
   initInspector();
 
-  function computeInspector(el) {
+  function computeInspector() {
+    const el = tempElement;
     if (!el) {
       INSPECTOR.style.display = 'none';
       return;
@@ -50,7 +58,13 @@ export default function registerIElement(methods, options = {}) {
     const rect = el.getBoundingClientRect();
     if (!options.addPopoverManually) {
       INSPECTOR.children[0].children[0].textContent = el.tagName.toLowerCase() + Array.from(el.classList).map((cls) => `.${cls}`).join('');
-      INSPECTOR.children[0].children[1].textContent = `${rect.width}px × ${rect.height}px`;
+      INSPECTOR.children[0].children[1].textContent = `${rect.width.toFixed(1)}px × ${rect.height.toFixed(1)}px`;
+
+      if (rect.top < 80) {
+        INSPECTOR.children[0].setAttribute('data-placement', 'bottom');
+      } else {
+        INSPECTOR.children[0].setAttribute('data-placement', 'top');
+      }
     }
 
     Object.assign(INSPECTOR.style, {
@@ -77,7 +91,7 @@ export default function registerIElement(methods, options = {}) {
     if (!tempElement) {
       INSPECTOR.style.display = 'none';
     } else {
-      computeInspector(tempElement);
+      computeInspector();
     }
   }
 
@@ -88,6 +102,10 @@ export default function registerIElement(methods, options = {}) {
     sendIElementResult();
 
     e.stopPropagation();
+  }
+
+  function onScrollOrResize(e) {
+    computeInspector();
   }
 
   methods.inspectElement = (data) => {
@@ -109,7 +127,7 @@ export default function registerIElement(methods, options = {}) {
     }
   };
 
-  methods.clearIElement = (data) => {
+  methods.clearIElement = () => {
     mainSelectors = [];
     selectors = [];
     selectedElement = null;
@@ -164,12 +182,12 @@ export default function registerIElement(methods, options = {}) {
 
   methods.hoverIElement = (relation) => {
     tempElement = getRelatedElement(selectedElement, relation);
-    computeInspector(tempElement);
+    computeInspector();
   };
 
   methods.switchIElement = (relation) => {
     selectedElement = tempElement = getRelatedElement(selectedElement, relation);
-    computeInspector(tempElement);
+    computeInspector();
     sendIElementResult();
   };
 
@@ -258,9 +276,3 @@ $('iframe').contentWindow.postMessage({ from: 'lcap', type: 'inspectElement', da
 
 $('iframe').contentWindow.postMessage({ from: 'lcap', type: 'switchIElement', data: 'next' }, '*');
 */
-
-/**
- * @TODO
- * - 响应滚动
- * - 浮层位置适配
- */
