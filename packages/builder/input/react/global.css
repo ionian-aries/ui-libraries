@@ -26,6 +26,11 @@ body {
   bottom: calc(100% + 8px);
 }
 
+.ide-inspector__popover[data-placement=bottom] {
+  top: calc(100% + 8px);
+  bottom: auto;
+}
+
 .ide-inspector__popover::before {
   display: block;
   content: '';
@@ -36,6 +41,12 @@ body {
   height: 8px;
   background: white;
   transform: rotate(45deg);
+}
+
+.ide-inspector__popover[data-placement=bottom]::before {
+  top: -5px;
+  bottom: auto;
+  transform: rotate(-135deg);
 }
 
 .ide-inspector__title {
@@ -49,3 +60,4 @@ body {
 .ide-inspector__content {
   color: rgb(96, 98, 102);
 }
+

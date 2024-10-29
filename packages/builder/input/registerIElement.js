@@ -24,6 +24,8 @@ export default function registerIElement(methods, options = {}) {
   // 审查器popover
   let INSPECTOR = null;
 
+  options.postMessage = options.postMessage || ((payload) => window.top.postMessage(payload, '*'));
+
   function initInspector() {
     INSPECTOR = document.getElementById('ide-inspector');
     if (INSPECTOR) return;
@@ -74,14 +76,16 @@ export default function registerIElement(methods, options = {}) {
       width: `${rect.width}px`,
       height: `${rect.height}px`,
     });
+
+    const payload = { from: 'lcap-theme', type: 'iElementRect', data: rect };
+    options.postMessage(payload);
   }
 
   function sendIElementResult() {
     // eslint-disable-next-line no-use-before-define
     selectedElementResult = getIElementResult();
     const payload = { from: 'lcap-theme', type: 'iElementResult', data: selectedElementResult };
-    if (options.postMessage) options.postMessage(payload);
-    else window.top.postMessage(payload, '*');
+    options.postMessage(payload);
   }
 
   function onMouseMove(e) {
