@@ -295,8 +295,7 @@ export default {
                 // 或签、会签、依次审批
                 if (['simple', 'parallel', 'sequence'].includes(approvalPolicy)) {
                     const options = approvalPolicy === 'simple'
-                        // ? ['CurrentNode', 'PreviousNode', 'NextNode'] // 后端暂时不支持NextNode，先屏蔽
-                        ? ['CurrentNode', 'PreviousNode']
+                        ? ['CurrentNode', 'PreviousNode', 'NextNode']
                         : ['CurrentNode'];
                     this.signOptions = options.map(item => ({
                         title: this.$tt(`${item}SignTitle`),
