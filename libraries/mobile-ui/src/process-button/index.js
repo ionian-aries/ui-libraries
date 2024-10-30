@@ -355,8 +355,7 @@ export default createComponent({
         if (['simple', 'parallel', 'sequence'].includes(approvalPolicy)) {
           const options =
             approvalPolicy === 'simple'
-              ? // ? ['CurrentNode', 'PreviousNode', 'NextNode'] // 后端暂时不支持NextNode，先屏蔽
-                ['CurrentNode', 'PreviousNode']
+              ? ['CurrentNode', 'PreviousNode', 'NextNode']
               : ['CurrentNode'];
           this.signOptions = options.map((item) => ({
             title: t(`${item}SignTitle`),
