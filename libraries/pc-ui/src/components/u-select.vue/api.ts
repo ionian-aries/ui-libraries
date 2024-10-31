@@ -778,8 +778,8 @@ namespace nasl.ui {
                     code: '<u-select-item><u-text text="选项"></u-text></u-select-item>',
                 },
                 {
-                    title: '分组',
-                    code: '<u-select-group><template #title><u-text text="分组"></u-text></template><u-select-item><u-text text="选项"></u-text></u-select-item></u-select-group>',
+                    title: '选项组',
+                    code: '<u-select-group><template #title><u-text text="选项组"></u-text></template><u-select-item><u-text text="选项"></u-text></u-select-item></u-select-group>',
                 },
                 {
                     title: '分隔线',
@@ -796,8 +796,8 @@ namespace nasl.ui {
     }
 
     @Component({
-        title: '选择项',
-        description: '选择项',
+        title: '选择器选项',
+        description: '选择器选项',
     })
     export class USelectItem<T, V> extends ViewComponent {
 
@@ -870,8 +870,8 @@ namespace nasl.ui {
     }
 
     @Component({
-        title: '选择分组',
-        description: '选择分组',
+        title: '选择器选项组',
+        description: '选择器选项组',
     })
     export class USelectGroup<T, V> extends ViewComponent {
 
