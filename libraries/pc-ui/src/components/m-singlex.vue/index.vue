@@ -5,6 +5,7 @@
   </template>
 
   <script>
+  import { isNil } from 'lodash';
   import MEmitter from '../m-emitter.vue';
   import { MParent } from '../m-parent.vue';
 
@@ -22,10 +23,24 @@
           disabled: { type: Boolean, default: false },
       },
       data() {
+          let selectedVM = undefined;
+          if (!isNil(this.value) && this.selectedValuesData && Array.isArray(this.selectedValuesData)) {
+            const selectedItem = this.selectedValuesData.find(
+                (itemData) => itemData.value === this.value,
+            );
+
+            if (selectedItem) {
+              selectedVM = {
+                ...selectedItem,
+                currentText: selectedItem.text,
+              };
+            }
+          }
+
           return {
               // @inherit: groupVMs: [],
               // @inherit: itemVMs: [],
-              selectedVM: undefined,
+              selectedVM,
           };
       },
       watch: {
