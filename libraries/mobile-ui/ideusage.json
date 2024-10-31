@@ -293,7 +293,7 @@
                 "default": "height: 100%"
             },
             "operator": {
-                "delete": "this.getParent().getAttribute('dataSource')"
+                "delete": "!this.getParent().getParent().getAttribute('dataSource')"
             }
         }
     },
