@@ -516,6 +516,7 @@
         "name": "UTableView",
         "ideusage": {
             "idetype": "container",
+            "containerDirection": "row",
             "structured": true,
             "dataSource": {
                 "display": 3,
