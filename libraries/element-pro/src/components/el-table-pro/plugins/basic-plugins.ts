@@ -6,14 +6,20 @@ import {
   computed, ref, watch, onMounted,
 } from '@vue/composition-api';
 import { SelectOptions } from '@element-pro';
+import { listToTree } from '@lcap/vue2-utils/utils';
 import { $ref, $render, createUseUpdateSync } from '@lcap/vue2-utils';
+
+import type {
+  NaslComponentPluginOptions,
+  Slot,
+} from '@lcap/vue2-utils/plugins/types';
 
 export { useDataSource } from '@lcap/vue2-utils';
 export const useUpdateSync = createUseUpdateSync([
   { name: 'selectedRowKeys', event: 'update:selectedRowKeys' },
 ]);
 
-export const useTable = {
+export const useTable: NaslComponentPluginOptions = {
   props: [
     'onPageChange',
     'page',
@@ -21,35 +27,73 @@ export const useTable = {
     'pageSizeOptions',
     'showTotal',
     'showJumper',
+    'virtual',
   ],
   setup(props, ctx) {
     const current = props.useRef('page', (v) => v ?? 1);
     const pageSize = props.useRef('pageSize', (v) => v ?? 10);
     const sorting = props.useComputed('sorting', (value) => value);
+
+    const data = props.useComputed('data', (v) => {
+      const treeDisplay = props.get('treeDisplay');
+      const parentField = props.get<string>('parentField') || 'parent';
+      const childrenField = props.get('childrenField') || 'children';
+      if (!treeDisplay) return v;
+      return listToTree(v, {
+        parentField,
+        childrenField: 'chiildren',
+      });
+    });
+    const autoMergeFields = ref([]);
+    watch(
+      () => [autoMergeFields.value, data.value],
+      (value, oldValue) => {
+        if (_.isEqual(value, oldValue)) return;
+        const [autoMergeFields, data] = value;
+        if (_.isEmpty(autoMergeFields) || _.isEmpty(data)) return;
+        data.forEach((item, index) => {
+          _.forEach(autoMergeFields, (field) => {
+            let rowspan = 1;
+            for (let i = index + 1; i < data.length; i++) {
+              if (data[i][field.colKey] === item[field.colKey]) {
+                rowspan++;
+              } else {
+                break;
+              }
+            }
+            if (rowspan > 1) {
+              item.rowspan = _.isObject(item.rowspan)
+                ? Object.assign(item.rowspan, {
+                  [field.colKey]: rowspan,
+                })
+                : {
+                  [field.colKey]: rowspan,
+                };
+            }
+          });
+        });
+        // data.value.forEach((item, index) => {
+        // });
+        // autoMergeFields.forEach((item) => {}
+        // const { autoMerge, data } = value;
+        // data.value.forEach((item, index) => {});
+      },
+    );
+
     const renderSlot = (vnodes) => {
       return vnodes.flatMap((vnode) => {
         if (!vnode.tag?.includes('ElTableColumnPro')) return [];
         const attrs = _.get(vnode, 'data.attrs', {});
-        console.log(attrs, '===');
-        // let cellProps = {};
 
         const nodePath = _.get(attrs, 'data-nodepath');
         const { cell, title } = _.get(vnode, 'data.scopedSlots', {});
-        // cellProps = _.isFunction(cell) && !attrs.type
-        //   ? {
-        //     cell: (h, { row, rowIndex, col }) => cell({ item: row, index: rowIndex, col }),
-        //   }
-        //   : {};
+
         const titleProps = _.isFunction(title)
           ? {
             title: (h, { row, rowIndex, col }) => title({ row, index: rowIndex, col }),
           }
           : {};
-        // if (attrs.type === 'number') {
-        //   cellProps = {
-        //     cell: (h, { row, rowIndex }) => pageSize.value * (current.value - 1) + rowIndex + 1,
-        //   };
-        // }
+
         const cellRender = ({ type, cell }) => _.cond([
           [
             _.matches({ type: 'number' }),
@@ -78,6 +122,7 @@ export const useTable = {
         ];
       });
     };
+    const scroll = props.useComputed('virtual', (value) => (value ? { scroll: { type: 'virtual' } } : {}));
 
     const onLoadData = props.get('onLoadData');
 
@@ -156,6 +201,7 @@ export const useTable = {
 
     return {
       onPageChange,
+      ...scroll.value,
       pagination,
       onSortChange,
       bordered,
@@ -187,7 +233,9 @@ export const useTable = {
       },
       [$render](resultVNode) {
         const vnodes = ctx.setupContext.slots.default();
-        resultVNode.componentOptions.propsData.columns = renderSlot(vnodes);
+        const columns = renderSlot(vnodes);
+        autoMergeFields.value = columns?.filter?.((item) => item.autoMerge) ?? [];
+        resultVNode.componentOptions.propsData.columns = columns;
         return resultVNode;
       },
     };

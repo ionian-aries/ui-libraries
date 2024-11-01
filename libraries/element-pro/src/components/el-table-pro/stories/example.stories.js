@@ -15,11 +15,13 @@ export const Default = {
   render: () => ({
     // moud
     async mounted() {
-      setTimeout(() => {
-        this.type = 'multiple';
-        this.selectedRowKeys.push(1);
-        console.log('=====watch');
-      }, 3000);
+      // setTimeout(() => {
+      // this.type = 'multiple';
+      // this.selectedRowKeys.push(1);
+      // console.log('=====watch');
+      // this.rowspan = 3;
+      console.log('object');
+      // }, 3000);
       this.list = await this.data();
     },
     watch: {
@@ -37,7 +39,7 @@ export const Default = {
               index: i,
               applicant: ['贾明', '张三', '王芳'][i % 3],
               status: i % 3,
-              channel: ['电子签署', '纸质签署', '纸质签署'][i % 3],
+              channel: ['电子签署', '电子签署', '纸质签署'][i % 3],
               detail: {
                 email: [
                   'w.cezkdudy@lhll.au',
@@ -55,18 +57,20 @@ export const Default = {
               createTime: [
                 '2022-01-01',
                 '2022-02-01',
+                '2022-02-01',
                 '2022-03-01',
                 '2022-04-01',
-                '2022-05-01',
               ][i % 4],
             });
           }
+
           return {
             list: initialData,
             total,
           };
         },
         list: [],
+        rowspan: 2,
         type: undefined,
         selectedRowKeys: [],
         columns: [
@@ -89,19 +93,37 @@ export const Default = {
       },
       onDragSortChange(...arg) {
         console.log(arg, 'arg===');
-      }
+      },
+      rowspanAndColspan({
+        row, col, rowIndex, colIndex,
+      }) {
+        // console.log(rowIndex,'rowIndex`');
+        // if (colIndex == 1 && rowIndex % this.rowspan == 0) {
+        //   return {
+        //     rowspan: this.rowspan,
+        //   };
+        // }
+        // return {};
+        console.count('merge');
+        if (row?.rowspan?.[col.colKey] > 1) {
+          console.log(row, col, '===');
+          return {
+            rowspan: 2,
+          };
+        }
+        // console.log('object2');
+        return {};
+      },
     },
     template: `<el-table-pro
     row-key="index"
    :dataSource="data"
    :selectedRowKeys.sync="selectedRowKeys"
    @sort-change="onSortChange"
-   :pagination="false"
-   :height="400"
    :onRowClick="log"
    dragSort="row"
+   height="300"
    :onDragSort="onDragSortChange"
-    :scroll="{ type: 'virtual', rowHeight: 69, bufferSize: 10 }"
     >
 
     <el-table-column-pro title="申请人" type="multiple"       >
@@ -110,13 +132,14 @@ export const Default = {
     </template>
     </el-table-column-pro>
 
-        <el-table-column-pro title="渠道" colKey="channel" :sorter="true" >
+        <el-table-column-pro title="渠道" colKey="channel" :sorter="true" :autoMerge="true" >
     <template #cell="cell">
       <div>{{ cell.item.channel }}</div>
     </template>
     </el-table-column-pro>
    
-    <el-table-column-pro title="渠道" colKey="createTime" width="300"> </el-table-column-pro>
+    <el-table-column-pro title="渠道" colKey="createTime" width="300" > </el-table-column-pro>
+     
 
     </el-table-pro>`,
   }),
