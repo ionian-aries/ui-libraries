@@ -848,6 +848,10 @@ export default {
         this.selectByText(this.filterText);
         if (this.filterText === '' && !this.selectedVM) {
           this.$emit('blur', e);
+        } else {
+          // 修复校验滞后的问题， 这里手动触发失焦 #2990019542459904
+          const validatorVM = this.validatorVM || this.formItemVM;
+          validatorVM && validatorVM.$emit('blur');
         }
 
         if (this.hasFilter) {
