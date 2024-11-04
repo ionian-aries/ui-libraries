@@ -132,8 +132,8 @@ namespace nasl.ui {
 
     @Prop<ElRadioGroupProOptions<T, V>, 'size'>({
       group: '样式属性',
-      title: '展示类型',
-      description: '单选框展示类型',
+      title: '按钮尺寸',
+      description: '单选框按钮尺寸',
       setter: {
         concept: 'EnumSelectSetter',
         options: [{ title: '小' }, { title: '中' }, { title: '大' }],
