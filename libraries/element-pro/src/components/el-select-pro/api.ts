@@ -568,7 +568,7 @@ namespace nasl.ui {
       description: '内容',
       snippets: [
         {
-          title: '下拉选项',
+          title: '选项',
           code: '<el-option-pro value="12" label="选项"></el-option-pro>',
         },
       ],
@@ -680,7 +680,7 @@ namespace nasl.ui {
   }
 
   @Component({
-    title: 'Option Group',
+    title: '选择器选项组',
     icon: 'option-group',
     description: '',
     group: 'Selector',

@@ -1,7 +1,7 @@
 {
   "name": "@lcap/pc-ui",
   "description": "Lcap Cloud UI",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "author": "NetEase CodeWave FE Team",
   "contributors": [
     "haoxutong <1255965516@qq.com>",
@@ -107,9 +107,9 @@
     "dev": "npm run storybook",
     "pack": "pnpm pack",
     "storybook": "storybook dev -p 6006",
-    "build": "lcap-scripts build && npm run lowcode && npm run build:d2c",
-    "build:d2c": "vite build --config vite.d2c.config.js",
+    "build": "lcap-scripts build && npm run lowcode",
     "deploy": "lcap-scripts deploy",
+    "deploy:one": "lcap-scripts deploy --images",
     "deploy:dev": "lcap-scripts deploy --platform http://devtest.lcap.codewave-dev.163yun.com/",
     "deploy:test": "lcap-scripts deploy --platform http://defaulttenant.lcap.codewave-test.163yun.com/",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",

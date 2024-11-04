@@ -1,6 +1,6 @@
 {
   "name": "@lcap/pc-react-ui",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Codewave Low Code AI Platform React Ant Design HOC UI Components",
   "main": "dist-theme/index.js",
   "style": "dist-theme/index.css",
@@ -17,6 +17,7 @@
     "storybook": "storybook dev -p 6006",
     "build": "lcap-scripts build && npm run lowcode",
     "deploy": "lcap-scripts deploy",
+    "deploy:one": "lcap-scripts deploy --images",
     "bd": "vite build --mode development && tsc -p tsconfig.api.json && npm run lowcode ",
     "pub": "vite build && tsc -p tsconfig.api.json && npm run lowcode  && npm run deploy:codewave",
     "lowcode": "node ./scripts/usage-script.js",
