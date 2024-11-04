@@ -27,7 +27,7 @@ export const codeGen: ComponentCodeGen = {
     return {
       id: componentNode.id,
       code: `
-  <el-radio-group-pro style="${styleStr}" value="v0" shape="button">
+  <el-radio-group-pro style="${styleStr}" value="v0" shape="button" size="small">
       ${tabCode}
   </el-radio-group-pro>
             `,
