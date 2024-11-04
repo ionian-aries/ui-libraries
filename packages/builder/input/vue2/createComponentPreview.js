@@ -1,4 +1,6 @@
 import { ComponentWrap } from 'virtual:lcap-theme-preview-wrap.js';
+import { sendRenderOk } from '../events';
+import './global.css';
 import styles from './index.module.css';
 
 export default (stories) => {
@@ -41,6 +43,7 @@ export default (stories) => {
       },
     },
     mounted() {
+      sendRenderOk();
       window.addEventListener('message', this.handleMessage);
     },
     beforeDestroy() {
