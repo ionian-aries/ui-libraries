@@ -924,6 +924,7 @@
             "idetype": "container",
             "structured": true,
             "childAccept":"target.tag === 'u-tab'",
+            "ignoreProperty": ["loadOnActive"],
             "dataSource": {
                 "dismiss": "!this.getAttribute('dataSource') && this.getDefaultElements().length > 0",
                 "display": 3,
