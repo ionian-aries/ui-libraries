@@ -30,5 +30,6 @@ module.exports = {
     'no-plusplus': 0,
     'default-param-last': 0,
     'max-len': [1, { code: 200 }],
+    'no-unused-expressions': 0,
   },
 };

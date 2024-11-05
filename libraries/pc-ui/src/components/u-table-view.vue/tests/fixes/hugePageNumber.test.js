@@ -28,6 +28,7 @@ describe('u-table-view.vue', () => {
     wrapper.vm.pageNumber = 10000;
     await wrapper.vm.$nextTick();
     await sleep(16);
+
     const selectedPage2 = wrapper.find('a[selected="selected"]');
     expect(selectedPage2.exists()).toBe(true);
     expect(selectedPage2.text()).toBe('10000');

@@ -33,6 +33,9 @@ export default defineConfig(({ command }) => {
           'en-US': './src/locale/lang/en-US.json',
           ja: './src/locale/lang/ja.json',
         },
+        reportCSSInfo: {
+          enabled: true,
+        },
       }),
     ],
     resolve: {
