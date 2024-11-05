@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useMemo, useState, useEffect } from 'react';
+import { sendRenderOk } from '../events';
 import { ComponentWrap } from 'virtual:lcap-theme-preview-wrap.js';
 import styles from './index.module.css';
 
@@ -46,6 +47,7 @@ export default (stories) => {
         setActiveName(data);
       };
 
+      sendRenderOk();
       window.addEventListener('message', handleMessage);
 
       return () => {
