@@ -52,6 +52,39 @@ export default defineConfig(({ command }) => {
         i18n: {
           'zh-CN': './src/locale/lang/zh-CN/data.json',
         },
+        reportCSSInfo: {
+          enabled: true,
+          verbose: true,
+          extraComponentMap: {
+            VanCapsules: {
+              selectorPrefixes: ['van-capsules-item'],
+            },
+            VanCell: {
+              selectorPrefixes: ['van-cellson'],
+            },
+            VanField: {
+              selectorPrefixes: ['van-fieldsonforsearch'],
+            },
+            VanPickerson: {
+              selectorPrefixes: ['van-pickerson-column'],
+            },
+            VanProgress: {
+              selectorPrefixes: ['van-progress-room'],
+            },
+            VanSlider: {
+              selectorPrefixes: ['van-slider-room'],
+            },
+            VanSwitch: {
+              selectorPrefixes: ['van-switch-cell'],
+            },
+            VanToast: {
+              selectorPrefixes: ['van-toast-group'],
+            },
+            VanMyProcess: {
+              selectorPrefixes: ['van-my-process-toolbar'],
+            },
+          },
+        },
       }),
     ],
     define: {

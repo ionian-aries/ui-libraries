@@ -36,7 +36,7 @@ export default defineConfig(({ command }) => {
         i18n: {},
         reportCSSInfo: {
           enabled: true,
-          verbose: true,
+          verbose: false,
           extraComponentMap: {
             ElIcon: {
               selectorPrefixes: ['el-icon-loading'],

@@ -35,6 +35,15 @@ export default defineConfig(({ command }) => {
         },
         reportCSSInfo: {
           enabled: true,
+          verbose: false,
+          extraComponentMap: {
+            IIco: {
+              selectorPrefixes: ['i-icon'],
+              mainSelectorMap: {
+                "[class*=i-icon___]": true,
+              },
+            },
+          },
         },
       }),
     ],

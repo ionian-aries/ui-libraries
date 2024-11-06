@@ -23,7 +23,7 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
       if (prefixes[0].endsWith('-pro')) prefixes.push(prefixes[0].slice(0, -4));
       prefixes.push(...(options.reportCSSInfo?.extraComponentMap?.[componentName]?.selectorPrefixes || []));
 
-      return new RegExp(prefixes.map((prefix) => `^\\.${prefix}(__|--|$|[ +>~\\.:])|^\\[class\\*=${prefix}___`).join('|')).test(selector) && !/:(before|after)$|vusion-node-path/.test(selector);
+      return new RegExp(prefixes.map((prefix) => `^\\.${prefix}(__|--|$|[ +>~\\.:\\[])|^\\[class\\*=${prefix}_`).join('|')).test(selector) && !/:(before|after)$|\[vusion-/.test(selector);
     });
   });
 
@@ -46,6 +46,8 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
 
   root.nodes.forEach((node) => {
     if (node.type === 'rule') {
+      if (/\([^(),]+?(,[^(),]+?)+\)/.test(node.selector)) return; // 过滤掉含有逗号()的选择器
+
       let selectors = node.selector
         .replace(/\s+/g, ' ') // 抹平换行符
         .replace(/\s*([>+~,])\s*/g, '$1') // 统一去除空格
