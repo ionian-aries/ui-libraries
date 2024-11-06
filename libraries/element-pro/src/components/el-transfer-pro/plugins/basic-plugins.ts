@@ -1,7 +1,9 @@
 /* 组件功能扩展插件 */
 import type { NaslComponentPluginOptions } from '@lcap/vue2-utils/plugins';
-import { at, isObject } from 'lodash';
+import { at, isFunction, isObject } from 'lodash';
 import { createUseUpdateSync } from '@lcap/vue2-utils';
+import { Slot } from '@lcap/vue2-utils/plugins/types.js';
+import { unref } from '@vue/composition-api';
 
 export const useUpdateSync = createUseUpdateSync([{ name: 'value', event: 'change' }]);
 
@@ -9,38 +11,40 @@ export { useDataSource, useInitialLoaded } from '@lcap/vue2-utils/plugins/index'
 
 export const useDataSourceRender: NaslComponentPluginOptions = {
   props: ['data', 'valueField', 'textField', 'disabledField'],
-  setup({ get: propGet, useComputed }) {
-    const dataList = useComputed(['data'], () => {
-      const textField = propGet<string>('textField') || 'label';
-      const valueField = propGet<string>('valueField') || 'value';
-      const disabledField = propGet<string>('disabledField') || 'disabled';
-      const data = propGet<any>('data') || [];
-
+  setup({ useComputed }) {
+    const keys = useComputed(['valueField', 'textField', 'disabledField', 'keys'], (valueField, textField, disabledField, keysVal = {}) => {
+      return {
+        label: textField || 'label',
+        value: valueField || 'value',
+        disabled: disabledField || 'disabled',
+        ...(isObject(keysVal) ? keysVal : {}),
+      };
+    });
+    const dataRef = useComputed(['data', 'valueField', 'textField', 'disabledField'], (data) => {
+      const keyMap = unref(keys);
       const optionList = data.map((item) => {
         if (isObject(item)) {
-          const [text, value, disabled] = at(item, [textField, valueField, disabledField]);
-          return {
-            value,
-            label: text,
-            disabled,
-          };
+          return item;
         }
+
         return {
-          value: item,
-          label: item,
-          disabled: false,
+          [keyMap.value]: item,
+          [keyMap.label]: item,
+          [keyMap.disabled]: false,
         };
       });
       return optionList;
     });
 
     return {
-      data: dataList,
+      data: dataRef,
+      keys,
     };
   },
 };
 
 export const useCustomSlotRender: NaslComponentPluginOptions = {
+  props: ['optionIsSlot'],
   setup({ get: propGet, useComputed }) {
     const slotFooter = useComputed(['slotFootersource', 'slotFootertarget'], (slotFootersource, slotFootertarget) => {
       const hasFooterSource = typeof slotFootersource === 'function';
@@ -74,6 +78,22 @@ export const useCustomSlotRender: NaslComponentPluginOptions = {
         return null;
       },
       slotFooter,
+      transferItem: (h, { data, index, type }) => {
+        const [slotTransferItem, slotOption, optionIsSlot] = propGet<[Slot, Slot, boolean]>(['slotTransferItem', 'slotOption', 'optionIsSlot']);
+        if (isFunction(slotTransferItem)) {
+          return slotTransferItem({ data, index, type });
+        }
+
+        if (optionIsSlot && isFunction(slotOption)) {
+          return slotOption({
+            item: data,
+            index,
+            type,
+          });
+        }
+
+        return null;
+      },
     };
   },
 };

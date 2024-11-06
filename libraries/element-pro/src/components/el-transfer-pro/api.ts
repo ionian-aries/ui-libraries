@@ -5,7 +5,21 @@ namespace nasl.ui {
     order: 9,
     ideusage: {
       idetype: 'container',
-    }
+      displaySlotConditions: {
+        option: "!!this.getAttribute('dataSource') && this.getAttribute('optionIsSlot') && this.getAttribute('optionIsSlot').value",
+      },
+      dataSource: {
+        dismiss: "!this.getAttribute('dataSource')",
+        display: 3,
+        loopRule: 'nth-last-child(-n+2)',
+        loopElem: '.el-p-transfer__list-item',
+        displayData: "\"[{value: '', label: ''},{value:'1', label: ' '}, {value:'2', label: ' '}]\"",
+        propertyName: ":dataSource",
+      },
+      slotWrapperInlineStyle: {
+        option: 'width: 100%',
+      },
+    },
   })
   @Component({
     title: '穿梭框',
@@ -34,22 +48,17 @@ namespace nasl.ui {
     @Prop({
       group: '数据属性',
       title: '数据源',
-      description:
-        '展示数据的输入源，可设置为集合类型变量（List<T>）或输出参数为集合类型的逻辑。',
-      docDescription:
-        '支持动态绑定集合类型变量（List<T>）或输出参数为集合类型的逻辑',
+      description: '展示数据的输入源，可设置为集合类型变量（List<T>）或输出参数为集合类型的逻辑。',
+      docDescription: '支持动态绑定集合类型变量（List<T>）或输出参数为集合类型的逻辑',
       designerValue: [{}, {}, {}],
     })
-    dataSource:
-      | { list: nasl.collection.List<T>; total: nasl.core.Integer }
-      | nasl.collection.List<T>;
+    dataSource: { list: nasl.collection.List<T>; total: nasl.core.Integer } | nasl.collection.List<T>;
 
     @Prop({
       group: '数据属性',
       title: '数据类型',
       description: '数据源返回的数据结构的类型，自动识别类型进行展示说明',
-      docDescription:
-        '该属性为只读状态，当数据源动态绑定集合List<T>后，会自动识别T的类型并进行展示。',
+      docDescription: '该属性为只读状态，当数据源动态绑定集合List<T>后，会自动识别T的类型并进行展示。',
     })
     dataSchema: T;
 
@@ -62,6 +71,19 @@ namespace nasl.ui {
       },
     })
     textField: (item: T) => any = ((item: any) => item.text) as any;
+
+    @Prop<ElTransferProOptions<T, V>, 'optionIsSlot'>({
+      group: '数据属性',
+      title: '动态选项插槽',
+      description: '自定义选项内容',
+      docDescription: '自定义选项内容',
+      setter: {
+        concept: 'SwitchSetter',
+      },
+      bindHide: true,
+      if: (_) => !!_.dataSource,
+    })
+    optionIsSlot: nasl.core.Boolean;
 
     @Prop<ElTransferProOptions<T, V>, 'valueField'>({
       group: '数据属性',
@@ -156,13 +178,15 @@ namespace nasl.ui {
 
     @Event({
       title: '改变后',
-      description: '数据列表发生变化时触发，`type` 值为 `source`，表示源列表移动到目标列表，值为 `target` 表示目标列表移动到源列表，movedValue 则表示被移动的选项。',
+      description:
+        '数据列表发生变化时触发，`type` 值为 `source`，表示源列表移动到目标列表，值为 `target` 表示目标列表移动到源列表，movedValue 则表示被移动的选项。',
     })
     onChange: (event: nasl.collection.List<V>) => any;
 
     @Event({
       title: '选中后',
-      description: '源数据列表或目标数据列表的选中项发生变化时触发，`context.type` 可以区分触发来源是目标列表，还是源列表。',
+      description:
+        '源数据列表或目标数据列表的选中项发生变化时触发，`context.type` 可以区分触发来源是目标列表，还是源列表。',
     })
     onCheckedChange: (event: {
       checked: nasl.collection.List<V>;
@@ -194,18 +218,14 @@ namespace nasl.ui {
         screenX: nasl.core.Integer;
         screenY: nasl.core.Integer;
         which: nasl.core.Integer;
-      }
+      };
     }) => any;
 
     @Event({
       title: '筛选时',
       description: '搜索时触发，options.query 表示用户输入的内容。',
     })
-    onSearch: (event: {
-      query: nasl.core.String;
-      type: 'source' | 'target';
-      trigger: 'input' | 'enter';
-    }) => any;
+    onSearch: (event: { query: nasl.core.String; type: 'source' | 'target'; trigger: 'input' | 'enter' }) => any;
 
     @Slot({
       title: '来源标题',
@@ -230,5 +250,11 @@ namespace nasl.ui {
       description: '穿梭框底部内容。',
     })
     slotFootertarget: () => Array<ViewComponent>;
+
+    @Slot({
+      title: '穿梭项内容',
+      description: '自定义穿梭项内容',
+    })
+    slotOption: (current: Current<T>) => Array<ViewComponent>;
   }
 }
