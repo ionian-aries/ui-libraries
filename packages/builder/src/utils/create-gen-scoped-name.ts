@@ -24,7 +24,7 @@ export function createGenScopedName(prefix, rp = './') {
 
     // eslint-disable-next-line prefer-regex-literals
     const regex = new RegExp('[^a-zA-Z0-9\\-_\u00A0-\uFFFF]', 'g');
-    scopedName = `${scopedName}__${hash}`.replace(regex, '-').replace(/^((-?[0-9])|--)/, '_$1');
+    scopedName = `${scopedName}___${hash}`.replace(regex, '-').replace(/^((-?[0-9])|--)/, '_$1');
 
     return scopedName;
   };
