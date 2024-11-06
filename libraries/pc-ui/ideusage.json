@@ -1023,7 +1023,7 @@
                 "click": true
             },
             "displaySlotConditions": {
-              "option": "!!this.getAttribute('dataSource') && this.getAttribute('optionIsSlot')"
+              "option": "!!this.getAttribute('dataSource') && this.getAttribute('optionIsSlot') && this.getAttribute('optionIsSlot').value"
             },
             "slotWrapperInlineStyle": {
               "option": "display: inline-block; width: calc(100% - 32px);"
@@ -1130,7 +1130,7 @@
               ":source": "\"[{}, {}, {}]\""
             },
             "displaySlotConditions": {
-              "option": "!!this.getAttribute('dataSource') && this.getAttribute('optionIsSlot')"
+              "option": "!!this.getAttribute('dataSource') && this.getAttribute('optionIsSlot') && this.getAttribute('optionIsSlot').value"
             },
             "slotWrapperInlineStyle": {
               "option": "display: inline-block; width: calc(100% - 32px);"
