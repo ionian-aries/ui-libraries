@@ -91,7 +91,7 @@ export default createComponent({
 
     getUserName(item) {
       const { nodeOperation, userName } = item;
-      if (['cc', 'end'].includes(nodeOperation) && userName === 'SYSTEM_USER') {
+      if (userName === 'SYSTEM_USER') {
         return '系统';
       }
       return userName || '-';
