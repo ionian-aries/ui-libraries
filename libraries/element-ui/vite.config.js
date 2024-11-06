@@ -34,6 +34,51 @@ export default defineConfig(({ command }) => {
         //   useOldCssVarParser: true,
         // },
         i18n: {},
+        reportCSSInfo: {
+          enabled: true,
+          verbose: true,
+          extraComponentMap: {
+            ElIcon: {
+              selectorPrefixes: ['el-icon-loading'],
+            },
+            ElAutocomplete: {
+              selectorPrefixes: ['el-autocomplete-suggestion'],
+            },
+            ElDropdown: {
+              selectorPrefixes: ['el-dropdown-menu'],
+            },
+            ElMenu: {
+              selectorPrefixes: ['el-menu-item-group'],
+            },
+            ElSelect: {
+              selectorPrefixes: ['el-select-dropdown', 'el-select-group'],
+            },
+            ElTable: {
+              selectorPrefixes: ['el-table-filter'],
+            },
+            ElTree: {
+              selectorPrefixes: ['el-tree-node'],
+            },
+            ElUpload: {
+              selectorPrefixes: ['el-upload-dragger', 'el-upload-list', 'el-upload-cover'],
+            },
+            ElProgress: {
+              selectorPrefixes: ['el-progress-bar'],
+            },
+            ElTransfer: {
+              selectorPrefixes: ['el-transfer-panel'],
+            },
+            ElImage: {
+              selectorPrefixes: ['el-image-preview'],
+            },
+            ElCalendar: {
+              selectorPrefixes: ['el-calendar-table'],
+            },
+            ElCascader: {
+              selectorPrefixes: ['el-cascader-menu', 'el-cascader-node'],
+            },
+          },
+        },
         dependencies: [
           // {
           //   name: '@lcap/pc-ui',
