@@ -111,24 +111,37 @@ namespace nasl.ui {
         target: nasl.collection.List<T>;
 
         @Prop({
-            group: '数据属性',
-            title: '文本字段',
-            description: '选项文本的字段名',
-            docDescription: '集合的元素类型中，用于显示文本的属性名称，支持自定义变更。',
-            setter: {
-              concept: 'InputSetter',
-            },
+          group: '数据属性',
+          title: '文本字段',
+          description: '选项文本的字段名',
+          docDescription: '集合的元素类型中，用于显示文本的属性名称，支持自定义变更。',
+          setter: {
+            concept: 'InputSetter',
+          },
         })
         textField: nasl.core.String = 'text';
 
+        @Prop<UTransferOptions<T, V>, 'optionIsSlot'>({
+          group: '数据属性',
+          title: '动态选项插槽',
+          description: '自定义选项内容',
+          docDescription: '自定义选项内容',
+          setter: {
+            concept: 'SwitchSetter'
+          },
+          bindHide: true,
+          if: (_) => !!_.source,
+        })
+        optionIsSlot: nasl.core.Boolean;
+
         @Prop({
-            group: '数据属性',
-            title: '值字段',
-            description: '选项值的字段名',
-            docDescription: '集合的元素类型中，用于指定数据唯一值的字段，支持自定义变更',
-            setter: {
-              concept: 'InputSetter',
-            },
+          group: '数据属性',
+          title: '值字段',
+          description: '选项值的字段名',
+          docDescription: '集合的元素类型中，用于指定数据唯一值的字段，支持自定义变更',
+          setter: {
+            concept: 'InputSetter',
+          },
         })
         valueField: nasl.core.String = 'value';
 
@@ -264,10 +277,10 @@ namespace nasl.ui {
         // })
         // slotDefault: () => Array<ViewComponent>;
 
-        // @Slot({
-        //     title: '项',
-        //     description: '自定义选项的结构和样式',
-        // })
-        // slotItem: (current: Current<T>) => Array<ViewComponent>;
+        @Slot({
+            title: '穿梭项内容',
+            description: '自定义选项的结构和样式',
+        })
+        slotOption: (current: Current<T>) => Array<ViewComponent>;
     }
 }

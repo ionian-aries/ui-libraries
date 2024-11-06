@@ -27,8 +27,11 @@
             :readonly="readonly"
             :disabled="disabled"
         >
-            <template #item="props">
+            <template #item="props" v-if="!optionIsSlot">
                 <slot name="item" v-bind="props"></slot>
+            </template>
+            <template #item="props" v-if="optionIsSlot">
+                <slot name="option" v-bind="props"></slot>
             </template>
         </u-list-view>
         <div :class="$style.buttons">
@@ -77,8 +80,11 @@
             :readonly="readonly"
             :disabled="disabled"
         >
-            <template #item="props">
+            <template #item="props" v-if="!optionIsSlot">
                 <slot name="item" v-bind="props"></slot>
+            </template>
+            <template #item="props" v-if="optionIsSlot">
+                <slot name="option" v-bind="props"></slot>
             </template>
         </u-list-view>
         <slot></slot>
@@ -127,6 +133,7 @@ export default {
         readonly: UListView.props.readonly,
         disabled: UListView.props.disabled,
         preview: { type: Boolean, default: false },
+        optionIsSlot: { type: Boolean, default: false },
     },
     data() {
         return { sourceValues: [], targetValues: [] };
