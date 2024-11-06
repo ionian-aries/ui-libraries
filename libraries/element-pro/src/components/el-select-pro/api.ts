@@ -6,10 +6,28 @@ namespace nasl.ui {
     ideusage: {
       idetype: 'container',
       structured: true,
-      forceUpdateWhenAttributeChange: true,
       childAccept: "target.tag === 'el-option-pro'",
       events: {
         click: true,
+      },
+      displaySlotConditions: {
+        value: "!!this.getAttribute('dataSource') && this.getAttribute('valueIsSlot') && this.getAttribute('valueIsSlot').value",
+        option: "!!this.getAttribute('dataSource') && this.getAttribute('optionIsSlot') && this.getAttribute('optionIsSlot').value",
+      },
+      slotWrapperInlineStyle: {
+        option: 'width:100%;',
+      },
+      slotInlineStyle: {
+        option: 'min-height: 0;',
+        value: 'min-height: 0;',
+      },
+      dataSource: {
+        dismiss: "!this.getAttribute('dataSource')",
+        display: 3,
+        loopRule: 'nth-last-child(-n+2)',
+        loopElem: "li.el-p-select-option",
+        displayData: "\"[{value: '', text: ''},{value:'1', text: ' '}, {value:'2', text: ' '}]\"",
+        propertyName: ":dataSource",
       },
     },
   })
@@ -19,13 +37,7 @@ namespace nasl.ui {
     description: '',
     group: 'Selector',
   })
-  export class ElSelectPro<
-    T,
-    V,
-    P extends nasl.core.Boolean,
-    M extends nasl.core.Boolean,
-    C,
-  > extends ViewComponent {
+  export class ElSelectPro<T, V, P extends nasl.core.Boolean, M extends nasl.core.Boolean, C> extends ViewComponent {
     constructor(options?: Partial<ElSelectProOptions<T, V, P, M, C>>) {
       super();
     }
@@ -137,17 +149,45 @@ namespace nasl.ui {
     // })
     // defaultInputValue: nasl.core.String | nasl.core.Decimal;
 
+    @Prop({
+      group: '数据属性',
+      title: '数据源',
+      description: '展示数据的输入源，可设置为集合类型变量（List<T>）或输出参数为集合类型的逻辑。',
+      docDescription: '支持动态绑定集合类型变量（List<T>）或输出参数为集合类型的逻辑',
+    })
+    dataSource: { list: nasl.collection.List<T>; total: nasl.core.Integer } | nasl.collection.List<T>;
+
+    @Prop({
+      group: '数据属性',
+      title: '数据类型',
+      description: '数据源返回的数据结构的类型，自动识别类型进行展示说明',
+      docDescription: '该属性为只读状态，当数据源动态绑定集合List<T>后，会自动识别T的类型并进行展示。',
+    })
+    dataSchema: T;
+
     @Prop<ElSelectProOptions<T, V, P, M, C>, 'textField'>({
       group: '数据属性',
       title: '文本字段',
       description: '集合的元素类型中，用于显示文本的属性名称',
-      docDescription:
-        '集合的元素类型中，用于显示文本的属性名称，支持自定义变更。',
+      docDescription: '集合的元素类型中，用于显示文本的属性名称，支持自定义变更。',
       setter: {
         concept: 'PropertySelectSetter',
       },
     })
     textField: (item: T) => any = ((item: any) => item.text) as any;
+
+    @Prop<ElSelectProOptions<T, V, P, M, C>, 'optionIsSlot'>({
+      group: '数据属性',
+      title: '动态选项插槽',
+      description: '自定义选项内容',
+      docDescription: '自定义选项内容',
+      setter: {
+        concept: 'SwitchSetter'
+      },
+      bindHide: true,
+      if: (_) => !!_.dataSource,
+    })
+    optionIsSlot: nasl.core.Boolean;
 
     @Prop<ElSelectProOptions<T, V, P, M, C>, 'valueField'>({
       group: '数据属性',
@@ -159,6 +199,29 @@ namespace nasl.ui {
       },
     })
     valueField: (item: T) => V = ((item: any) => item.value) as any;
+
+    @Prop({
+      group: '数据属性',
+      sync: true,
+      title: '选中值',
+      description: '选中值。支持语法糖 `v-model`。',
+      setter: { concept: 'InputSetter' },
+    })
+    value: M extends true ? (C extends '' ? nasl.collection.List<V> : nasl.core.String) : V;
+
+    @Prop<ElSelectProOptions<T, V, P, M, C>, 'valueIsSlot'>({
+      group: '数据属性',
+      title: '动态选中项插槽',
+      description: '自定义选中项内容',
+      docDescription: '自定义选中项内容',
+      setter: {
+        concept: 'SwitchSetter'
+      },
+      bindHide: true,
+      if: (_) => !!_.dataSource,
+    })
+    valueIsSlot: nasl.core.Boolean;
+
     // @Prop({
     //   group: '主要属性',
     //   title: 'Keys',
@@ -203,8 +266,7 @@ namespace nasl.ui {
     @Prop({
       group: '主要属性',
       title: '最小折叠数量',
-      description:
-        '最小折叠数量，用于多选情况下折叠选中项，超出该数值的选中项折叠。值为 0 则表示不折叠',
+      description: '最小折叠数量，用于多选情况下折叠选中项，超出该数值的选中项折叠。值为 0 则表示不折叠',
       setter: { concept: 'NumberInputSetter' },
     })
     minCollapsedNum: nasl.core.Decimal = 0;
@@ -216,27 +278,6 @@ namespace nasl.ui {
       setter: { concept: 'SwitchSetter' },
     })
     multiple: M = false as any;
-
-    @Prop({
-      group: '数据属性',
-      title: '数据源',
-      description:
-        '展示数据的输入源，可设置为集合类型变量（List<T>）或输出参数为集合类型的逻辑。',
-      docDescription:
-        '支持动态绑定集合类型变量（List<T>）或输出参数为集合类型的逻辑',
-    })
-    dataSource:
-      | { list: nasl.collection.List<T>; total: nasl.core.Integer }
-      | nasl.collection.List<T>;
-
-    @Prop({
-      group: '数据属性',
-      title: '数据类型',
-      description: '数据源返回的数据结构的类型，自动识别类型进行展示说明',
-      docDescription:
-        '该属性为只读状态，当数据源动态绑定集合List<T>后，会自动识别T的类型并进行展示。',
-    })
-    dataSchema: T;
 
     // @Prop({
     //   group: '主要属性',
@@ -345,12 +386,7 @@ namespace nasl.ui {
       description: '输入框状态。可选项：default/success/warning/error',
       setter: {
         concept: 'EnumSelectSetter',
-        options: [
-          { title: '默认' },
-          { title: '成功' },
-          { title: '警告' },
-          { title: '错误' },
-        ],
+        options: [{ title: '默认' }, { title: '成功' }, { title: '警告' }, { title: '错误' }],
       },
     })
     status: 'default' | 'success' | 'warning' | 'error' = 'default';
@@ -386,15 +422,6 @@ namespace nasl.ui {
     //   setter: { concept: 'InputSetter' },
     // })
     // tips: any;
-
-    @Prop({
-      group: '数据属性',
-      sync: true,
-      title: '选中值',
-      description: '选中值。支持语法糖 `v-model`。',
-      setter: { concept: 'InputSetter' },
-    })
-    value: M extends true ? (C extends '' ? nasl.collection.List<V> : nasl.core.String) : V;
 
     // @Prop({
     //   group: '主要属性',
@@ -574,13 +601,26 @@ namespace nasl.ui {
       ],
     })
     slotDefault: () => Array<ViewComponent>;
+
+
+    @Slot({
+      title: '选项内容',
+      description: '自定义选项内容',
+    })
+    slotOption: (current: Current<T>) => Array<ViewComponent>;
+
+    @Slot({
+      title: '选中值内容',
+      description: '选中值内容',
+    })
+    slotValue: (current: Current<T>) => Array<ViewComponent>;
   }
 
   @IDEExtraInfo({
     show: true,
     ideusage: {
-      parentAccept: "['el-select-pro'].includes(target.tag)",
-      //   idetype: 'container',
+      parentAccept: "target.tag.endsWith('el-select-pro')",
+      idetype: 'container',
       //   structured: true,
       //   selector: {
       //     expression: 'this',
@@ -661,7 +701,7 @@ namespace nasl.ui {
     @Prop({
       group: '主要属性',
       title: '选项名称',
-      description: '选项名称',
+      description: '选项名称, 选中后显示内容',
       setter: { concept: 'InputSetter' },
     })
     label: nasl.core.String | nasl.core.Decimal;
@@ -672,11 +712,11 @@ namespace nasl.ui {
     // })
     // slotContent: () => Array<ViewComponent>;
 
-    // @Slot({
-    //   title: 'Default',
-    //   description: '用于定义复杂的选项内容。同 content。',
-    // })
-    // slotDefault: () => Array<ViewComponent>;
+    @Slot({
+      title: '选项内容',
+      description: '用于定义复杂的选项内容',
+    })
+    slotDefault: () => Array<ViewComponent>;
   }
 
   @Component({

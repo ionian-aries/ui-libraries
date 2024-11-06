@@ -28,7 +28,8 @@ export const Default = {
     },
     data() {
       return {
-        value: 11,
+        value: null,
+        mutipleValue: [1, 2, 3],
         data: async (params) => {
           const initialData = [];
           const total = 50;
@@ -48,15 +49,39 @@ export const Default = {
         // data:[],
       };
     },
-    template: `<el-select-pro
-    :filterable="true"
-    :dataSource="data"
-    multiple
-    valueField="key.valueField"
-    textField="key.labelField"
-    @search="log"
-    @change="handleChange"
-    >
-    </el-select-pro>`,
+    template: `
+      <div>
+        <el-select-pro
+          :filterable="true"
+          :dataSource="data"
+          :multiple="false"
+          label="单选"
+          valueField="key.valueField"
+          textField="key.labelField"
+          @search="log"
+          @change="handleChange"
+        >
+          <template #value="{ item }">
+            <span>11 {{item.key.labelField}}</span>
+          </template>
+        </el-select-pro>
+        <el-select-pro
+          :filterable="true"
+          :dataSource="data"
+          :multiple="true"
+          :value.sync="mutipleValue"
+          label="多选"
+          :minCollapsedNum="3"
+          valueField="key.valueField"
+          textField="key.labelField"
+          @search="log"
+          @change="handleChange"
+        >
+          <template #value="{ item }">
+            <span>11 {{item.key.labelField}}</span>
+          </template>
+        </el-select-pro>
+      </div>
+    `,
   }),
 };
