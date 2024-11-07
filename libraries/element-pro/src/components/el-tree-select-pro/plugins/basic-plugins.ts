@@ -1,6 +1,8 @@
-import _ from 'lodash';
+import _, { isFunction, get as lodashGet } from 'lodash';
 
 import { createUseUpdateSync } from '@lcap/vue2-utils';
+import { computed } from '@vue/composition-api';
+import { NaslComponentPluginOptions, Slot } from '@lcap/vue2-utils/plugins/types';
 
 export { useDataSource, useInitialLoaded } from '@lcap/vue2-utils';
 
@@ -28,8 +30,8 @@ function listToTree(dataSource, parentField, valueField = 'value') {
   return tree;
 }
 
-export const useSelect = {
-  props: ['valueField', 'labelField', 'data'],
+export const useTreeSelect: NaslComponentPluginOptions = {
+  props: ['valueField', 'labelField', 'data', 'optionIsSlot'],
   setup(props, ctx) {
     const valueField = props.useComputed('valueField', (v) => v || 'value');
     const textField = props.useComputed('textField', (v) => v || 'label');
@@ -45,14 +47,36 @@ export const useSelect = {
       return listToTree(dataSource, parentField.value, valueField.value);
     });
     const keys = props.useComputed('keys', (v) => (_.isObject(v) ? v : {}));
+
+    const renderLabel = (h, node) => {
+      const [optionIsSlot, slotOption] = props.get<[boolean, Slot]>(['optionIsSlot', 'slotOption']);
+
+      if (!optionIsSlot || !isFunction(slotOption)) {
+        return [
+          h('span', {}, [lodashGet(node.data, textField.value)]),
+        ];
+      }
+
+      return slotOption({
+        item: node.data,
+      });
+    };
+
+    const treeProps = computed(() => {
+      return {
+        label: renderLabel,
+      };
+    });
+
     return {
       data,
-      keys: {
+      keys: computed(() => ({
         value: valueField.value,
         label: textField.value,
         children: childrenField.value,
         ...keys.value,
-      },
+      })),
+      treeProps,
     };
   },
 };

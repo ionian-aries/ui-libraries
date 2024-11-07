@@ -3,6 +3,29 @@
 namespace nasl.ui {
   @IDEExtraInfo({
     order: 6,
+    ideusage: {
+      idetype: 'container',
+      events: {
+        click: true,
+      },
+      dataSource: {
+        dismiss: "!this.getAttribute('dataSource')",
+        display: 3,
+        loopRule: 'nth-last-child(-n+2)',
+        loopElem: "div.el-p-tree__item",
+        displayData: "\"[{value: '', label: ''}, {value:'1', label: ' '}, {value:'2', label: ' '}]\"",
+        propertyName: ":dataSource",
+      },
+      displaySlotConditions: {
+        option: "!!this.getAttribute('dataSource') && this.getAttribute('optionIsSlot') && this.getAttribute('optionIsSlot').value",
+      },
+      slotWrapperInlineStyle: {
+        option: 'width:100%;',
+      },
+      slotInlineStyle: {
+        option: 'min-height: 0;',
+      },
+    }
   })
   @Component({
     title: '树选择',
@@ -56,6 +79,19 @@ namespace nasl.ui {
       },
     })
     textField: (item: T) => any = ((item: any) => item.label) as any;
+
+    @Prop<ElTreeSelectProOptions<T, V, M>, 'optionIsSlot'>({
+      group: '数据属性',
+      title: '动态选项插槽',
+      description: '自定义选项内容',
+      docDescription: '自定义选项内容',
+      setter: {
+        concept: 'SwitchSetter'
+      },
+      bindHide: true,
+      if: (_) => !!_.dataSource,
+    })
+    optionIsSlot: nasl.core.Boolean;
 
     @Prop({
       group: '数据属性',
@@ -468,6 +504,12 @@ namespace nasl.ui {
         '输入值变化时，触发搜索事件。主要用于远程搜索新数据。设置 `filterable=true` 开启此功能。优先级高于本地数据搜索 `filter`，即一旦存在这个远程搜索事件 `filter` 失效',
     })
     onSearch: (event: nasl.core.String) => any;
+
+    @Slot({
+      title: '树节点内容',
+      description: '自定义树节点内容',
+    })
+    slotOption: () => Array<ViewComponent>;
 
     // @Slot({
     //   title: 'Collapsed Items',
