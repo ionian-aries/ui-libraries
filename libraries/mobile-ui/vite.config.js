@@ -54,7 +54,7 @@ export default defineConfig(({ command }) => {
         },
         reportCSSInfo: {
           enabled: true,
-          verbose: true,
+          verbose: false,
           extraComponentMap: {
             VanCapsules: {
               selectorPrefixes: ['van-capsules-item'],
