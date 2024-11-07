@@ -1,6 +1,8 @@
-import _ from 'lodash';
+import _, { isFunction } from 'lodash';
 
 import { createUseUpdateSync } from '@lcap/vue2-utils';
+import { computed } from '@vue/composition-api';
+import { NaslComponentPluginOptions, Slot } from '@lcap/vue2-utils/plugins/types.js';
 
 export { useDataSource, useInitialLoaded } from '@lcap/vue2-utils';
 export { useFormFieldClass } from '../../../plugins/use-form-field-class';
@@ -25,8 +27,8 @@ function listToTree(dataSource, parentField, valueField = 'value') {
   });
   return tree;
 }
-export const useSelect = {
-  props: ['valueField', 'labelField', 'data'],
+export const useCascaderSelect: NaslComponentPluginOptions = {
+  props: ['valueField', 'labelField', 'data', 'optionIsSlot'],
   setup(props, ctx) {
     const valueField = props.useComputed('valueField', (v) => v || 'value');
     const textField = props.useComputed('textField', (v) => v || 'label');
@@ -42,15 +44,29 @@ export const useSelect = {
       return listToTree(data, parentField.value, valueField.value);
     });
     const keys = props.useComputed('keys', (v) => (_.isObject(v) ? v : {}));
+
     return {
       options,
       class: 'cw-form-field',
-      keys: {
+      keys: computed(() => ({
         value: valueField.value,
         label: textField.value,
         children: childrenField.value,
         ...keys.value,
+      })),
+      slotOptionLabel: ({ item, index }) => {
+        const [optionIsSlot, slotOption] = props.get<[boolean, Slot]>(['optionIsSlot', 'slotOption']);
+
+        if (optionIsSlot && isFunction(slotOption)) {
+          return slotOption({
+            item,
+            index,
+          });
+        }
+
+        return null;
       },
+      slotOption: () => null,
     };
   },
 };

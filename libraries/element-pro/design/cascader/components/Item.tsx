@@ -27,6 +27,9 @@ const props = {
   optionChild: {
     type: [Object, Array] as PropType<ElCascaderProps['option']>,
   },
+  optionLabelChild: {
+    type: [Object, Array] as PropType<ElCascaderProps['option']>,
+  },
   cascaderContext: {
     type: Object as PropType<CascaderContextType>,
   },
@@ -58,7 +61,7 @@ export default defineComponent({
   },
   render() {
     const {
-      iconClass, cascaderContext, itemClass, node, optionChild, COMPONENT_NAME, onChange, ChevronRightIcon,
+      iconClass, cascaderContext, itemClass, node, optionChild, optionLabelChild, COMPONENT_NAME, onChange, ChevronRightIcon,
     } = this;
 
     function RenderLabelInner(node: TreeNode, cascaderContext: CascaderContextType) {
@@ -78,7 +81,7 @@ export default defineComponent({
         }
         return doms;
       }
-      return labelText;
+      return optionLabelChild || labelText;
     }
 
     function RenderLabelContent(node: TreeNode, cascaderContext: CascaderContextType) {

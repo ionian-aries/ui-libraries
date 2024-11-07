@@ -19,6 +19,9 @@ namespace nasl.ui {
       slotWrapperInlineStyle: {
         option: 'width: 100%',
       },
+      slotInlineStyle: {
+        option: 'min-height: 0;',
+      },
     },
   })
   @Component({

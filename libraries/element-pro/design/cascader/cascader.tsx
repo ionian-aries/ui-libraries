@@ -211,7 +211,7 @@ export default defineComponent({
               loading={this.loading}
               loadingText={this.loadingText}
               cascaderContext={cascaderContext}
-              scopedSlots={{ option: slots.option, empty: slots.empty, loadingText: slots.loadingText }}
+              scopedSlots={{ option: slots.option, optionLabel: slots.optionLabel || slots['option-label'], empty: slots.empty, loadingText: slots.loadingText }}
             />
           ),
           tips: slots.tips,

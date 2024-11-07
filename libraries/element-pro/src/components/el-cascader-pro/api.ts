@@ -3,6 +3,29 @@
 namespace nasl.ui {
   @IDEExtraInfo({
     order: 7,
+    ideusage: {
+      idetype: 'container',
+      events: {
+        click: true,
+      },
+      dataSource: {
+        dismiss: "!this.getAttribute('dataSource')",
+        display: 3,
+        loopRule: 'nth-last-child(-n+2)',
+        loopElem: "li.el-p-cascader__item",
+        displayData: "\"[{value: '', label: ''}, {value:'1', label: ' '}, {value:'2', label: ' '}]\"",
+        propertyName: ":dataSource",
+      },
+      displaySlotConditions: {
+        option: "!!this.getAttribute('dataSource') && this.getAttribute('optionIsSlot') && this.getAttribute('optionIsSlot').value",
+      },
+      slotWrapperInlineStyle: {
+        option: 'width:100%;',
+      },
+      slotInlineStyle: {
+        option: 'min-height: 0;',
+      },
+    }
   })
   @Component({
     title: '级联选择器',
@@ -113,6 +136,19 @@ namespace nasl.ui {
       },
     })
     textField: (item: T) => any = ((item: any) => item.label) as any;
+
+    @Prop<ElCascaderProOptions<T, V, P, M, C>, 'optionIsSlot'>({
+      group: '数据属性',
+      title: '动态选项插槽',
+      description: '自定义选项内容',
+      docDescription: '自定义选项内容',
+      setter: {
+        concept: 'SwitchSetter'
+      },
+      bindHide: true,
+      if: (_) => !!_.dataSource,
+    })
+    optionIsSlot: nasl.core.Boolean;
 
     @Prop<ElCascaderProOptions<T, V, P, M, C>, 'valueField'>({
       group: '数据属性',
@@ -452,6 +488,12 @@ namespace nasl.ui {
     })
     onChange: (event: any) => any;
 
+    @Slot({
+      title: '选项内容',
+      description: '自定义单个级联选项',
+    })
+    slotOption: (current: Current<T>) => Array<ViewComponent>;
+
     // @Event({
     //   title: 'On Focus',
     //   description: '获得焦点时触发',
@@ -494,12 +536,6 @@ namespace nasl.ui {
     //   description: '远程加载时显示的文字，支持自定义。如加上超链接。',
     // })
     // slotLoadingText: () => Array<ViewComponent>;
-
-    // @Slot({
-    //   title: 'Option',
-    //   description: '自定义单个级联选项。',
-    // })
-    // slotOption: () => Array<ViewComponent>;
 
     // @Slot({
     //   title: 'Suffix',
