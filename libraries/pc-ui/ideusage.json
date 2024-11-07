@@ -1025,6 +1025,18 @@
             "events": {
                 "click": true
             },
+            "displaySlotConditions": {
+              "option": "!!this.getAttribute('dataSource') && this.getAttribute('optionIsSlot') && this.getAttribute('optionIsSlot').value"
+            },
+            "slotWrapperInlineStyle": {
+              "option": "display: inline-block; width: calc(100% - 32px);"
+            },
+            "dataSource": {
+                "dismiss": "!this.getAttribute('dataSource')",
+                "display": 3,
+                "loopRule": "nth-last-child(-n+2)",
+                "loopElem": "div[class^='u-select_item']"
+            },
             "translateBindingProperty": ["value", "placeholder"]
         }
     },
@@ -1116,7 +1128,16 @@
     {
         "name": "UTransfer",
         "ideusage": {
-            "idetype": "container"
+            "idetype": "container",
+            "additionalAttribute": {
+              ":source": "\"[{}, {}, {}]\""
+            },
+            "displaySlotConditions": {
+              "option": "!!this.getAttribute('dataSource') && this.getAttribute('optionIsSlot') && this.getAttribute('optionIsSlot').value"
+            },
+            "slotWrapperInlineStyle": {
+              "option": "display: inline-block; width: calc(100% - 32px);"
+            }
         }
     },
     {
