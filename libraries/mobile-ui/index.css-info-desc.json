@@ -1092,12 +1092,12 @@
     ".van-col--align-start:focus,.van-col--align-start._focus": "起始对齐列:获得焦点",
     ".van-col--align-center:hover,.van-col--align-center._hover": "居中对齐列:鼠标移入",
     ".van-col--align-center:active,.van-col--align-center._active": "居中对齐列:鼠标按下",
-    ".van-col--align-center:focus,.van-col--align-center._focus": "",
-    ".van-col--align-end:hover,.van-col--align-end._hover": "",
-    ".van-col--align-end:active,.van-col--align-end._active": "",
-    ".van-col--align-end:focus,.van-col--align-end._focus": "",
-    ".van-col--align-baseline:hover,.van-col--align-baseline._hover": "",
-    ".van-col--align-baseline:active,.van-col--align-baseline._active": "",
+    ".van-col--align-center:focus,.van-col--align-center._focus": "居中列:获得焦点",
+    ".van-col--align-end:hover,.van-col--align-end._hover": "末端对齐列:鼠标移入",
+    ".van-col--align-end:active,.van-col--align-end._active": "末端对齐列:鼠标按下",
+    ".van-col--align-end:focus,.van-col--align-end._focus": "末端对齐列:获得焦点",
+    ".van-col--align-baseline:hover,.van-col--align-baseline._hover": "基线对齐列:鼠标移入",
+    ".van-col--align-baseline:active,.van-col--align-baseline._active": "基线对齐列:鼠标按下",
     ".van-col--align-baseline:focus,.van-col--align-baseline._focus": "基线对齐列:获得焦点",
     ".van-col--align-stretch:hover,.van-col--align-stretch._hover": "拉伸对齐列:鼠标移入",
     ".van-col--align-stretch:active,.van-col--align-stretch._active": "拉伸对齐列:鼠标按下",
@@ -3323,4 +3323,3 @@
     ".van-slider-room .van-slider--vertical .van-slider__button-wrapper-left:focus,.van-slider-room .van-slider--vertical .van-slider__button-wrapper-left._focus": "垂直滑块左按钮:获得焦点"
   }
 }
-
