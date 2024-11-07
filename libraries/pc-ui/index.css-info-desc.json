@@ -636,7 +636,8 @@
     "[class*=u-text__]:focus,[class*=u-text__]._focus": "",
     "[class*=u-text_preview__]:hover,[class*=u-text_preview__]._hover": "",
     "[class*=u-text_preview__]:active,[class*=u-text_preview__]._active": "",
-    "[class*=u-text_preview__]:focus,[class*=u-text_preview__]._focus": ""
+    "[class*=u-text_preview__]:focus,[class*=u-text_preview__]._focus": "",
+    "[class*=u-text__][overflow=breakall]": ""
   },
   "UCheckboxes": {
     "[class*=u-checkboxes__]>*:not(:last-child)": "",
@@ -4185,7 +4186,6 @@
     "[class*=u-table-view_resizer__]": "",
     "[class*=u-table-view_cell__]": "",
     "[class*=u-table-view_cell__][ellipsis]": "",
-    "[class*=u-table-view_cell__][ellipsis]>div": "",
     "[class*=u-table-view_cell__][ellipsis]>*": "",
     "[class*=u-table-view_cell__][ellipsis]>div>*": "",
     "[class*=u-table-view_cell__][last-left-fixed]:after,[class*=u-table-view_cell__][first-right-fixed]:after": "",
@@ -4492,7 +4492,23 @@
     "[class*=u-table-view_expander_expander__] [class*=u-table-view_expander_before__]:focus,[class*=u-table-view_expander_expander__] [class*=u-table-view_expander_before__]._focus": "",
     "[class*=u-table-view_expander_expander__] [class*=u-table-view_expander_after__]:hover,[class*=u-table-view_expander_expander__] [class*=u-table-view_expander_after__]._hover": "",
     "[class*=u-table-view_expander_expander__] [class*=u-table-view_expander_after__]:active,[class*=u-table-view_expander_expander__] [class*=u-table-view_expander_after__]._active": "",
-    "[class*=u-table-view_expander_expander__] [class*=u-table-view_expander_after__]:focus,[class*=u-table-view_expander_expander__] [class*=u-table-view_expander_after__]._focus": ""
+    "[class*=u-table-view_expander_expander__] [class*=u-table-view_expander_after__]:focus,[class*=u-table-view_expander_expander__] [class*=u-table-view_expander_after__]._focus": "",
+    "[class*=u-table-view_cell__][ellipsis]>div:last-child": "",
+    "[class*=u-table-view_cell__][ellipsis]>div[class^=u-table-view_expander_expander__]+div": "",
+    "[class*=u-table-view_cell__][ellipsis]>div[class^=u-table-view_expander_expander__]+div>*": "",
+    "[class*=u-table-view_cell__][ellipsis]>div[class^=u-table-view_expander_expander__]+*": "",
+    "[class*=u-table-view_cell__]>div+div": "",
+    "[class*=u-table-view_cell__]>div+div:hover,[class*=u-table-view_cell__]>div+div._hover": "",
+    "[class*=u-table-view_cell__]>div+div:active,[class*=u-table-view_cell__]>div+div._active": "",
+    "[class*=u-table-view_cell__]>div+div:focus,[class*=u-table-view_cell__]>div+div._focus": "",
+    "[class*=u-table-view_cell__]>div+div>*": "",
+    "[class*=u-table-view_cell__]>div+div>*:hover,[class*=u-table-view_cell__]>div+div>*._hover": "",
+    "[class*=u-table-view_cell__]>div+div>*:active,[class*=u-table-view_cell__]>div+div>*._active": "",
+    "[class*=u-table-view_cell__]>div+div>*:focus,[class*=u-table-view_cell__]>div+div>*._focus": "",
+    "[class*=u-table-view_cell__]>div+*": "",
+    "[class*=u-table-view_cell__]>div+*:hover,[class*=u-table-view_cell__]>div+*._hover": "",
+    "[class*=u-table-view_cell__]>div+*:active,[class*=u-table-view_cell__]>div+*._active": "",
+    "[class*=u-table-view_cell__]>div+*:focus,[class*=u-table-view_cell__]>div+*._focus": ""
   },
   "UTextarea": {
     "[class*=u-textarea__]": "",
@@ -6175,7 +6191,6 @@
   },
   "UProcessButton": {
     "[class*=u-process-button__]>a": "",
-    "[class*=u-process-button_modalSize__][name=addSign] [class^=u-modal_dialog__]": "",
     "[class*=u-process-button_signOptionSection__]": "",
     "[class*=u-process-button_signOption__]": "",
     "[class*=u-process-button_signOption__] [class^=u-radios_radio_radio__]": "",
@@ -6195,7 +6210,8 @@
     "[class*=u-process-button_signOption__]:focus,[class*=u-process-button_signOption__]._focus": "",
     "[class*=u-process-button_signOption__] [class^=u-radios_radio_radio__]:hover,[class*=u-process-button_signOption__] [class^=u-radios_radio_radio__]._hover": "",
     "[class*=u-process-button_signOption__] [class^=u-radios_radio_radio__]:active,[class*=u-process-button_signOption__] [class^=u-radios_radio_radio__]._active": "",
-    "[class*=u-process-button_signOption__] [class^=u-radios_radio_radio__]:focus,[class*=u-process-button_signOption__] [class^=u-radios_radio_radio__]._focus": ""
+    "[class*=u-process-button_signOption__] [class^=u-radios_radio_radio__]:focus,[class*=u-process-button_signOption__] [class^=u-radios_radio_radio__]._focus": "",
+    "[class*=u-process-button_modalSize__][hasMoreAddSignOption] [class^=u-modal_dialog__]": ""
   },
   "UProcessInfo": {
     "[class*=u-process-info_item__]": "",
