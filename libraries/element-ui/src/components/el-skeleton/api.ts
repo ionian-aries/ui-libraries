@@ -100,6 +100,7 @@ namespace nasl.ui {
 
   @IDEExtraInfo({
     show: false,
+    ignore: true,
     "ideusage": {
       "idetype": "element",
       "parentAccept": "target.tag === 'template' && target.slotTarget ==='template'",

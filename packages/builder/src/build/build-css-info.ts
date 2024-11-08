@@ -14,13 +14,16 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
   const root = postcss.parse(cssContent);
 
   const mockStateRE = /:(hover|active|focus)/g;
-  const hashClassRE = /\.([a-zA-Z0-9][a-zA-Z0-9_-]*?)__[a-zA-Z0-9-]{6,}/g; // @TODO: 目前是两个下划线
+  const hashClassRE = /\.([a-zA-Z0-9][a-zA-Z0-9_-]*?)___[a-zA-Z0-9-]{6,}/g;
 
   // eslint-disable-next-line no-shadow
   const inferSelectorComponentName = options.reportCSSInfo?.inferSelectorComponentName || ((selector: string, componentNames: string[]) => {
-    return componentNames.find((name) => {
-      name = kebabCase(name);
-      return new RegExp(`^\\.${name}_|^\\[class\\*=${name}_`).test(selector);
+    return componentNames.find((componentName) => {
+      const prefixes = [kebabCase(componentName)];
+      if (prefixes[0].endsWith('-pro')) prefixes.push(prefixes[0].slice(0, -4));
+      prefixes.push(...(options.reportCSSInfo?.extraComponentMap?.[componentName]?.selectorPrefixes || []));
+
+      return new RegExp(prefixes.map((prefix) => `^\\.${prefix}(__|--|$|[ +>~\\.:\\[])|^\\[class\\*=${prefix}_`).join('|')).test(selector) && !/:(before|after)$|\[vusion-/.test(selector);
     });
   });
 
@@ -29,15 +32,22 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
     return cap ? subSelector.slice(0, (cap.index || subSelector.length - 1) + 1) : subSelector;
   }
 
+  const isStartRootSelector = options.reportCSSInfo?.isStartRootSelector || ((selector: string, componentName: string) => {
+    const prefixes = [kebabCase(componentName)];
+    if (prefixes[0].endsWith('-pro')) prefixes.push(prefixes[0].slice(0, -4));
+    return new RegExp(prefixes.map((prefix) => `^\\.${prefix}(--|$|[ +>~\\.:])|^\\[class\\*=${prefix}___`).join('|')).test(selector);
+  });
+
   const componentCSSInfoMap: Record<string, {
     cssRules: CSSRule[],
     cssRuleMap: Map<string, CSSRule>,
-    mainSelectorSet: Set<string>,
-    mainSelectors: string[],
+    mainSelectorMap: Map<string, boolean>,
   }> = {};
 
   root.nodes.forEach((node) => {
     if (node.type === 'rule') {
+      if (/\([^(),]+?(,[^(),]+?)+\)/.test(node.selector)) return; // 过滤掉含有逗号()的选择器
+
       let selectors = node.selector
         .replace(/\s+/g, ' ') // 抹平换行符
         .replace(/\s*([>+~,])\s*/g, '$1') // 统一去除空格
@@ -48,40 +58,52 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
 
       selectors = selectors
         .filter((sel) => !/^-(moz|webkit|ms|o)-|^_/.test(sel)) // 过滤掉浏览器前缀和 _ 开头的选择器
-        .map((sel) => sel.replace(hashClassRE, '[class*=$1__]')); // hash 类名改为 [class*=] 属性选择器
-
-      const mainSelectors: string[] = [];
-
-      selectors.forEach((selector) => {
-        let mainSelector = '';
-        const re = /[ +>~]/g;
-        let cap;
-        let lastIndex = 0;
-        while ((cap = re.exec(selector))) {
-          mainSelector += getMainSubSelector(selector.slice(lastIndex, cap.index)) + cap[0];
-          lastIndex = cap.index + 1;
-        }
-        mainSelector += getMainSubSelector(selector.slice(lastIndex));
-
-        mainSelectors.push(mainSelector);
-      });
+        .map((sel) => sel.replace(hashClassRE, '[class*=$1___]')); // hash 类名改为 [class*=] 属性选择器
 
       const selector = selectors.join(',');
       if (!selector) return;
 
       const componentName = inferSelectorComponentName?.(selector, componentNames);
-      if (!componentName) return;
+      if (!componentName) {
+        if (options.reportCSSInfo?.verbose) {
+          const tempComponentName = componentNames.find((name) => {
+            name = kebabCase(name);
+            return new RegExp(`^\\.${name}(_|-)|^\\[class\\*=${name}(_|-)`).test(selector) && !/:(before|after)$/.test(selector);
+          });
+          if (tempComponentName) console.log(`[WARN] 未匹配到组件 ${tempComponentName} 上的选择器: ${selector}`);
+          const tempComponentName2 = componentNames.find((name) => {
+            name = kebabCase(name);
+            return new RegExp(`^\\.${name}|^\\[class\\*=${name}`).test(selector) && !/:(before|after)$/.test(selector);
+          });
+          if (!tempComponentName && tempComponentName2) console.log(`[WARN] ==== 未匹配到组件 ${tempComponentName2} 上的选择器: ${selector}`);
+        }
+        return;
+      }
 
       const componentCSSInfo = componentCSSInfoMap[componentName] = componentCSSInfoMap[componentName] || {
         cssRules: [],
         cssRuleMap: new Map(),
-        mainSelectors: [],
-        mainSelectorSet: new Set(),
+        mainSelectorMap: new Map(),
       };
-      mainSelectors.forEach((mainSelector) => componentCSSInfo.mainSelectorSet.add(mainSelector));
-      if (options.reportCSSInfo?.addComponentMainSelectors?.[componentName]) {
-        options.reportCSSInfo.addComponentMainSelectors[componentName].forEach((mainSelector) => componentCSSInfo.mainSelectorSet.add(mainSelector));
-      }
+
+      selectors.forEach((sel) => {
+        let mainSelector = '';
+        const re = /[ +>~]/g;
+        let cap;
+        let lastIndex = 0;
+        while ((cap = re.exec(sel))) {
+          mainSelector += getMainSubSelector(sel.slice(lastIndex, cap.index)) + cap[0];
+          lastIndex = cap.index + 1;
+        }
+        mainSelector += getMainSubSelector(sel.slice(lastIndex));
+        if (mainSelector.endsWith(' *') || mainSelector.endsWith('>*')) return;
+
+        componentCSSInfo.mainSelectorMap.set(mainSelector, isStartRootSelector(mainSelector, componentName));
+      });
+      const optMainSelectorMap = options.reportCSSInfo?.extraComponentMap?.[componentName]?.mainSelectorMap;
+      optMainSelectorMap && Object.entries(optMainSelectorMap).forEach(([sel, value]) => {
+        componentCSSInfo.mainSelectorMap.set(sel, value);
+      });
 
       const parsedStyle: Record<SupportedCSSProperty, CSSValue> = {} as Record<SupportedCSSProperty, CSSValue>;
       node.nodes.forEach((decl) => {
@@ -208,7 +230,7 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
     const componentCSSInfo = componentCSSInfoMap[componentName];
 
     // eslint-disable-next-line no-restricted-syntax
-    for (const mainSelector of componentCSSInfo.mainSelectorSet) {
+    for (const mainSelector of componentCSSInfo.mainSelectorMap.keys()) {
       if (!componentCSSInfo.cssRuleMap.has(mainSelector)) {
         const cssRule: CSSRule = {
           selector: mainSelector,
@@ -227,7 +249,7 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
       };
       Object.keys(StateMap).forEach((state) => {
         const selector = `${mainSelector}:${state},${mainSelector}._${state}`;
-        const mainSelectorCSSRule = componentCSSInfo.cssRuleMap.get(mainSelector);
+        // const mainSelectorCSSRule = componentCSSInfo.cssRuleMap.get(mainSelector);
         // const mainSelectorDescription = cssRulesDesc[componentName]?.[mainSelector] || mainSelectorCSSRule?.description;
 
         if (!componentCSSInfo.cssRuleMap.has(selector)) {
@@ -252,10 +274,8 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
       if (!componentCSSInfo.cssRuleMap.has(selector)) delete cssDescMap[selector];
     });
 
-    componentCSSInfo.mainSelectors = Array.from(componentCSSInfo.mainSelectorSet);
-
     const finalComponentCSSInfo = componentCSSInfo as any;
-    delete finalComponentCSSInfo.mainSelectorSet;
+    finalComponentCSSInfo.mainSelectorMap = Object.fromEntries(componentCSSInfo.mainSelectorMap);
     delete finalComponentCSSInfo.cssRuleMap;
   });
   Object.keys(cssRulesDesc).forEach((componentName) => {
@@ -268,6 +288,7 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
 function collectComponentNames(componentList: any) {
   const componentNames: string[] = [];
   componentList.forEach((component) => {
+    if (component.ignore) return;
     componentNames.push(component.name);
     if (component.children) {
       componentNames.push(...collectComponentNames(component.children));

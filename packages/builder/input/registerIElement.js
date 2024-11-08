@@ -170,7 +170,7 @@ export default function registerIElement(methods, options = {}) {
 
   function getIElementResult() {
     const el = tempElement;
-    const filterText = !selectedElementState ? '' : `:${selectedElementState}`;
+    const filterText = !selectedElementState ? '' : `._${selectedElementState}`;
     const matchedSelectors = !el ? [] : selectors.filter((selector) => selector.includes(filterText) && el.matches(selector));
 
     return {
@@ -197,6 +197,10 @@ export default function registerIElement(methods, options = {}) {
 
   methods.changeIElementState = (state) => {
     selectedElementState = state;
+    if (tempElement) {
+      ['hover', 'active', 'focus'].forEach((_state) => tempElement.classList.remove(`_${_state}`));
+      state && tempElement.classList.add(`_${state}`);
+    }
     sendIElementResult();
   };
 

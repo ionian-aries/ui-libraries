@@ -50,6 +50,7 @@
 - :visited 叫 :已访问
 - 按钮等组件的 :active, .is-active 叫 :鼠标按下, tab 等组件的 .is-active 叫 :选中态
 - :after 伪元素叫 ::after, :before 伪元素叫 ::before
+- 不要拆分已经给定的选择器
 
 ## Question
 

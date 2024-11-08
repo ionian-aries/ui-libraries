@@ -41,8 +41,26 @@ export interface LcapBuildOptions {
   dependencies?: Dependency[];
   reportCSSInfo?: {
     enabled: true,
-    addComponentMainSelectors?: Map<string, string[]>;
+    verbose?: true,
+    extraComponentMap?: Record<string, {
+      /**
+       * 建议优先配置这个选项
+       * 额外补充组件下面的选择器前缀
+       * 默认前缀为组件名，ElIcon -> el-icon
+       * @example {
+          ElIcon: ['el-icon-loading'],
+          ElAutocomplete: ['el-autocomplete-suggestion'],
+        }
+       */
+      selectorPrefixes?: string[];
+      /**
+       * 额外补充主选择器
+       * true 表示为组件根节点，false 表示为组件内部的其他节点
+       */
+      mainSelectorMap?: Record<string, boolean>;
+    }>;
     inferSelectorComponentName?: (selector: string, componentNames: string[]) => string | undefined;
+    isStartRootSelector?: (selector: string, componentName: string) => boolean;
   };
 }
 

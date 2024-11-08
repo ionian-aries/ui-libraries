@@ -3,6 +3,7 @@
 namespace nasl.ui {
   @IDEExtraInfo({
     show: false,
+    ignore: true,
     "ideusage": {
       "idetype": "container",
       "structured": true,

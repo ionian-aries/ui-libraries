@@ -3,6 +3,7 @@
 namespace nasl.ui {
   @IDEExtraInfo({
     show: false,
+    ignore: true,
   })
   @Component({
     title: '颜色选择器',
