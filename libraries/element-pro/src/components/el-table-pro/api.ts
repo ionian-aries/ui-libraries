@@ -41,6 +41,13 @@ namespace nasl.ui {
     ideusage: {
       idetype: 'container',
       structured: true,
+      disableSlotAutoFill: [
+        {
+          slot: 'expandedRow',
+          expression: "!this.getAttribute('hasExpandedRow')?.value",
+        },
+      ],
+      forceUpdateWhenAttributeChange: true,
       dataSource: {
         display: 3,
         loopElem: 'table > tbody > tr',

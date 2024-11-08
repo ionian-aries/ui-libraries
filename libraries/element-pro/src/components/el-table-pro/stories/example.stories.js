@@ -15,14 +15,10 @@ export const Default = {
   render: () => ({
     // moud
     async mounted() {
-      // setTimeout(() => {
-      // this.type = 'multiple';
-      // this.selectedRowKeys.push(1);
-      // console.log('=====watch');
-      // this.rowspan = 3;
-      console.log('object');
-      // }, 3000);
-      this.list = await this.data();
+      setTimeout(() => {
+        this.hasExpandedRow = false;
+        console.log(123);
+      }, 3000);
     },
     watch: {
       selectedRowKeys(value) {
@@ -69,6 +65,7 @@ export const Default = {
             total,
           };
         },
+        hasExpandedRow: true,
         list: [],
         rowspan: 2,
         type: undefined,
@@ -104,11 +101,9 @@ export const Default = {
         //   };
         // }
         // return {};
-        console.count('merge');
         if (row?.rowspan?.[col.colKey] > 1) {
-          console.log(row, col, '===');
           return {
-            rowspan: 2,
+            rowspan: row.rowspan[col.colKey],
           };
         }
         // console.log('object2');
@@ -118,11 +113,11 @@ export const Default = {
     template: `<el-table-pro
     row-key="index"
    :dataSource="data"
+   :rowspanAndColspan="rowspanAndColspan"
    :selectedRowKeys.sync="selectedRowKeys"
    @sort-change="onSortChange"
    :onRowClick="log"
    dragSort="row"
-   height="300"
    :onDragSort="onDragSortChange"
     >
 
@@ -140,7 +135,11 @@ export const Default = {
    
     <el-table-column-pro title="渠道" colKey="createTime" width="300" > </el-table-column-pro>
      
-
+    <template #expanded-row="{ row }">
+      <div class="more-detail">
+        <p class="title"><b>集群名称:</b></p><p class="content">{{row.channel}}</p><br/>
+      </div>
+    </template> 
     </el-table-pro>`,
   }),
 };
