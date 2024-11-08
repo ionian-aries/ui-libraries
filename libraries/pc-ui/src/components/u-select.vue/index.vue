@@ -136,7 +136,7 @@
         </template>
       </template>
       <u-input
-        v-if="filterable"
+        v-if="filterable && !isPreview"
         :class="$style.input"
         ref="input"
         :readonly="readonly"
@@ -240,11 +240,35 @@
                     :class="$style.icon"
                     v-if="$at2(item, iconField)"
                     :src="$at2(item, iconField)" />
-                  {{ $at2(item, field || textField) }}
+                    <template v-if="optionIsSlot">
+                      <slot
+                        name="option"
+                        :item="item"
+                        :text="$at2(item, field || textField)"
+                        :value="$at2(item, valueField)"
+                        :disabled="item.disabled || disabled"
+                        :description="description ? $at2(item, descriptionField) : null"
+                        :icon="$at2(item, iconField)"
+                      >
+                        {{ $at2(item, field || textField) }}
+                      </slot>
+                    </template>
+                    <template  v-else>{{ $at2(item, field || textField) }}</template>
                 </span>
-                <template v-else>
-                  {{ $at2(item, field || textField) }}
+                <template v-else-if="optionIsSlot">
+                  <slot
+                    name="option"
+                    :item="item"
+                    :text="$at2(item, field || textField)"
+                    :value="$at2(item, valueField)"
+                    :disabled="item.disabled || disabled"
+                    :description="description ? $at2(item, descriptionField) : null"
+                    :icon="$at2(item, iconField)"
+                  >
+                    {{ $at2(item, field || textField) }}
+                  </slot>
                 </template>
+                <template v-else>{{ $at2(item, field || textField) }}</template>
               </slot>
             </component>
           </template>
@@ -365,6 +389,7 @@ export default {
 
     isItemDisplay: { type: Boolean, default: true },
     autoCheckSelectedValue: { type: Boolean, default: true },
+    optionIsSlot: { type: Boolean, default: false },
   },
   data() {
     return {
@@ -862,12 +887,17 @@ export default {
     },
     onRootBlur(e) {
       this.rootBlurTimer = setTimeout(() => {
-        if ((this.$refs.input && this.$refs.input.focused) || this.preventBlur)
+        if ((this.$refs.input && this.$refs.input.focused) || this.preventBlur) {
+          // 修复校验滞后的问题， 这里手动触发失焦 #2990019542459904
+          const validatorVM = this.validatorVM || this.formItemVM;
+          validatorVM && validatorVM.$emit('blur');
           return;
+        }
         if (this.preventRootBlur) return (this.preventRootBlur = false);
         this.close();
         this.$emit('blur', e);
       }, 400);
+
     },
     selectByText(text) {
       if (!text) return;

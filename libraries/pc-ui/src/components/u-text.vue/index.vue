@@ -77,6 +77,10 @@ export default {
     text-overflow: ellipsis;
 }
 
+.root[overflow="breakall"] {
+    word-break: break-all;
+}
+
 .root[overflow="break"], .root[wrap="break"] {
     word-wrap: break-word;
     hyphens: auto;

@@ -58,6 +58,10 @@ export default defineComponent({
     } = this;
 
     const renderItem = (node: TreeNode, index: number) => {
+      const optionLabelChild = renderElNodeJSXDefault('optionLabel', {
+        params: { item: node.data, index },
+      });
+
       const optionChild = node.data.content
         ? getDefaultNode(node.data.content(this.$createElement))
         : renderElNodeJSXDefault('option', {
@@ -72,6 +76,7 @@ export default defineComponent({
             props: {
               node,
               optionChild,
+              optionLabelChild,
               cascaderContext,
               onClick: () => {
                 emit('click', node.value, node);
