@@ -41,6 +41,13 @@ namespace nasl.ui {
     ideusage: {
       idetype: 'container',
       structured: true,
+      disableSlotAutoFill: [
+        {
+          slot: 'expandedRow',
+          expression: "!this.getAttribute('hasExpandedRow')?.value",
+        },
+      ],
+      forceUpdateWhenAttributeChange: true,
       dataSource: {
         display: 3,
         loopElem: 'table > tbody > tr',
@@ -130,6 +137,15 @@ namespace nasl.ui {
       // setter: { concept: 'InputSetter' },
     })
     selectedRowKeys: nasl.collection.List<V> | V;
+
+    @Prop({
+      group: '主要属性',
+      sync: true,
+      title: '展开值',
+      description: '展开行的值。',
+      // setter: { concept: 'InputSetter' },
+    })
+    expandedRowKeys: V;
 
     // @Prop({
     //   group: '主要属性',
@@ -395,14 +411,12 @@ namespace nasl.ui {
       title: '分页',
       description: '是否显示分页',
       setter: { concept: 'SwitchSetter' },
-      onChange: [{
-        clear: [
-          'pageSizeOptions',
-          'pageSize',
-          'page',
-        ],
-        if: (_) => !_,
-      }]
+      onChange: [
+        {
+          clear: ['pageSizeOptions', 'pageSize', 'page'],
+          if: (_) => !_,
+        },
+      ],
     })
     pagination: nasl.core.Boolean = true;
 
@@ -554,6 +568,14 @@ namespace nasl.ui {
 
     @Prop({
       group: '主要属性',
+      title: '开启虚拟滚动',
+      description: '是否开启表格虚拟滚动',
+      setter: { concept: 'SwitchSetter' },
+    })
+    virtual: nasl.core.Boolean = false;
+
+    @Prop({
+      group: '主要属性',
       title: '是否显示表头',
       description: '是否显示表头',
       setter: { concept: 'SwitchSetter' },
@@ -599,6 +621,44 @@ namespace nasl.ui {
       },
     })
     tableLayout: 'auto' | 'fixed' = 'fixed';
+
+    @Prop({
+      group: '数据属性',
+      title: '树形模式',
+      description: '以树形数据展示表格',
+      docDescription: '表格是否以树型方式展示。默认关闭',
+      setter: {
+        concept: 'SwitchSetter',
+      },
+    })
+    treeDisplay: nasl.core.Boolean = false;
+
+    @Prop<ElTableProOptions<T, V, P, M>, 'parentField'>({
+      group: '数据属性',
+      title: '父级值字段',
+      description:
+        '当数据源为平铺数据时自动生成树形数据的节点字段名，重要：值字段名需要一起配置',
+      docDescription:
+        '标识父节点字段名，用于标识表格行取哪个数据作为父级的判断，需同步配置“值字段名”。在"树行模式"属性开启时有效',
+      setter: {
+        concept: 'PropertySelectSetter',
+      },
+      if: (_) => _.treeDisplay === true,
+    })
+    parentField: (item: T) => any;
+
+    @Prop<ElTableProOptions<T, V, P, M>, 'checkStrictly'>({
+      group: '数据属性',
+      title: '关联选中类型',
+      description: '父子树节点是否关联选中',
+      docDescription:
+        '当选中父节点时，子节点是否相应选中等。在"树形模式"属性开启并且表格存在"多选列"时有效',
+      setter: {
+        concept: 'SwitchSetter',
+      },
+      if: (_) => _.treeDisplay === true,
+    })
+    checkStrictly: nasl.core.Boolean = false;
 
     // @Prop({
     //   group: '主要属性',
@@ -669,7 +729,7 @@ namespace nasl.ui {
       title: '行点击时触发',
       description: '行点击时触发',
     })
-    onRowClick: (event: any) => any;
+    onRowClick: (event: { item: T; index: nasl.core.Integer }) => any;
 
     @Event({
       title: '行双击时触发',
@@ -677,6 +737,20 @@ namespace nasl.ui {
     })
     onRowDblclick: (event: any) => any;
 
+    @Event({
+      title: '拖拽时触发',
+      description: '拖拽时触发',
+    })
+    onDragSort: (event: {
+      currentIndex: nasl.core.Integer;
+      current: T;
+      targetIndex: nasl.core.Integer;
+      target: T;
+      data: nasl.collection.List<T>;
+      newData: nasl.collection.List<T>;
+    }) => any;
+    // @row-dbclick='xxx'
+    // onRowClick="log"
     // @Event({
     //   title: 'On Row Mousedown',
     //   description: '鼠标在表格行按下时触发，',
@@ -724,6 +798,12 @@ namespace nasl.ui {
       ],
     })
     slotDefault: () => Array<ViewComponent>;
+
+    @Slot({
+      title: '展开行',
+      description: '表格列',
+    })
+    slotExpandedRow: (current: T) => Array<ViewComponent>;
 
     // @Event({
     //   title: 'On Scroll X',
@@ -984,6 +1064,25 @@ namespace nasl.ui {
       },
     })
     ellipsis: nasl.core.Boolean = false;
+
+    @Prop({
+      group: '主要属性',
+      title: 'Drag Sort',
+      description:
+        '拖拽排序方式，值为 `row` 表示行拖拽排序，这种方式无法进行文本复制，慎用。值为`row-handler` 表示通过拖拽手柄进行行拖拽排序。值为 `col` 表示列顺序拖拽。值为 `row-handler-col` 表示同时支持行拖拽和列拖拽。⚠️`drag-col` 已废弃，请勿使用。。可选项：row/row-handler/col/row-handler-col/drag-col',
+      setter: {
+        concept: 'EnumSelectSetter',
+        options: [
+          { title: '行拖拽' },
+          // { title: '列首拖拽' },
+          // { title: 'col' },
+          // { title: 'row-handler-col' },
+          { title: '关闭拖拽' },
+        ],
+      },
+    })
+    dragSort: 'row' | undefined;
+    // dragSort: 'row' | 'row-handler' | 'col' | 'row-handler-col' | 'drag-col';
 
     // @Prop({
     //   group: '主要属性',

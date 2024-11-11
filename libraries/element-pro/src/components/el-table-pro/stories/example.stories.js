@@ -16,11 +16,9 @@ export const Default = {
     // moud
     async mounted() {
       setTimeout(() => {
-        this.type = 'multiple';
-        this.selectedRowKeys.push(1);
-        console.log('=====watch');
+        this.hasExpandedRow = false;
+        console.log(123);
       }, 3000);
-      this.list = await this.data();
     },
     watch: {
       selectedRowKeys(value) {
@@ -31,13 +29,13 @@ export const Default = {
       return {
         data: async (params) => {
           const initialData = [];
-          const total = 5;
+          const total = 200;
           for (let i = 0; i < total; i++) {
             initialData.push({
               index: i,
               applicant: ['贾明', '张三', '王芳'][i % 3],
               status: i % 3,
-              channel: ['电子签署', '纸质签署', '纸质签署'][i % 3],
+              channel: ['电子签署', '电子签署', '纸质签署'][i % 3],
               detail: {
                 email: [
                   'w.cezkdudy@lhll.au',
@@ -55,18 +53,21 @@ export const Default = {
               createTime: [
                 '2022-01-01',
                 '2022-02-01',
+                '2022-02-01',
                 '2022-03-01',
                 '2022-04-01',
-                '2022-05-01',
               ][i % 4],
             });
           }
+
           return {
             list: initialData,
             total,
           };
         },
+        hasExpandedRow: true,
         list: [],
+        rowspan: 2,
         type: undefined,
         selectedRowKeys: [],
         columns: [
@@ -87,60 +88,58 @@ export const Default = {
       onSortChange(...arg) {
         console.log(arg, 'arg===');
       },
+      onDragSortChange(...arg) {
+        console.log(arg, 'arg===');
+      },
+      rowspanAndColspan({
+        row, col, rowIndex, colIndex,
+      }) {
+        // console.log(rowIndex,'rowIndex`');
+        // if (colIndex == 1 && rowIndex % this.rowspan == 0) {
+        //   return {
+        //     rowspan: this.rowspan,
+        //   };
+        // }
+        // return {};
+        if (row?.rowspan?.[col.colKey] > 1) {
+          return {
+            rowspan: row.rowspan[col.colKey],
+          };
+        }
+        // console.log('object2');
+        return {};
+      },
     },
     template: `<el-table-pro
     row-key="index"
    :dataSource="data"
+   :rowspanAndColspan="rowspanAndColspan"
    :selectedRowKeys.sync="selectedRowKeys"
    @sort-change="onSortChange"
+   :onRowClick="log"
+   dragSort="row"
+   :onDragSort="onDragSortChange"
     >
 
-    <el-table-column-pro title="申请人"  colKey="channel"   :sorter="true"  fixed= 'left'   :width="500">
+    <el-table-column-pro title="申请人" type="multiple"       >
     <template #cell="cell">
       <div>{{selectedRowKeys}}</div>
     </template>
     </el-table-column-pro>
 
-    
-    <el-table-column-pro title="渠道" colKey="channel"  :width="500" :sorter="true" fixed= 'left'>
-      <template #cell="cell">
-        <div>{{ cell.item.channel }}</div>
-      </template>
-    </el-table-column-pro>
-        <el-table-column-pro title="渠道" colKey="channel"  :width="500" :sorter="true" fixed= 'left' >
-    <template #cell="cell">
-      <div>{{ cell.item.channel }}</div>
-    </template>
-    </el-table-column-pro>
-
-     <el-table-column-pro title="渠道" colKey="channel"  :width="500" :sorter="true" fixed= 'left' >
-      <template #cell="cell">
-        <div>{{ cell.item.channel }}</div>
-      </template>
-    </el-table-column-pro>
-
-
-    <el-table-column-pro title="渠道" colKey="channel"  :width="500" :sorter="true" fixed= 'left' >
-    <template #cell="cell">
-      <div>{{ cell.item.channel }}</div>
-    </template>
-    </el-table-column-pro>
-
-
-    <el-table-column-pro title="渠道" colKey="channel"  :width="500" :sorter="true" fixed= 'left' >
-    <template #cell="cell">
-      <div>{{ cell.item.channel }}</div>
-    </template>
-    </el-table-column-pro>
-
-        <el-table-column-pro title="渠道" colKey="channel" :sorter="true" >
+        <el-table-column-pro title="渠道" colKey="channel" :sorter="true" :autoMerge="true" >
     <template #cell="cell">
       <div>{{ cell.item.channel }}</div>
     </template>
     </el-table-column-pro>
    
-    <el-table-column-pro title="渠道" colKey="time1" width="300">
-    </el-table-column-pro>
+    <el-table-column-pro title="渠道" colKey="createTime" width="300" > </el-table-column-pro>
+     
+    <template #expanded-row="{ row }">
+      <div class="more-detail">
+        <p class="title"><b>集群名称:</b></p><p class="content">{{row.channel}}</p><br/>
+      </div>
+    </template> 
     </el-table-pro>`,
   }),
 };
