@@ -2,7 +2,7 @@ import ElInputAdornmentPro from '../index';
 
 export default {
   id: 'el-input-adornment-pro-blocks',
-  title: '组件列表/InputAdornment 输入装饰器/内置区块',
+  title: 'Pro组件列表/InputAdornment 输入装饰器/内置区块',
   component: ElInputAdornmentPro,
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout

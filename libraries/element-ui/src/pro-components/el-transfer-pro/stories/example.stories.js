@@ -4,7 +4,7 @@ import ExampleDemo2 from '../demos/example-demo2.vue';
 
 export default {
   id: 'el-transfer-pro-examples',
-  title: '组件列表/Transfer 穿梭框/示例',
+  title: 'Pro组件列表/Transfer 穿梭框/示例',
   component: ElTransferPro,
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout

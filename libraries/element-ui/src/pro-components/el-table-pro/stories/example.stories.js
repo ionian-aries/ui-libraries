@@ -2,7 +2,7 @@ import ElTablePro from '../index';
 
 export default {
   id: 'el-table-pro-examples',
-  title: '组件列表/Table 表格/示例',
+  title: 'Pro组件列表/Table 表格/示例',
   component: ElTablePro,
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
@@ -132,14 +132,14 @@ export const Default = {
       <div>{{ cell.item.channel }}</div>
     </template>
     </el-table-column-pro>
-   
+
     <el-table-column-pro title="渠道" colKey="createTime" width="300" > </el-table-column-pro>
-     
+
     <template #expanded-row="{ row }">
       <div class="more-detail">
         <p class="title"><b>集群名称:</b></p><p class="content">{{row.channel}}</p><br/>
       </div>
-    </template> 
+    </template>
     </el-table-pro>`,
   }),
 };
