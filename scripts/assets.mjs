@@ -41,7 +41,6 @@ const libraries = [
   'libraries/mobile-ui',
   'libraries/pc-ui',
   'libraries/element-ui',
-  'libraries/element-pro',
 ];
 
 libraries.forEach((libPath) => {

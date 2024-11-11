@@ -34,10 +34,6 @@
       "eslint --cache --fix",
       "git add"
     ],
-    "libraries/element-pro/src/*.{ts,tsx,js}": [
-      "eslint --cache --fix",
-      "git add"
-    ],
     "packages/**/*.{ts,tsx,js,vue}": [
       "eslint --cache --fix",
       "git add"

@@ -27,6 +27,8 @@
     "noImplicitAny": false,
     "paths": {
       "@/*": ["./src/*"],
+      "@element-ui-icons": ["./design/icons/index.d.ts"],
+      "@element-pro": ["./design/index.ts"],
       "@components/*": ["./src/components/*"]
     }
   },

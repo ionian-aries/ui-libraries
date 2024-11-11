@@ -11,7 +11,7 @@ process.env.TZ = 'Asia/Shanghai';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => {
-  const componentVars = fs.readJSONSync('../element-pro/src/styles/variables/vars.json');
+  const componentVars = fs.readJSONSync('./src/styles/variables/vars.json');
 
   return {
     plugins: [
@@ -119,8 +119,8 @@ export default defineConfig(({ command }) => {
       ],
       alias: {
         '@': path.resolve(__dirname, './src'),
-        '@element-pro': path.resolve(__dirname, '../element-pro/design'),
-        '@element-ui-icons': path.resolve(__dirname, '../element-pro/design/icons/index.js'),
+        '@element-pro': path.resolve(__dirname, './design'),
+        '@element-ui-icons': path.resolve(__dirname, './design/icons/index.js'),
         'swiper/swiper-bundle.esm.js': path.resolve(
           __dirname,
           './node_modules/swiper/swiper-bundle.esm.js',

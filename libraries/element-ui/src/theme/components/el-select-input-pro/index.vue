@@ -3,7 +3,7 @@
 </template>
 <script>
 import createStoriesPreview from '@lcap/builder/input/vue2/stories-preview';
-import * as stories from '../../../components/el-tag-input-pro/stories/block.stories';
+import * as stories from '@/pro-components/el-select-input-pro/stories/block.stories';
 
 const DemoPreview = createStoriesPreview(stories);
 

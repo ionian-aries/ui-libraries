@@ -188,7 +188,7 @@ importers:
         version: 7.6.17(vitest@1.1.0(@types/node@20.11.26)(jsdom@23.0.1)(less@4.2.0)(terser@5.26.0))
       '@storybook/vue':
         specifier: ^7.6.17
-        version: 7.6.17(@babel/core@7.23.6)(css-loader@6.9.0(webpack@5.89.0(esbuild@0.18.20)))(vue@2.6.12)
+        version: 7.6.17(@babel/core@7.23.6)(css-loader@6.9.0(webpack@5.89.0))(vue@2.6.12)
       '@testing-library/vue':
         specifier: '5'
         version: 5.9.0(vue-template-compiler@2.6.12)(vue@2.6.12)
@@ -264,12 +264,6 @@ importers:
 
   libraries/element-ui:
     dependencies:
-      '@joskii/jflow-core':
-        specifier: ^0.1.22
-        version: 0.1.24
-      '@joskii/jflow-vue2-plugin':
-        specifier: ^0.1.1
-        version: 0.1.1(@joskii/jflow-core@0.1.24)(vue@2.6.12)
       '@lcap/validator':
         specifier: workspace:*
         version: link:../../packages/validator
@@ -279,33 +273,75 @@ importers:
       '@nasl/ast-mini':
         specifier: 3.9.0-beta
         version: 3.9.0-beta
+      '@popperjs/core':
+        specifier: ^2.4.0
+        version: 2.11.8
+      '@types/clipboard':
+        specifier: ^2.0.1
+        version: 2.0.7
+      '@types/lodash':
+        specifier: 4.14.182
+        version: 4.14.182
+      '@types/raf':
+        specifier: ^3.4.0
+        version: 3.4.3
+      '@types/sortablejs':
+        specifier: ^1.10.7
+        version: 1.15.8
+      '@types/tinycolor2':
+        specifier: ^1.4.3
+        version: 1.4.6
+      '@types/validator':
+        specifier: ^13.1.3
+        version: 13.11.8
       '@vue/babel-helper-vue-jsx-merge-props':
         specifier: ^1.4.0
         version: 1.4.0
       '@vue/composition-api':
         specifier: ^1.7.2
         version: 1.7.2(vue@2.6.12)
+      classnames:
+        specifier: ^2.2.6
+        version: 2.5.1
+      clipboard:
+        specifier: ^2.0.8
+        version: 2.0.11
+      dayjs:
+        specifier: 1.11.10
+        version: 1.11.10
       element-ui:
         specifier: ^2.15.14
         version: 2.15.14(vue@2.6.12)
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
+      mitt:
+        specifier: ^3.0.0
+        version: 3.0.1
       normalize.css:
         specifier: ^7.0.0
         version: 7.0.0
       online-svg-icon-vue2:
         specifier: ^1.2.3
         version: 1.2.3
-      remixicon:
-        specifier: ^4.2.0
-        version: 4.2.0
+      raf:
+        specifier: ^3.4.1
+        version: 3.4.1
+      sortablejs:
+        specifier: ^1.15.0
+        version: 1.15.2
       swiper:
         specifier: ^7.4.1
         version: 7.4.1
+      tinycolor2:
+        specifier: ^1.4.2
+        version: 1.6.0
       uid:
         specifier: ^2.0.2
         version: 2.0.2
+      validator:
+        specifier: ^13.5.1
+        version: 13.11.0
     devDependencies:
       '@babel/plugin-proposal-nullish-coalescing-operator':
         specifier: ^7.18.6
@@ -316,9 +352,6 @@ importers:
       '@lcap/builder':
         specifier: workspace:*
         version: link:../../packages/builder
-      '@lcap/element-pro':
-        specifier: workspace:*
-        version: link:../element-pro
       '@lcap/storybook-vue-vite':
         specifier: workspace:*
         version: link:../../packages/storybook-vue-vite
@@ -351,16 +384,13 @@ importers:
         version: 7.6.17(vitest@1.1.0(@types/node@20.11.26)(jsdom@23.0.1)(less@4.2.0)(terser@5.26.0))
       '@storybook/vue':
         specifier: ^7.6.17
-        version: 7.6.17(@babel/core@7.23.6)(css-loader@6.9.0(webpack@5.89.0(esbuild@0.18.20)))(vue@2.6.12)
+        version: 7.6.17(@babel/core@7.23.6)(css-loader@6.9.0(webpack@5.89.0))(vue@2.6.12)
       '@testing-library/vue':
         specifier: '5'
         version: 5.9.0(vue-template-compiler@2.6.12)(vue@2.6.12)
       '@types/fs-extra':
         specifier: ^11.0.4
         version: 11.0.4
-      '@types/lodash':
-        specifier: ^4.14.202
-        version: 4.14.202
       '@vant/area-data':
         specifier: 1.1.1
         version: 1.1.1
@@ -535,7 +565,7 @@ importers:
         version: 7.6.17(vitest@1.1.0(@types/node@20.11.26)(jsdom@23.0.1)(less@4.2.0)(terser@5.26.0))
       '@storybook/vue':
         specifier: ^7.6.17
-        version: 7.6.17(@babel/core@7.23.6)(css-loader@6.9.0(webpack@5.89.0(esbuild@0.18.20)))(vue@2.6.12)
+        version: 7.6.17(@babel/core@7.23.6)(css-loader@6.9.0(webpack@5.89.0))(vue@2.6.12)
       '@types/fs-extra':
         specifier: ^11.0.4
         version: 11.0.4
@@ -867,7 +897,7 @@ importers:
         version: 7.6.17(vitest@1.1.0(@types/node@20.11.26)(jsdom@23.0.1)(less@4.2.0)(terser@5.26.0))
       '@storybook/vue':
         specifier: ^7.6.17
-        version: 7.6.17(@babel/core@7.23.6)(css-loader@6.9.0(webpack@5.89.0(esbuild@0.18.20)))(vue@2.6.12)
+        version: 7.6.17(@babel/core@7.23.6)(css-loader@6.9.0(webpack@5.89.0))(vue@2.6.12)
       '@testing-library/vue':
         specifier: '5'
         version: 5.9.0(vue-template-compiler@2.6.12)(vue@2.6.12)
@@ -4474,6 +4504,7 @@ packages:
 
   acorn-import-assertions@1.9.0:
     resolution: {integrity: sha512-cmMwop9x+8KFhxvKrKfPYmN6/pKTYYHBqLa0DfvVZcKMJWNyWLnaqND7dx/qn66R7ewM1UX5XMaDVP5wlVTaVA==}
+    deprecated: package has been renamed to acorn-import-attributes
     peerDependencies:
       acorn: ^8
 
@@ -13477,6 +13508,23 @@ snapshots:
       - encoding
       - supports-color
 
+  '@storybook/vue@7.6.17(@babel/core@7.23.6)(css-loader@6.9.0(webpack@5.89.0))(vue@2.6.12)':
+    dependencies:
+      '@babel/core': 7.23.6
+      '@storybook/client-logger': 7.6.17
+      '@storybook/core-client': 7.6.17
+      '@storybook/docs-tools': 7.6.17
+      '@storybook/global': 5.0.0
+      '@storybook/preview-api': 7.6.17
+      '@storybook/types': 7.6.17
+      css-loader: 6.9.0(webpack@5.89.0)
+      ts-dedent: 2.2.0
+      type-fest: 2.19.0
+      vue: 2.6.12
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+
   '@swc/core-darwin-arm64@1.6.1':
     optional: true
 
@@ -15600,6 +15648,18 @@ snapshots:
       postcss-value-parser: 4.2.0
       semver: 7.6.0
       webpack: 5.89.0(esbuild@0.18.20)
+
+  css-loader@6.9.0(webpack@5.89.0):
+    dependencies:
+      icss-utils: 5.1.0(postcss@8.4.35)
+      postcss: 8.4.35
+      postcss-modules-extract-imports: 3.0.0(postcss@8.4.35)
+      postcss-modules-local-by-default: 4.0.3(postcss@8.4.35)
+      postcss-modules-scope: 3.1.0(postcss@8.4.35)
+      postcss-modules-values: 4.0.0(postcss@8.4.35)
+      postcss-value-parser: 4.2.0
+      semver: 7.6.0
+      webpack: 5.89.0
 
   css-select@5.1.0:
     dependencies:
@@ -20198,6 +20258,15 @@ snapshots:
     optionalDependencies:
       esbuild: 0.18.20
 
+  terser-webpack-plugin@5.3.10(webpack@5.89.0):
+    dependencies:
+      '@jridgewell/trace-mapping': 0.3.20
+      jest-worker: 27.5.1
+      schema-utils: 3.3.0
+      serialize-javascript: 6.0.2
+      terser: 5.26.0
+      webpack: 5.89.0
+
   terser@5.26.0:
     dependencies:
       '@jridgewell/source-map': 0.3.5
@@ -20834,6 +20903,37 @@ snapshots:
   webpack-sources@3.2.3: {}
 
   webpack-virtual-modules@0.6.1: {}
+
+  webpack@5.89.0:
+    dependencies:
+      '@types/eslint-scope': 3.7.7
+      '@types/estree': 1.0.5
+      '@webassemblyjs/ast': 1.11.6
+      '@webassemblyjs/wasm-edit': 1.11.6
+      '@webassemblyjs/wasm-parser': 1.11.6
+      acorn: 8.11.2
+      acorn-import-assertions: 1.9.0(acorn@8.11.2)
+      browserslist: 4.22.2
+      chrome-trace-event: 1.0.3
+      enhanced-resolve: 5.15.0
+      es-module-lexer: 1.4.1
+      eslint-scope: 5.1.1
+      events: 3.3.0
+      glob-to-regexp: 0.4.1
+      graceful-fs: 4.2.11
+      json-parse-even-better-errors: 2.3.1
+      loader-runner: 4.3.0
+      mime-types: 2.1.35
+      neo-async: 2.6.2
+      schema-utils: 3.3.0
+      tapable: 2.2.1
+      terser-webpack-plugin: 5.3.10(webpack@5.89.0)
+      watchpack: 2.4.0
+      webpack-sources: 3.2.3
+    transitivePeerDependencies:
+      - '@swc/core'
+      - esbuild
+      - uglify-js
 
   webpack@5.89.0(esbuild@0.18.20):
     dependencies:
