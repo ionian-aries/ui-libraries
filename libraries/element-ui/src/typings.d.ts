@@ -13,10 +13,6 @@ declare module '*.vue' {
   export default options;
 }
 
-declare module '@lcap/element-pro' {
-  export {};
-}
-
 declare namespace nasl.ui {
   export interface IDEExtraInfoOptions {
     show?: boolean;

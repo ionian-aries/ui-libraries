@@ -90,16 +90,6 @@ export default defineConfig(({ command }) => {
           //     };
           //   },
           // },
-          {
-            name: '@lcap/element-pro',
-            rootPath: path.resolve(__dirname, '../element-pro'),
-            // config: (c) => {
-            //   return {
-            //     ...c,
-            //     show: false,
-            //   };
-            // },
-          },
         ],
       }),
     ],
