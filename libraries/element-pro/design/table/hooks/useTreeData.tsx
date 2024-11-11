@@ -92,7 +92,7 @@ export default function useTreeData(props: ElEnhancedTableProps, context: SetupC
   });
 
   watch(
-    () => [columns, props.tree?.treeNodeColumnIndex],
+    () => [columns.value, props.tree?.treeNodeColumnIndex],
     () => {
       treeNodeCol.value = getTreeNodeColumnCol();
     },

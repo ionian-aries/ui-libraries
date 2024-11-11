@@ -2,7 +2,9 @@
 /* 组件功能扩展插件 */
 // export {};
 import _, { isFunction, isNil } from 'lodash';
-import { computed, ref, watch, onMounted } from '@vue/composition-api';
+import {
+  computed, ref, watch, onMounted,
+} from '@vue/composition-api';
 import { SelectOptions } from '@element-pro';
 import { listToTree } from '@lcap/vue2-utils/utils';
 import { $ref, $render, createUseUpdateSync } from '@lcap/vue2-utils';
@@ -32,13 +34,11 @@ export const useTable: NaslComponentPluginOptions = {
     const current = props.useRef('page', (v) => v ?? 1);
     const pageSize = props.useRef('pageSize', (v) => v ?? 10);
     const sorting = props.useComputed('sorting', (value) => value);
-    const tree = props.useComputed('treeDisplay', (value) =>
-      value
-        ? {
-            childrenKey: 'chiildren',
-          }
-        : undefined,
-    );
+    const tree = props.useComputed('treeDisplay', (value) => (value
+      ? {
+        childrenKey: 'chiildren',
+      }
+      : undefined));
 
     const data = props.useComputed('data', (v) => {
       const treeDisplay = props.get('treeDisplay');
@@ -56,8 +56,8 @@ export const useTable: NaslComponentPluginOptions = {
     const rowspanAndColspan = ({ row, col }) => {
       return row?.rowspan?.[col.colKey] > 1
         ? {
-            rowspan: row?.rowspan?.[col.colKey],
-          }
+          rowspan: row?.rowspan?.[col.colKey],
+        }
         : {};
     };
     watch(
@@ -71,8 +71,7 @@ export const useTable: NaslComponentPluginOptions = {
             let rowspan = 1;
             for (let i = index + 1; i < data.length; i++) {
               const isPreMerge = item.rowspan?.[field.colKey];
-              if (isPreMerge || data[i][field.colKey] !== item[field.colKey])
-                break;
+              if (isPreMerge || data[i][field.colKey] !== item[field.colKey]) break;
               rowspan++;
               item.rowspan = _.merge(item.rowspan, { [field.colKey]: true });
             }
@@ -92,24 +91,21 @@ export const useTable: NaslComponentPluginOptions = {
 
         const titleProps = _.isFunction(title)
           ? {
-              title: (h, { row, rowIndex, col }) =>
-                title({ row, index: rowIndex, col }),
-            }
+            title: (h, { row, rowIndex, col }) => title({ row, index: rowIndex, col }),
+          }
           : {};
 
         const cellRender = _.cond([
           [
             _.conforms({ cell: _.isFunction, type: _.isNil }),
             _.constant({
-              cell: (h, { row, rowIndex, col }) =>
-                cell({ item: row, index: rowIndex, col }),
+              cell: (h, { row, rowIndex, col }) => cell({ item: row, index: rowIndex, col }),
             }),
           ],
           [
             _.matches({ type: 'number' }),
             _.constant({
-              cell: (h, { row, rowIndex }) =>
-                pageSize.value * (current.value - 1) + rowIndex + 1,
+              cell: (h, { row, rowIndex }) => pageSize.value * (current.value - 1) + rowIndex + 1,
             }),
           ],
           [_.conforms({ type: _.isString }), _.constant({})],
@@ -127,9 +123,7 @@ export const useTable: NaslComponentPluginOptions = {
         ];
       });
     };
-    const scroll = props.useComputed('virtual', (value) =>
-      value ? { scroll: { type: 'virtual' } } : {},
-    );
+    const scroll = props.useComputed('virtual', (value) => (value ? { scroll: { type: 'virtual' } } : {}));
 
     const onLoadData = props.get('onLoadData');
 
@@ -181,9 +175,7 @@ export const useTable: NaslComponentPluginOptions = {
     });
 
     // 产品要求默认开边框
-    const bordered = props.useComputed('bordered', (v) =>
-      isNil(v) ? true : v,
-    );
+    const bordered = props.useComputed('bordered', (v) => (isNil(v) ? true : v));
 
     const onSortChange = props.useComputed('onSortChange', (value) => {
       return (...arg) => {
@@ -213,10 +205,10 @@ export const useTable: NaslComponentPluginOptions = {
       onPageChange,
       ...scroll.value,
       pagination,
-      // tree,
-      tree: {
-        childrenKey: 'chiildren',
-      },
+      tree,
+      // tree: {
+      //   childrenKey: 'chiildren',
+      // },
       rowspanAndColspan,
       onSortChange,
       bordered,
@@ -249,8 +241,7 @@ export const useTable: NaslComponentPluginOptions = {
       [$render](resultVNode) {
         const vnodes = ctx.setupContext.slots?.default?.();
         const columns = renderSlot(vnodes);
-        autoMergeFields.value =
-          columns?.filter?.((item) => item.autoMerge) ?? [];
+        autoMergeFields.value = columns?.filter?.((item) => item.autoMerge) ?? [];
         resultVNode.componentOptions.propsData.columns = columns;
         return resultVNode;
       },
