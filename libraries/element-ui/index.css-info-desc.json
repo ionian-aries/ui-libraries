@@ -3935,9 +3935,6 @@
     ".el-transfer__button:nth-child(2)": "穿梭框按钮:第二个",
     ".el-transfer__button i,.el-transfer__button span": "穿梭框按钮>图标或文本",
     ".el-transfer__button [class*=el-icon-]+span": "穿梭框按钮>图标+文本",
-    ".el-transfer.cw-style-height .el-transfer-panel__body": "穿梭框:自定义高度>面板主体",
-    ".el-transfer.cw-style-height .el-transfer-panel__body .el-transfer-panel__list": "穿梭框:自定义高度>面板主体>列表",
-    ".el-transfer.cw-style-height .el-transfer-panel__body .el-transfer-panel__list.is-filterable": "穿梭框:自定义高度>面板主体>可筛选列表",
     ".el-transfer:hover,.el-transfer._hover": "穿梭框:鼠标移入",
     ".el-transfer:active,.el-transfer._active": "穿梭框:鼠标按下",
     ".el-transfer:focus,.el-transfer._focus": "穿梭框:获得焦点",
@@ -3957,15 +3954,7 @@
     ".el-transfer__button span:focus,.el-transfer__button span._focus": "穿梭框按钮>文本:获得焦点",
     ".el-transfer__button [class*=el-icon-]+span:hover,.el-transfer__button [class*=el-icon-]+span._hover": "穿梭框按钮>图标+文本:鼠标移入",
     ".el-transfer__button [class*=el-icon-]+span:active,.el-transfer__button [class*=el-icon-]+span._active": "穿梭框按钮>图标+文本:鼠标按下",
-    ".el-transfer__button [class*=el-icon-]+span:focus,.el-transfer__button [class*=el-icon-]+span._focus": "穿梭框按钮>图标+文本:获得焦点",
-    ".el-transfer .el-transfer-panel__body": "穿梭框>面板主体",
-    ".el-transfer .el-transfer-panel__body:hover,.el-transfer .el-transfer-panel__body._hover": "穿梭框>面板主体:鼠标移入",
-    ".el-transfer .el-transfer-panel__body:active,.el-transfer .el-transfer-panel__body._active": "穿梭框>面板主体:鼠标按下",
-    ".el-transfer .el-transfer-panel__body:focus,.el-transfer .el-transfer-panel__body._focus": "穿梭框>面板主体:获得焦点",
-    ".el-transfer .el-transfer-panel__body .el-transfer-panel__list": "穿梭框>面板主体>列表",
-    ".el-transfer .el-transfer-panel__body .el-transfer-panel__list:hover,.el-transfer .el-transfer-panel__body .el-transfer-panel__list._hover": "穿梭框>面板主体>列表:鼠标移入",
-    ".el-transfer .el-transfer-panel__body .el-transfer-panel__list:active,.el-transfer .el-transfer-panel__body .el-transfer-panel__list._active": "穿梭框>面板主体>列表:鼠标按下",
-    ".el-transfer .el-transfer-panel__body .el-transfer-panel__list:focus,.el-transfer .el-transfer-panel__body .el-transfer-panel__list._focus": "穿梭框>面板主体>列表:获得焦点"
+    ".el-transfer__button [class*=el-icon-]+span:focus,.el-transfer__button [class*=el-icon-]+span._focus": "穿梭框按钮>图标+文本:获得焦点"
   },
   "ElCheckboxPro": {
     ".el-checkbox": "多选框",
