@@ -5,8 +5,8 @@ import * as babelTypes from '@babel/types';
 import generate from '@babel/generator';
 import traverse from '@babel/traverse';
 import fs from 'fs-extra';
-import type { ViewComponentDeclaration } from '@nasl/types/nasl.ui.ast';
 import path from 'path';
+import type { ViewComponentDeclaration } from '@nasl/types/nasl.ui.ast';
 import { execSync } from '../utils/exec';
 import logger from '../utils/logger';
 import { LcapBuildOptions } from './types';
@@ -34,7 +34,15 @@ function getDtsPath(options: LcapBuildOptions) {
 
 async function getMetaInfo(options: LcapBuildOptions) {
   const isExtension = options.type === 'extension';
-  const tsCode = await fs.readFile(getDtsPath(options), 'utf-8');
+  const dstPath = getDtsPath(options);
+  if (!fs.existsSync(dstPath)) {
+    return {
+      code: '',
+      componentMap: {},
+    };
+  }
+
+  const tsCode = await fs.readFile(dstPath, 'utf-8');
   const componentMap: Record<string, ViewComponentDeclaration> = {};
 
   if (isExtension) {

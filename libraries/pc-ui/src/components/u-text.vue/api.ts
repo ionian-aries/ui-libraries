@@ -53,11 +53,10 @@ namespace nasl.ui {
             docDescription: '文本过长的处理方式，支持默认不处理、多余的文本省略、强制换行且英文自动添加换行符、始终不换行共四种隐藏处理方式，缺省情况为默认不处理',
             setter: {
                 concept: 'EnumSelectSetter',
-                options: [{ title: '默认不处理' }, { title: '多余的文本省略' }, { title: '强制换行且英文自动添加换行符' }, { title: '始终不换行' }],
+                options: [{ title: '默认不处理' }, { title: '多余的文本省略' }, { title: '换行且强制截断单词和数字' }, { title: '换行但保持单词和数字的完整性' }, { title: '始终不换行' }],
             },
         })
-        overflow: 'normal' | 'ellipsis' | 'break' | 'nowrap' = 'normal';
-
+        overflow: 'normal' | 'ellipsis' | 'breakall' | 'break' | 'nowrap' = 'normal';
         @Prop({
             group: '样式属性',
             title: '尺寸',

@@ -145,14 +145,27 @@ namespace nasl.ui {
         })
         textField: (item: T) => any;
 
+        @Prop<USelectOptions<T, V, P, M, C>, 'optionIsSlot'>({
+          group: '数据属性',
+          title: '动态选项插槽',
+          description: '自定义选项内容',
+          docDescription: '自定义选项内容',
+          setter: {
+            concept: 'SwitchSetter'
+          },
+          bindHide: true,
+          if: (_) => !!_.dataSource,
+        })
+        optionIsSlot: nasl.core.Boolean;
+
         @Prop<USelectOptions<T, V, P, M, C>, 'valueField'>({
-            group: '数据属性',
-            title: '值字段',
-            description: '集合的元素类型中，用于标识选中值的属性',
-            docDescription: '集合的元素类型中，用于标识选中值的属性，支持自定义变更',
-            setter: {
-                concept: 'PropertySelectSetter',
-            },
+          group: '数据属性',
+          title: '值字段',
+          description: '集合的元素类型中，用于标识选中值的属性',
+          docDescription: '集合的元素类型中，用于标识选中值的属性，支持自定义变更',
+          setter: {
+              concept: 'PropertySelectSetter',
+          },
         })
         valueField: (item: T) => V = ((item: any)  => item.value) as any;
 
@@ -778,8 +791,8 @@ namespace nasl.ui {
                     code: '<u-select-item><u-text text="选项"></u-text></u-select-item>',
                 },
                 {
-                    title: '分组',
-                    code: '<u-select-group><template #title><u-text text="分组"></u-text></template><u-select-item><u-text text="选项"></u-text></u-select-item></u-select-group>',
+                    title: '选项组',
+                    code: '<u-select-group><template #title><u-text text="选项组"></u-text></template><u-select-item><u-text text="选项"></u-text></u-select-item></u-select-group>',
                 },
                 {
                     title: '分隔线',
@@ -790,14 +803,20 @@ namespace nasl.ui {
         slotDefault: () => Array<USelectItem<T, V> | USelectGroup<T, V> | USelectDivider>;
 
         @Slot({
+          title: '选项内容',
+          description: '自定义选项内容',
+        })
+        slotOption: (current: Current<T>) => Array<ViewComponent>;
+
+        @Slot({
             title: '底部',
         })
         slotRenderFooter: () => Array<ViewComponent>;
     }
 
     @Component({
-        title: '选择项',
-        description: '选择项',
+        title: '选择器选项',
+        description: '选择器选项',
     })
     export class USelectItem<T, V> extends ViewComponent {
 
@@ -870,8 +889,8 @@ namespace nasl.ui {
     }
 
     @Component({
-        title: '选择分组',
-        description: '选择分组',
+        title: '选择器选项组',
+        description: '选择器选项组',
     })
     export class USelectGroup<T, V> extends ViewComponent {
 

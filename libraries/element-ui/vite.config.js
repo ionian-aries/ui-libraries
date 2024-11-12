@@ -11,7 +11,7 @@ process.env.TZ = 'Asia/Shanghai';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => {
-  const componentVars = fs.readJSONSync('../element-pro/src/styles/variables/vars.json');
+  const componentVars = fs.readJSONSync('./src/styles/variables/vars.json');
 
   return {
     plugins: [
@@ -34,6 +34,51 @@ export default defineConfig(({ command }) => {
         //   useOldCssVarParser: true,
         // },
         i18n: {},
+        reportCSSInfo: {
+          enabled: true,
+          verbose: false,
+          extraComponentMap: {
+            ElIcon: {
+              selectorPrefixes: ['el-icon-loading'],
+            },
+            ElAutocomplete: {
+              selectorPrefixes: ['el-autocomplete-suggestion'],
+            },
+            ElDropdown: {
+              selectorPrefixes: ['el-dropdown-menu'],
+            },
+            ElMenu: {
+              selectorPrefixes: ['el-menu-item-group'],
+            },
+            ElSelect: {
+              selectorPrefixes: ['el-select-dropdown', 'el-select-group'],
+            },
+            ElTable: {
+              selectorPrefixes: ['el-table-filter'],
+            },
+            ElTree: {
+              selectorPrefixes: ['el-tree-node'],
+            },
+            ElUpload: {
+              selectorPrefixes: ['el-upload-dragger', 'el-upload-list', 'el-upload-cover'],
+            },
+            ElProgress: {
+              selectorPrefixes: ['el-progress-bar'],
+            },
+            ElTransfer: {
+              selectorPrefixes: ['el-transfer-panel'],
+            },
+            ElImage: {
+              selectorPrefixes: ['el-image-preview'],
+            },
+            ElCalendar: {
+              selectorPrefixes: ['el-calendar-table'],
+            },
+            ElCascader: {
+              selectorPrefixes: ['el-cascader-menu', 'el-cascader-node'],
+            },
+          },
+        },
         dependencies: [
           // {
           //   name: '@lcap/pc-ui',
@@ -45,16 +90,6 @@ export default defineConfig(({ command }) => {
           //     };
           //   },
           // },
-          {
-            name: '@lcap/element-pro',
-            rootPath: path.resolve(__dirname, '../element-pro'),
-            // config: (c) => {
-            //   return {
-            //     ...c,
-            //     show: false,
-            //   };
-            // },
-          },
         ],
       }),
     ],
@@ -74,8 +109,8 @@ export default defineConfig(({ command }) => {
       ],
       alias: {
         '@': path.resolve(__dirname, './src'),
-        '@element-pro': path.resolve(__dirname, '../element-pro/design'),
-        '@element-ui-icons': path.resolve(__dirname, '../element-pro/design/icons/index.js'),
+        '@element-pro': path.resolve(__dirname, './design'),
+        '@element-ui-icons': path.resolve(__dirname, './design/icons/index.js'),
         'swiper/swiper-bundle.esm.js': path.resolve(
           __dirname,
           './node_modules/swiper/swiper-bundle.esm.js',

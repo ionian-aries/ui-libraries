@@ -1,4 +1,5 @@
 import _throttle from 'lodash/throttle';
+import _isNil from 'lodash/isNil';
 
 import { createNamespace } from '../utils';
 import EmptyCol from '../emptycol';
@@ -6,6 +7,7 @@ import Loading from '../loading';
 
 const [createComponent, bem] = createNamespace('linear-layout');
 
+const GapEnums = ['shrink', 'none', 'mini', 'small', 'large', 'normal'];
 
 export default createComponent({
   props: {
@@ -32,6 +34,9 @@ export default createComponent({
     wrap: {
       type: Boolean,
       default: true,
+    },
+    gap: {
+      type: [String, Number],
     },
   },
   data() {
@@ -83,9 +88,54 @@ export default createComponent({
         clientWidth,
       });
     },
+    getGapAttrValue() {
+      if (_isNil(this.gap)) {
+        return undefined;
+      }
+
+      return GapEnums.includes(this.gap) ? this.gap : 'normal';
+    },
+    getSpaceBaseValue() {
+      const val = this.$vnode.data.staticStyle && this.$vnode.data.staticStyle['--van-space-base'];
+
+      if (val) {
+        return val;
+      }
+
+      return this.$vnode.data.style && this.$vnode.data.style['--van-space-base'];
+    },
+    setGapStyle(children) {
+      const elements = children.filter((child) => child.tag && child.data);
+
+      elements.forEach((child, i) => {
+        if (elements.length === (i + 1)) {
+          return;
+        }
+        if (!child.data.staticStyle) {
+          child.data.staticStyle = {};
+        }
+
+        const gapProp = this.direction === 'horizontal' ? 'margin-right' : 'margin-bottom';
+
+        if (
+          this.gap
+          && (this.gap === 'normal' || !GapEnums.includes(this.gap))
+          && !child.data.staticStyle[gapProp]
+        ) {
+          const spaceBaseValue = this.getSpaceBaseValue();
+          if (this.gap === 'normal' && spaceBaseValue) {
+            child.data.staticStyle[gapProp] = spaceBaseValue;
+          } else {
+            child.data.staticStyle[gapProp] = typeof this.gap === 'number' ? `${this.gap}px` : this.gap;
+          }
+        }
+      });
+    },
     renderSlot() {
       if (this.slots()) {
-        return this.slots();
+        const children = this.slots();
+        this.setGapStyle(children);
+        return children;
       }
 
       if (this.inDesigner()) {
@@ -128,6 +178,7 @@ export default createComponent({
         direction={this.direction}
         nowrap={!this.wrap}
         vusion-slot-name="default"
+        gap={this.getGapAttrValue()}
         {...{
           on: { ...this.$listeners },
         }}

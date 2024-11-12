@@ -33,6 +33,18 @@ export default defineConfig(({ command }) => {
           'en-US': './src/locale/lang/en-US.json',
           ja: './src/locale/lang/ja.json',
         },
+        reportCSSInfo: {
+          enabled: true,
+          verbose: false,
+          extraComponentMap: {
+            IIco: {
+              selectorPrefixes: ['i-icon'],
+              mainSelectorMap: {
+                "[class*=i-icon___]": true,
+              },
+            },
+          },
+        },
       }),
     ],
     resolve: {
@@ -108,6 +120,7 @@ export default defineConfig(({ command }) => {
     },
     test: {
       environment: 'jsdom',
+      exclude: ['src/**/demo.test.js'],
       css: {
         modules: {
           classNameStrategy: 'non-scoped',

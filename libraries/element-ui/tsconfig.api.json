@@ -25,7 +25,7 @@
   },
   "include": [
     "./src/components/*/api.ts",
+    "./src/pro-components/*/api.ts",
     "./src/typings.d.ts",
-    "../element-pro/src/components/*/api.ts"
   ]
 }

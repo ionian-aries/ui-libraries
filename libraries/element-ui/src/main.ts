@@ -4,12 +4,18 @@ import './styles/index.css';
 import './styles/reset.css';
 import Loading from 'element-ui/lib/loading';
 import Message from 'element-ui/lib/message';
-import * as components from './components';
+import * as Components from './components';
+import * as ProComponents from './pro-components';
+
+import './styles/theme.css';
+import './styles/variables/index.css';
+import './styles/reset.less';
 
 // eslint-disable-next-line import/first
 import 'virtual:theme.css';
 
 export * from './components';
+export * from './pro-components';
 
 let installed = false;
 export const install = (Vue) => {
@@ -20,9 +26,14 @@ export const install = (Vue) => {
   installed = true;
   Vue.prototype.$env = Vue.prototype.$env || {};
   Vue.prototype.$env.VUE_APP_DESIGNER = String(process.env.VUE_APP_DESIGNER) === 'true';
-  Object.keys(components).forEach((key) => {
-    Vue.component(components[key].name, components[key]);
+  Object.keys(Components).forEach((key) => {
+    Vue.component(Components[key].name, Components[key]);
   });
+
+  Object.keys(ProComponents).forEach((key) => {
+    Vue.component(key, ProComponents[key]);
+  });
+
   Vue.use(Loading);
   Vue.directive('hoist-data-attribute', {
     inserted(el, binding) {

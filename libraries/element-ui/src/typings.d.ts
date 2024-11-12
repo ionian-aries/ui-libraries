@@ -13,13 +13,10 @@ declare module '*.vue' {
   export default options;
 }
 
-declare module '@lcap/element-pro' {
-  export {};
-}
-
 declare namespace nasl.ui {
   export interface IDEExtraInfoOptions {
     show?: boolean;
+    ignore?: boolean;
     order?: number; /* 组件排序，默认 6 */
     ideusage?: {
       idetype?: 'element' | 'modal' | 'popover' | 'container' | string;

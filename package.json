@@ -1,6 +1,6 @@
 {
   "name": "lcap-ui-monorepo",
-  "version": "3.11.0",
+  "version": "3.12.0",
   "private": true,
   "description": "Codewave Low Code AI Platform UI Components",
   "main": "index.js",
@@ -8,9 +8,13 @@
     "commit": "cz",
     "postinstall": "husky install && pnpm --filter \"./packages/*\" build",
     "version-packages": "changeset version",
-    "start": "pnpm dev:react-pc",
-    "dev:react-pc": "pnpm --dir ./libraries/pc-react-ui storybook",
+    "start": "pnpm dev:pc-ui",
+    "dev:pc-ui": "pnpm --filter \"./libraries/pc-ui\" dev",
+    "dev:element-ui": "pnpm --filter \"./libraries/element-ui\" dev",
+    "dev:mobile-ui": "pnpm --filter \"./libraries/mobile-ui\" dev",
+    "dev:pc-react-ui": "pnpm --filter \"./libraries/pc-react-ui\" dev",
     "build": "pnpm --filter \"./libraries/*\" build",
+    "deploy": "pnpm --filter \"./libraries/*\" deploy:one",
     "test": "pnpm --filter \"./libraries/*\" test",
     "lint": "eslint --fix",
     "changeset": "changeset",
@@ -27,10 +31,6 @@
       "git add"
     ],
     "libraries/element-ui/src/*.{ts,tsx,js}": [
-      "eslint --cache --fix",
-      "git add"
-    ],
-    "libraries/element-pro/src/*.{ts,tsx,js}": [
       "eslint --cache --fix",
       "git add"
     ],
