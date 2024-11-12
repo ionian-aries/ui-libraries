@@ -205,10 +205,10 @@ export const useTable: NaslComponentPluginOptions = {
       onPageChange,
       ...scroll.value,
       pagination,
-      tree,
-      // tree: {
-      //   childrenKey: 'chiildren',
-      // },
+      // tree,
+      tree: {
+        childrenKey: 'chiildren',
+      },
       rowspanAndColspan,
       onSortChange,
       bordered,
