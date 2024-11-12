@@ -23,7 +23,7 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
       if (prefixes[0].endsWith('-pro')) prefixes.push(prefixes[0].slice(0, -4));
       prefixes.push(...(options.reportCSSInfo?.extraComponentMap?.[componentName]?.selectorPrefixes || []));
 
-      return new RegExp(prefixes.map((prefix) => `^\\.${prefix}(__|--|$|[ +>~\\.:\\[])|^\\[class\\*=${prefix}_`).join('|')).test(selector) && !/:(before|after)$|\[vusion-/.test(selector);
+      return new RegExp(prefixes.map((prefix) => `^\\.${prefix}(__|--|$|[ +>~\\.:\\[])|^\\[class\\*=${prefix}_`).join('|')).test(selector) && !/:(before|after)$|vusion|designer/.test(selector);
     });
   });
 
@@ -270,6 +270,8 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
     componentCSSInfo.cssRules.forEach((rule) => {
       rule.description = cssDescMap[rule.selector] = cssDescMap[rule.selector] || '';
     });
+    // eslint-disable-next-line no-nested-ternary
+    componentCSSInfo.cssRules.sort((a, b) => (a.selector === b.selector ? 0 : a.selector < b.selector ? -1 : 1));
     Object.keys(cssDescMap).forEach((selector) => {
       if (!componentCSSInfo.cssRuleMap.has(selector)) delete cssDescMap[selector];
     });
