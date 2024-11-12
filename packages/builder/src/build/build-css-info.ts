@@ -23,7 +23,7 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
       if (prefixes[0].endsWith('-pro')) prefixes.push(prefixes[0].slice(0, -4));
       prefixes.push(...(options.reportCSSInfo?.extraComponentMap?.[componentName]?.selectorPrefixes || []));
 
-      return new RegExp(prefixes.map((prefix) => `^\\.${prefix}(__|--|$|[ +>~\\.:\\[])|^\\[class\\*=${prefix}_`).join('|')).test(selector) && !/:(before|after)$|vusion|designer/.test(selector);
+      return new RegExp(prefixes.map((prefix) => `^\\.${prefix}(__|--|$|[ +>~\\.:\\[])|^\\[class\\*=${prefix}_`).join('|')).test(selector) && !/:(before|after)$|vusion|s-empty|designer/.test(selector);
     });
   });
 
