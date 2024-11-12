@@ -143,10 +143,17 @@ namespace nasl.ui {
       sync: true,
       title: '展开值',
       description: '展开行的值。',
-      // setter: { concept: 'InputSetter' },
     })
     expandedRowKeys: V;
 
+    @Prop({
+      group: '主要属性',
+      title: '是否打开展开行',
+      description: '是否打开展开行',
+      setter: { concept: 'SwitchSetter' },
+    })
+    hasExpandedRow: nasl.core.Boolean = false;
+    // hasExpandedRow
     // @Prop({
     //   group: '主要属性',
     //   title: 'Default Active Row Keys',
@@ -729,7 +736,7 @@ namespace nasl.ui {
       title: '行点击时触发',
       description: '行点击时触发',
     })
-    onRowClick: (event: { item: T; index: nasl.core.Integer }) => any;
+    onRowClick: (event: { row: T; index: nasl.core.Integer }) => any;
 
     @Event({
       title: '行双击时触发',
@@ -1064,6 +1071,15 @@ namespace nasl.ui {
       },
     })
     ellipsis: nasl.core.Boolean = false;
+
+    @Prop({
+      group: '样式属性',
+      title: '自动合并相同数据',
+      setter: {
+        concept: 'SwitchSetter',
+      },
+    })
+    autoMerge: nasl.core.Boolean = false;
 
     @Prop({
       group: '主要属性',
