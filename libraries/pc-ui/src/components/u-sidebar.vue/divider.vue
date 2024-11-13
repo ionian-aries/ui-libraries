@@ -9,7 +9,6 @@ export default { name: 'u-sidebar-divider' };
 <style module>
 .root {
     margin: var(--sidebar-divider-margin-y) 0;
-    height: var(--sidebar-divider-height);
-    background: var(--sidebar-divider-background);
+    border-bottom: var(--sidebar-divider-height) solid var(--sidebar-divider-background);
 }
 </style>
