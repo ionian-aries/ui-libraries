@@ -16,6 +16,10 @@ namespace nasl.ui {
         displayData: "\"[{value: '', label: ''},{value:'1', label: ' '}, {value:'2', label: ' '}]\"",
         propertyName: ":dataSource",
       },
+      additionalAttribute: {
+        valueField: 'value',
+        textField: 'label',
+      },
       slotWrapperInlineStyle: {
         option: 'width: 100%',
       },
@@ -73,7 +77,7 @@ namespace nasl.ui {
         concept: 'PropertySelectSetter',
       },
     })
-    textField: (item: T) => any = ((item: any) => item.text) as any;
+    textField: (item: T) => any = ((item: any) => item.label) as any;
 
     @Prop<ElTransferProOptions<T, V>, 'optionIsSlot'>({
       group: '数据属性',
