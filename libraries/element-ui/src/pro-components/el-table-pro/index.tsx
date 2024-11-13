@@ -17,7 +17,7 @@ import {
 import * as plugins from './plugins';
 import './index.less';
 
-export const ElTablePro = registerComponent(EnhancedTable, plugins, {
+export const ElTablePro = registerComponent(Table, plugins, {
   nativeEvents: [],
   slotNames: [],
   methodNames: [],
