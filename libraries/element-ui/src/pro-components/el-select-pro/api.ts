@@ -32,7 +32,7 @@ namespace nasl.ui {
         display: 3,
         loopRule: 'nth-last-child(-n+2)',
         loopElem: 'li.el-p-select-option',
-        displayData: "\"[{value: '', text: ''},{value:'1', text: ' '}, {value:'2', text: ' '}]\"",
+        displayData: "\"[{value: '', text: ' '},{value:'1', text: ' '}, {value:'2', text: ' '}]\"",
         propertyName: ':dataSource',
       },
     },
