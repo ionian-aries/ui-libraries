@@ -1,15 +1,35 @@
-/* eslint-disable no-cond-assign, no-multi-assign, no-restricted-syntax, no-use-before-define */
+/* eslint-disable no-cond-assign, no-return-assign, no-multi-assign, no-restricted-syntax, no-use-before-define, no-underscore-dangle */
 
 export default function registerIElement(methods, options = {}) {
   // inspecting element 模式
   let inspecting = false;
   // 当前组件的主要选择器
-  let mainSelectors = [];
+  let componentNodePath = '';
+  let mainSelectorMap = {};
   let mainSelectorStr = '';
   // 当前组件的所有选择器
   let selectors = [];
-  // 当前选中的元素
-  let selectedElement = null;
+
+  const selected = {
+    _element: null,
+    _elementDOMPath: '',
+    get element() {
+      if (options.useDOMPath && !document.contains(this._element) && this._elementDOMPath) {
+        console.log('[inspected element] 路径元素不存在，重新查找！', this._elementDOMPath);
+        return (this._element = document.querySelector(this._elementDOMPath));
+      }
+      return this._element;
+    },
+    set element(value) {
+      this._element && clearIElementState(this._element);
+      selectedElementState = '';
+      this._element = value;
+      if (options.useDOMPath) {
+        this._elementDOMPath = computeElementDOMPath(value);
+      }
+    },
+  };
+
   // 当前选中的元素状态
   let selectedElementState = '';
   // 当前选中的元素结果
@@ -26,6 +46,9 @@ export default function registerIElement(methods, options = {}) {
 
   options.postMessage = options.postMessage || ((payload) => window.top.postMessage(payload, '*'));
 
+  /**
+   * 初始化审查器 div
+   */
   function initInspector() {
     INSPECTOR = document.getElementById('ide-inspector');
     if (INSPECTOR) return;
@@ -33,23 +56,13 @@ export default function registerIElement(methods, options = {}) {
     INSPECTOR = document.createElement('div');
     INSPECTOR.id = 'ide-inspector';
     INSPECTOR.classList.add('ide-inspector');
-    if (!options.addPopoverManually) {
-      INSPECTOR.innerHTML = `<div class="ide-inspector__popover">
-          <div class="ide-inspector__title"></div>
-          <div class="ide-inspector__content"></div>
-      </div>`;
-    }
     document.body.appendChild(INSPECTOR);
-
-    if (!options.addEventsManually) {
-      window.removeEventListener('scroll', onScrollOrResize);
-      window.removeEventListener('resize', onScrollOrResize);
-      window.addEventListener('scroll', onScrollOrResize);
-      window.addEventListener('resize', onScrollOrResize);
-    }
   }
   initInspector();
 
+  /**
+   * 计算审查器位置，并发送 iElementRect 信息
+   */
   function computeInspector() {
     const el = tempElement;
     if (!el) {
@@ -58,16 +71,7 @@ export default function registerIElement(methods, options = {}) {
     }
 
     const rect = el.getBoundingClientRect();
-    if (!options.addPopoverManually) {
-      INSPECTOR.children[0].children[0].textContent = el.tagName.toLowerCase() + Array.from(el.classList).map((cls) => `.${cls}`).join('');
-      INSPECTOR.children[0].children[1].textContent = `${rect.width.toFixed(1)}px × ${rect.height.toFixed(1)}px`;
-
-      if (rect.top < 80) {
-        INSPECTOR.children[0].setAttribute('data-placement', 'bottom');
-      } else {
-        INSPECTOR.children[0].setAttribute('data-placement', 'top');
-      }
-    }
+    const hoveredElementSelector = el.tagName.toLowerCase() + Array.from(el.classList).map((cls) => `.${cls}`).join('');
 
     Object.assign(INSPECTOR.style, {
       display: 'block',
@@ -77,15 +81,49 @@ export default function registerIElement(methods, options = {}) {
       height: `${rect.height}px`,
     });
 
-    const payload = { from: 'lcap-theme', type: 'iElementRect', data: rect };
+    const payload = {
+      from: 'lcap-theme',
+      type: 'iElementRect',
+      data: {
+        hoveredElementSelector,
+        rect,
+      },
+    };
     options.postMessage(payload);
   }
 
+  /**
+   * 发送审查器 iElementResult 信息
+   */
   function sendIElementResult() {
     // eslint-disable-next-line no-use-before-define
     selectedElementResult = getIElementResult();
     const payload = { from: 'lcap-theme', type: 'iElementResult', data: selectedElementResult };
     options.postMessage(payload);
+  }
+
+  function computeElementDOMPath(el) {
+    if (!(el instanceof Element)) return '';
+    const path = [];
+    while (el !== document) {
+      let selector = el.tagName.toLowerCase();
+      if (el.getAttribute('data-nodepath') === componentNodePath) {
+        selector += `[data-nodepath="${componentNodePath}"]`;
+        path.unshift(selector);
+        break;
+      } else {
+        let sib = el;
+        let nth = 1;
+        while (sib.previousElementSibling) {
+          sib = sib.previousElementSibling;
+          nth++;
+        }
+        selector += `:nth-child(${nth})`;
+      }
+      path.unshift(selector);
+      el = el.parentNode;
+    }
+    return path.join('> ');
   }
 
   function onMouseMove(e) {
@@ -101,7 +139,7 @@ export default function registerIElement(methods, options = {}) {
 
   function onClick(e) {
     if (!inspecting) return;
-    selectedElement = tempElement;
+    selected.element = tempElement;
     methods.cancelIElement();
     sendIElementResult();
 
@@ -112,29 +150,40 @@ export default function registerIElement(methods, options = {}) {
     computeInspector();
   }
 
+  /**
+   * 计算 nodepath 下的主选择器的 query 字符串
+   */
+  function computeMainSelectorStr() {
+    if (!componentNodePath) return Object.keys(mainSelectorMap).join(',');
+
+    const nodePathStr = `[data-nodepath="${componentNodePath}"]`;
+    const output = [];
+    Object.keys(mainSelectorMap).forEach((key) => {
+      const value = mainSelectorMap[key];
+      output.push(`${nodePathStr}${value ? '' : ' '}${key}`);
+    });
+    return output.join(',');
+  }
+
   methods.inspectElement = (data) => {
     inspecting = true;
-    mainSelectors = data.mainSelectors;
-    mainSelectorStr = mainSelectors.join(',');
+    componentNodePath = data.nodePath;
+    mainSelectorMap = data.mainSelectorMap;
+    mainSelectorStr = computeMainSelectorStr();
     selectors = data.selectors;
-    if (!options.addEventsManually) {
-      window.addEventListener('mousemove', onMouseMove);
-      window.addEventListener('click', onClick);
-    }
   };
 
   methods.cancelIElement = () => {
     inspecting = false;
-    if (!options.addEventsManually) {
-      window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('click', onClick);
-    }
   };
 
   methods.clearIElement = () => {
-    mainSelectors = [];
+    inspecting = false;
+    componentNodePath = '';
+    mainSelectorMap = {};
+    mainSelectorStr = '';
     selectors = [];
-    selectedElement = null;
+    selected.element = null;
     selectedElementState = '';
     selectedElementResult = {
       matchedSelectors: [],
@@ -143,6 +192,7 @@ export default function registerIElement(methods, options = {}) {
       },
     };
     tempElement = null;
+    computeInspector();
   };
 
   function getRelatedElement(el, relation) {
@@ -161,17 +211,22 @@ export default function registerIElement(methods, options = {}) {
         if (el.matches(mainSelectorStr)) return el;
       }
     } else if (relation === 'children') {
-      for (const child of el.children) {
-        if (child.matches(mainSelectorStr)) return child;
-      }
+      return el.querySelector(mainSelectorStr);
     }
     return undefined;
   }
 
   function getIElementResult() {
     const el = tempElement;
-    const filterText = !selectedElementState ? '' : `._${selectedElementState}`;
-    const matchedSelectors = !el ? [] : selectors.filter((selector) => selector.includes(filterText) && el.matches(selector));
+    let matchedSelectors = [];
+    if (el) {
+      if (selectedElementState) {
+        const filterText = `._${selectedElementState}`;
+        matchedSelectors = selectors.filter((selector) => selector.includes(filterText) && el.matches(selector));
+      } else {
+        matchedSelectors = selectors.filter((selector) => !/._hover|._active|._focus/g.test(selector) && el.matches(selector));
+      }
+    }
 
     return {
       matchedSelectors,
@@ -185,21 +240,26 @@ export default function registerIElement(methods, options = {}) {
   }
 
   methods.hoverIElement = (relation) => {
-    tempElement = getRelatedElement(selectedElement, relation);
+    tempElement = getRelatedElement(selected.element, relation);
     computeInspector();
   };
 
   methods.switchIElement = (relation) => {
-    selectedElement = tempElement = getRelatedElement(selectedElement, relation);
+    selected.element = tempElement = getRelatedElement(selected.element, relation);
     computeInspector();
     sendIElementResult();
   };
 
+  function clearIElementState(el) {
+    el && ['hover', 'active', 'focus'].forEach((_state) => el.classList.remove(`_${_state}`));
+  }
+
   methods.changeIElementState = (state) => {
     selectedElementState = state;
-    if (tempElement) {
-      ['hover', 'active', 'focus'].forEach((_state) => tempElement.classList.remove(`_${_state}`));
-      state && tempElement.classList.add(`_${state}`);
+    const selectedElement = selected.element;
+    if (selectedElement) {
+      clearIElementState(selectedElement);
+      state && selectedElement.classList.add(`_${state}`);
     }
     sendIElementResult();
   };

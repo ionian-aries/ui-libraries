@@ -68,6 +68,13 @@ export default defineConfig(({ command }) => {
                 "[class*=u-tree-view-new___]": true,
               },
             },
+            UListComponents: {
+              mainSelectorMap: {
+                "[class*=u-for-com]": true,
+                "[class*=u-for-com-frag]": false,
+                "[class*=u-for-com-item]": false,
+              },
+            },
           },
         },
       }),
