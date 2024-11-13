@@ -509,7 +509,7 @@ namespace nasl.ui {
       title: '树节点内容',
       description: '自定义树节点内容',
     })
-    slotOption: () => Array<ViewComponent>;
+    slotOption: (current: Current<T>) => Array<ViewComponent>;
 
     // @Slot({
     //   title: 'Collapsed Items',
