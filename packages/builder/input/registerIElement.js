@@ -56,7 +56,20 @@ export default function registerIElement(methods, options = {}) {
     INSPECTOR = document.createElement('div');
     INSPECTOR.id = 'ide-inspector';
     INSPECTOR.classList.add('ide-inspector');
+    if (!options.addPopoverManually) {
+      INSPECTOR.innerHTML = `<div class="ide-inspector__popover">
+            <div class="ide-inspector__title"></div>
+            <div class="ide-inspector__content"></div>
+        </div>`;
+    }
     document.body.appendChild(INSPECTOR);
+
+    if (!options.addEventsManually) {
+      window.removeEventListener('scroll', onScrollOrResize);
+      window.removeEventListener('resize', onScrollOrResize);
+      window.addEventListener('scroll', onScrollOrResize);
+      window.addEventListener('resize', onScrollOrResize);
+    }
   }
   initInspector();
 
@@ -72,6 +85,16 @@ export default function registerIElement(methods, options = {}) {
 
     const rect = el.getBoundingClientRect();
     const hoveredElementSelector = el.tagName.toLowerCase() + Array.from(el.classList).map((cls) => `.${cls}`).join('');
+    if (!options.addPopoverManually) {
+      INSPECTOR.children[0].children[0].textContent = hoveredElementSelector;
+      INSPECTOR.children[0].children[1].textContent = `${rect.width.toFixed(1)}px × ${rect.height.toFixed(1)}px`;
+
+      if (rect.top < 80) {
+        INSPECTOR.children[0].setAttribute('data-placement', 'bottom');
+      } else {
+        INSPECTOR.children[0].setAttribute('data-placement', 'top');
+      }
+    }
 
     Object.assign(INSPECTOR.style, {
       display: 'block',
@@ -171,10 +194,18 @@ export default function registerIElement(methods, options = {}) {
     mainSelectorMap = data.mainSelectorMap;
     mainSelectorStr = computeMainSelectorStr();
     selectors = data.selectors;
+    if (!options.addEventsManually) {
+      window.addEventListener('mousemove', onMouseMove);
+      window.addEventListener('click', onClick);
+    }
   };
 
   methods.cancelIElement = () => {
     inspecting = false;
+    if (!options.addEventsManually) {
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('click', onClick);
+    }
   };
 
   methods.clearIElement = () => {
