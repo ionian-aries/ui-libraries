@@ -106,10 +106,6 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
 
         componentCSSInfo.mainSelectorMap.set(mainSelector, isStartRootSelector(mainSelector, componentName));
       });
-      const optMainSelectorMap = options.reportCSSInfo?.extraComponentMap?.[componentName]?.mainSelectorMap;
-      optMainSelectorMap && Object.entries(optMainSelectorMap).forEach(([sel, value]) => {
-        componentCSSInfo.mainSelectorMap.set(sel, value);
-      });
 
       const parsedStyle: Record<SupportedCSSProperty, CSSValue> = {} as Record<SupportedCSSProperty, CSSValue>;
       node.nodes.forEach((decl) => {
@@ -227,13 +223,38 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
         // code: node.toString().replace(/^[\s\S]*?\{/, '{'),
         parsedStyle,
       };
-      componentCSSInfo.cssRules.push(cssRule);
-      componentCSSInfo.cssRuleMap.set(selector, cssRule);
+
+      if (componentCSSInfo.cssRuleMap.has(selector)) {
+        const oldParsedStyle = componentCSSInfo.cssRuleMap.get(selector)?.parsedStyle as Record<SupportedCSSProperty, CSSValue>;
+        (Object.keys(parsedStyle) as SupportedCSSProperty[]).forEach((prop) => {
+          if (oldParsedStyle[prop]?.important && !parsedStyle[prop].important) {
+            parsedStyle[prop] = oldParsedStyle[prop];
+          }
+        });
+        Object.assign(oldParsedStyle, parsedStyle);
+      } else {
+        componentCSSInfo.cssRules.push(cssRule);
+        componentCSSInfo.cssRuleMap.set(selector, cssRule);
+      }
     }
   });
 
-  Object.keys(componentCSSInfoMap).forEach((componentName) => {
-    const componentCSSInfo = componentCSSInfoMap[componentName];
+  componentNames.forEach((componentName) => {
+    let componentCSSInfo = componentCSSInfoMap[componentName];
+    const optMainSelectorMap = options.reportCSSInfo?.extraComponentMap?.[componentName]?.mainSelectorMap;
+    if (optMainSelectorMap) {
+      if (!componentCSSInfo) {
+        componentCSSInfo = componentCSSInfoMap[componentName] = {
+          cssRules: [],
+          cssRuleMap: new Map(),
+          mainSelectorMap: new Map(),
+        };
+      }
+      Object.entries(optMainSelectorMap).forEach(([sel, value]) => {
+        componentCSSInfo.mainSelectorMap.set(sel, value);
+      });
+    }
+    if (!componentCSSInfo) return;
 
     // eslint-disable-next-line no-restricted-syntax
     for (const mainSelector of componentCSSInfo.mainSelectorMap.keys()) {
