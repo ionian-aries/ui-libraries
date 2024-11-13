@@ -21,6 +21,7 @@ namespace nasl.ui {
         option: 'min-height: 0;',
         value: 'min-height: 0;',
       },
+      ignoreProperty: ['valueField', 'textField'],
       dataSource: {
         dismiss: "!this.getAttribute('dataSource')",
         display: 3,
