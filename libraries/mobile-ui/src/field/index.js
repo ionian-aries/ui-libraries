@@ -624,6 +624,9 @@ export default createComponent({
 
     adjustSize() {
       let { input } = this.$refs;
+
+      if (!input) return;
+
       const inputn = this.children;
       if (inputn && comSet.has(inputn.$options._componentTag)) {
         if (inputn.type === 'textarea') {
