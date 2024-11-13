@@ -667,6 +667,24 @@ namespace nasl.ui {
     })
     checkStrictly: nasl.core.Boolean = false;
 
+    @Prop({
+      group: '主要属性',
+      title: '行拖拽',
+      description:
+        '拖拽排序方式，行拖拽排序，这种方式无法进行文本复制，',
+      setter: {
+        concept: 'EnumSelectSetter',
+        options: [
+          { title: '行拖拽' },
+          // { title: '列首拖拽' },
+          // { title: 'col' },
+          // { title: 'row-handler-col' },
+          { title: '关闭拖拽' },
+        ],
+      },
+    })
+    dragSort: 'row' | undefined;
+
     // @Prop({
     //   group: '主要属性',
     //   title: 'Top Content',
@@ -1081,23 +1099,7 @@ namespace nasl.ui {
     })
     autoMerge: nasl.core.Boolean = false;
 
-    @Prop({
-      group: '主要属性',
-      title: 'Drag Sort',
-      description:
-        '拖拽排序方式，值为 `row` 表示行拖拽排序，这种方式无法进行文本复制，慎用。值为`row-handler` 表示通过拖拽手柄进行行拖拽排序。值为 `col` 表示列顺序拖拽。值为 `row-handler-col` 表示同时支持行拖拽和列拖拽。⚠️`drag-col` 已废弃，请勿使用。。可选项：row/row-handler/col/row-handler-col/drag-col',
-      setter: {
-        concept: 'EnumSelectSetter',
-        options: [
-          { title: '行拖拽' },
-          // { title: '列首拖拽' },
-          // { title: 'col' },
-          // { title: 'row-handler-col' },
-          { title: '关闭拖拽' },
-        ],
-      },
-    })
-    dragSort: 'row' | undefined;
+
     // dragSort: 'row' | 'row-handler' | 'col' | 'row-handler-col' | 'drag-col';
 
     // @Prop({

@@ -22,6 +22,8 @@ export const useTable: NaslComponentPluginOptions = {
     const current = props.useRef('page', (v) => v ?? 1);
     const pageSize = props.useRef('pageSize', (v) => v ?? 10);
     const sorting = props.useComputed('sorting', (value) => value);
+    const sort = ref<string | null>(null);
+    const order = ref<string | null>(null);
     const tree = props.useComputed('treeDisplay', (value) => (value
       ? {
         childrenKey: 'chiildren',
@@ -124,6 +126,8 @@ export const useTable: NaslComponentPluginOptions = {
         _.attempt(onLoadData, {
           page: pageInfo.current,
           size: pageInfo.pageSize,
+          sort: sort.value,
+          order: order.value,
         });
         _.attempt(value, pageInfo);
       };
@@ -163,6 +167,13 @@ export const useTable: NaslComponentPluginOptions = {
 
     const onSortChange = props.useComputed('onSortChange', (value) => {
       return (...arg) => {
+        if (arg[0]) {
+          sort.value = _.get(arg, '0.sortBy');
+          order.value = _.get(arg, '0.descending') ? 'desc' : 'asc';
+        } else {
+          sort.value = null;
+          order.value = null;
+        }
         _.attempt(onLoadData, {
           page: current.value,
           size: pageSize.value,
@@ -225,6 +236,7 @@ export const useTable: NaslComponentPluginOptions = {
         autoMergeFields.value = columns?.filter?.((item) => item.autoMerge) ?? [];
         resultVNode.componentOptions.propsData.columns = columns;
         if (tree.value) {
+          context.propsData.props.columns = columns;
           return h(EnhancedTable, context.propsData, context.childrenNodes);
         }
         return resultVNode;
