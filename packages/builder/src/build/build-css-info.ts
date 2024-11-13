@@ -20,10 +20,12 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
   const inferSelectorComponentName = options.reportCSSInfo?.inferSelectorComponentName || ((selector: string, componentNames: string[]) => {
     return componentNames.find((componentName) => {
       const prefixes = [kebabCase(componentName)];
-      if (prefixes[0].endsWith('-pro')) prefixes.push(prefixes[0].slice(0, -4));
+      const proRE = /^el-(.+)-pro$/;
+      if (proRE.test(prefixes[0])) prefixes.push(prefixes[0].replace(proRE, 'el-p-$1'));
       prefixes.push(...(options.reportCSSInfo?.extraComponentMap?.[componentName]?.selectorPrefixes || []));
 
-      return new RegExp(prefixes.map((prefix) => `^\\.${prefix}(__|--|$|[ +>~\\.:\\[])|^\\[class\\*=${prefix}_`).join('|')).test(selector) && !/:(before|after)$|\[vusion-/.test(selector);
+      const re = new RegExp(prefixes.map((prefix) => `^\\.${prefix}(__|--|$|[ +>~\\.:\\[])|^\\[class\\*=${prefix}_`).join('|'));
+      return re.test(selector) && !/:(before|after)$|vusion|s-empty|designer|cw-style/.test(selector);
     });
   });
 
@@ -34,8 +36,12 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
 
   const isStartRootSelector = options.reportCSSInfo?.isStartRootSelector || ((selector: string, componentName: string) => {
     const prefixes = [kebabCase(componentName)];
-    if (prefixes[0].endsWith('-pro')) prefixes.push(prefixes[0].slice(0, -4));
-    return new RegExp(prefixes.map((prefix) => `^\\.${prefix}(--|$|[ +>~\\.:])|^\\[class\\*=${prefix}___`).join('|')).test(selector);
+    const proRE = /^el-(.+)-pro$/;
+    if (proRE.test(prefixes[0])) prefixes.push(prefixes[0].replace(proRE, 'el-p-$1'));
+    prefixes.push(...(options.reportCSSInfo?.extraComponentMap?.[componentName]?.selectorPrefixes || []));
+
+    const re = new RegExp(prefixes.map((prefix) => `^\\.${prefix}(--|$|[ +>~\\.:])|^\\[class\\*=${prefix}___`).join('|'));
+    return re.test(selector);
   });
 
   const componentCSSInfoMap: Record<string, {
@@ -270,6 +276,8 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
     componentCSSInfo.cssRules.forEach((rule) => {
       rule.description = cssDescMap[rule.selector] = cssDescMap[rule.selector] || '';
     });
+    // eslint-disable-next-line no-nested-ternary
+    componentCSSInfo.cssRules.sort((a, b) => (a.selector === b.selector ? 0 : a.selector < b.selector ? -1 : 1));
     Object.keys(cssDescMap).forEach((selector) => {
       if (!componentCSSInfo.cssRuleMap.has(selector)) delete cssDescMap[selector];
     });

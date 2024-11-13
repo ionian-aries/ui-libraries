@@ -43,6 +43,31 @@ export default defineConfig(({ command }) => {
                 "[class*=i-icon___]": true,
               },
             },
+            UCrumb: {
+              mainSelectorMap: {
+                "[class*=u-crumb___]": true,
+              },
+            },
+            UDescList: {
+              mainSelectorMap: {
+                "[class*=u-desc-list___]": true,
+              },
+            },
+            UForm: {
+              mainSelectorMap: {
+                "[class*=u-form___]": true,
+              },
+            },
+            URadios: {
+              mainSelectorMap: {
+                "[class*=u-radios___]": true,
+              },
+            },
+            UTreeViewNew: {
+              mainSelectorMap: {
+                "[class*=u-tree-view-new___]": true,
+              },
+            },
           },
         },
       }),
