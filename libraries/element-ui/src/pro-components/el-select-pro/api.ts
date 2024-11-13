@@ -11,8 +11,10 @@ namespace nasl.ui {
         click: true,
       },
       displaySlotConditions: {
-        value: "!!this.getAttribute('dataSource') && this.getAttribute('valueIsSlot') && this.getAttribute('valueIsSlot').value",
-        option: "!!this.getAttribute('dataSource') && this.getAttribute('optionIsSlot') && this.getAttribute('optionIsSlot').value",
+        value:
+          "!!this.getAttribute('dataSource') && this.getAttribute('valueIsSlot') && this.getAttribute('valueIsSlot').value",
+        option:
+          "!!this.getAttribute('dataSource') && this.getAttribute('optionIsSlot') && this.getAttribute('optionIsSlot').value",
       },
       slotWrapperInlineStyle: {
         option: 'width:100%;',
@@ -21,14 +23,17 @@ namespace nasl.ui {
         option: 'min-height: 0;',
         value: 'min-height: 0;',
       },
-      ignoreProperty: ['valueField', 'textField'],
+      additionalAttribute: {
+        valueField: 'value',
+        textField: 'text',
+      },
       dataSource: {
         dismiss: "!this.getAttribute('dataSource')",
         display: 3,
         loopRule: 'nth-last-child(-n+2)',
-        loopElem: "li.el-p-select-option",
-        displayData: "\"[{value: '', text: ''},{value:'1', text: ' '}, {value:'2', text: ' '}]\"",
-        propertyName: ":dataSource",
+        loopElem: 'li.el-p-select-option',
+        displayData: "\"[{value: '', text: ' '},{value:'1', text: ' '}, {value:'2', text: ' '}]\"",
+        propertyName: ':dataSource',
       },
     },
   })
@@ -183,7 +188,7 @@ namespace nasl.ui {
       description: '自定义选项内容',
       docDescription: '自定义选项内容',
       setter: {
-        concept: 'SwitchSetter'
+        concept: 'SwitchSetter',
       },
       bindHide: true,
       if: (_) => !!_.dataSource,
@@ -216,7 +221,7 @@ namespace nasl.ui {
       description: '自定义选中项内容',
       docDescription: '自定义选中项内容',
       setter: {
-        concept: 'SwitchSetter'
+        concept: 'SwitchSetter',
       },
       bindHide: true,
       if: (_) => !!_.dataSource,
@@ -602,7 +607,6 @@ namespace nasl.ui {
       ],
     })
     slotDefault: () => Array<ViewComponent>;
-
 
     @Slot({
       title: '选项内容',
