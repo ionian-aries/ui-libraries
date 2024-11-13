@@ -20,11 +20,12 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
   const inferSelectorComponentName = options.reportCSSInfo?.inferSelectorComponentName || ((selector: string, componentNames: string[]) => {
     return componentNames.find((componentName) => {
       const prefixes = [kebabCase(componentName)];
-      const re = /^el-(.+)-pro$/;
-      if (re.test(prefixes[0])) prefixes.push(prefixes[0].replace(re, 'el-p-$1'));
+      const proRE = /^el-(.+)-pro$/;
+      if (proRE.test(prefixes[0])) prefixes.push(prefixes[0].replace(proRE, 'el-p-$1'));
       prefixes.push(...(options.reportCSSInfo?.extraComponentMap?.[componentName]?.selectorPrefixes || []));
 
-      return new RegExp(prefixes.map((prefix) => `^\\.${prefix}(__|--|$|[ +>~\\.:\\[])|^\\[class\\*=${prefix}_`).join('|')).test(selector) && !/:(before|after)$|vusion|s-empty|designer/.test(selector);
+      const re = new RegExp(prefixes.map((prefix) => `^\\.${prefix}(__|--|$|[ +>~\\.:\\[])|^\\[class\\*=${prefix}_`).join('|'));
+      return re.test(selector) && !/:(before|after)$|vusion|s-empty|designer|cw-style/.test(selector);
     });
   });
 
@@ -35,9 +36,12 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
 
   const isStartRootSelector = options.reportCSSInfo?.isStartRootSelector || ((selector: string, componentName: string) => {
     const prefixes = [kebabCase(componentName)];
-    const re = /^el-(.+)-pro$/;
-    if (re.test(prefixes[0])) prefixes.push(prefixes[0].replace(re, 'el-p-$1'));
-    return new RegExp(prefixes.map((prefix) => `^\\.${prefix}(--|$|[ +>~\\.:])|^\\[class\\*=${prefix}___`).join('|')).test(selector);
+    const proRE = /^el-(.+)-pro$/;
+    if (proRE.test(prefixes[0])) prefixes.push(prefixes[0].replace(proRE, 'el-p-$1'));
+    prefixes.push(...(options.reportCSSInfo?.extraComponentMap?.[componentName]?.selectorPrefixes || []));
+
+    const re = new RegExp(prefixes.map((prefix) => `^\\.${prefix}(--|$|[ +>~\\.:])|^\\[class\\*=${prefix}___`).join('|'));
+    return re.test(selector);
   });
 
   const componentCSSInfoMap: Record<string, {
