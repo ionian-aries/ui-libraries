@@ -63,6 +63,9 @@ export default defineConfig(({ command }) => {
                 "[class*=u-radios___]": true,
               },
             },
+            UTableView: {
+              selectorPrefixes: ['u-table'],
+            },
             UTreeViewNew: {
               mainSelectorMap: {
                 "[class*=u-tree-view-new___]": true,

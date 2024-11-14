@@ -83,6 +83,13 @@ export default defineConfig(({ command }) => {
             VanMyProcess: {
               selectorPrefixes: ['van-my-process-toolbar'],
             },
+            VanForComponents: {
+              mainSelectorMap: {
+                ".van-for-com": true,
+                ".van-for-com-frag": false,
+                ".van-for-com-item": false,
+              },
+            },
           },
         },
       }),

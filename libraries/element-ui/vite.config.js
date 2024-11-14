@@ -59,6 +59,13 @@ export default defineConfig(({ command }) => {
             ElCalendar: {
               selectorPrefixes: ['el-calendar-table'],
             },
+            ElListComponents: {
+              mainSelectorMap: {
+                ".el-list-components": true,
+                ".el-list-components__frag": false,
+                ".el-list-components__item": false,
+              },
+            },
           },
         },
         dependencies: [

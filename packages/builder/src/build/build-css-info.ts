@@ -10,10 +10,16 @@ import type {
   LcapBuildOptions, CSSValue, CSSRule, SupportedCSSProperty,
 } from './types';
 
+function sortMap(map: Record<string, any>) {
+  return Object.fromEntries(Object.entries(map).sort(([a], [b]) => a.localeCompare(b)));
+}
+
 function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc: Record<string, Record<string, string>>, options: LcapBuildOptions) {
   const root = postcss.parse(cssContent);
 
   const mockStateRE = /:(hover|active|focus)/g;
+  const isNonStandardRE = /-(moz|webkit|ms|o)-/g;
+  const hasPesudoElementRE = /::|:(before|after|selection)/g;
   const hashClassRE = /\.([a-zA-Z0-9][a-zA-Z0-9_-]*?)___[a-zA-Z0-9-]{6,}/g;
 
   // eslint-disable-next-line no-shadow
@@ -34,7 +40,7 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
     return cap ? subSelector.slice(0, (cap.index || subSelector.length - 1) + 1) : subSelector;
   }
 
-  const isStartRootSelector = options.reportCSSInfo?.isStartRootSelector || ((selector: string, componentName: string) => {
+  const isSelectorStartRoot = options.reportCSSInfo?.isSelectorStartRoot || ((selector: string, componentName: string) => {
     const prefixes = [kebabCase(componentName)];
     const proRE = /^el-(.+)-pro$/;
     if (proRE.test(prefixes[0])) prefixes.push(prefixes[0].replace(proRE, 'el-p-$1'));
@@ -58,12 +64,12 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
         .replace(/\s+/g, ' ') // 抹平换行符
         .replace(/\s*([>+~,])\s*/g, '$1') // 统一去除空格
         .split(/,/g)
-        .flatMap((sel) => (mockStateRE.test(sel) ? [sel, sel.replace(mockStateRE, '._$1')] : [sel])); // 增加模拟伪类
+        .flatMap((sel) => (mockStateRE.test(sel) && !hasPesudoElementRE.test(sel) ? [sel, sel.replace(mockStateRE, '._$1')] : [sel])); // 增加模拟伪类
 
       node.selector = selectors.join(','); // 更新 CSS 代码中的选择器
 
       selectors = selectors
-        .filter((sel) => !/^-(moz|webkit|ms|o)-|^_/.test(sel)) // 过滤掉浏览器前缀和 _ 开头的选择器
+        // .filter((sel) => !/|ms|o)-|^_/.test(sel)) // 过滤掉浏览器前缀和 _ 开头的选择器
         .map((sel) => sel.replace(hashClassRE, '[class*=$1___]')); // hash 类名改为 [class*=] 属性选择器
 
       const selector = selectors.join(',');
@@ -104,7 +110,7 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
         mainSelector += getMainSubSelector(sel.slice(lastIndex));
         if (mainSelector.endsWith(' *') || mainSelector.endsWith('>*')) return;
 
-        componentCSSInfo.mainSelectorMap.set(mainSelector, isStartRootSelector(mainSelector, componentName));
+        componentCSSInfo.mainSelectorMap.set(mainSelector, isSelectorStartRoot(mainSelector, componentName));
       });
 
       const parsedStyle: Record<SupportedCSSProperty, CSSValue> = {} as Record<SupportedCSSProperty, CSSValue>;
@@ -219,6 +225,7 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
       });
       const cssRule: CSSRule = {
         selector,
+        isStartRoot: isSelectorStartRoot(selector, componentName),
         description: '', // cssRuleSelectors[selector] || lastRuleDesc || '',
         // code: node.toString().replace(/^[\s\S]*?\{/, '{'),
         parsedStyle,
@@ -261,6 +268,7 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
       if (!componentCSSInfo.cssRuleMap.has(mainSelector)) {
         const cssRule: CSSRule = {
           selector: mainSelector,
+          isStartRoot: componentCSSInfo.mainSelectorMap.get(mainSelector) || false,
           description: '',
           parsedStyle: {},
         };
@@ -282,6 +290,7 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
         if (!componentCSSInfo.cssRuleMap.has(selector)) {
           const cssRule: CSSRule = {
             selector,
+            isStartRoot: componentCSSInfo.mainSelectorMap.get(mainSelector) || false,
             description: '', // mainSelectorDescription ? `${mainSelectorDescription}:${StateMap[state]}` : '',
             parsedStyle: {},
           };
@@ -295,13 +304,16 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
     if (!cssDescMap) cssDescMap = cssRulesDesc[componentName] = {};
 
     componentCSSInfo.cssRules.forEach((rule) => {
+      const matchedMainSelector = Array.from(componentCSSInfo.mainSelectorMap.keys()).find((mainSelector) => rule.selector.startsWith(mainSelector.split(/[ +>~]/g)[0]));
+      !matchedMainSelector && console.log(`selector: ${rule.selector} 匹配 mainSelector: ${matchedMainSelector}`);
       rule.description = cssDescMap[rule.selector] = cssDescMap[rule.selector] || '';
     });
     // eslint-disable-next-line no-nested-ternary
-    componentCSSInfo.cssRules.sort((a, b) => (a.selector === b.selector ? 0 : a.selector < b.selector ? -1 : 1));
+    // componentCSSInfo.cssRules.sort((a, b) => (a.selector === b.selector ? 0 : a.selector < b.selector ? -1 : 1));
     Object.keys(cssDescMap).forEach((selector) => {
       if (!componentCSSInfo.cssRuleMap.has(selector)) delete cssDescMap[selector];
     });
+    cssRulesDesc[componentName] = sortMap(cssDescMap);
 
     const finalComponentCSSInfo = componentCSSInfo as any;
     finalComponentCSSInfo.mainSelectorMap = Object.fromEntries(componentCSSInfo.mainSelectorMap);

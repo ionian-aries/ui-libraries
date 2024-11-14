@@ -12,11 +12,11 @@ namespace nasl.ui {
       useTemplateInDefaultSlot: true,
       style: [
           {
-              "selector": ".u-for-com-item:not(:first-child)",
+              "selector": ".el-list-components-item:not(:first-child)",
               "declaration": "opacity: 0.4; cursor: not-allowed !important; pointer-events: none"
           },
           {
-              "selector": ".u-for-com-frag:not(:first-child)",
+              "selector": ".el-list-components-frag:not(:first-child)",
               "declaration": "opacity: 0.4; cursor: not-allowed !important; pointer-events: none"
           }
       ]
