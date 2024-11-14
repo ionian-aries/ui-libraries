@@ -676,14 +676,11 @@ namespace nasl.ui {
         concept: 'EnumSelectSetter',
         options: [
           { title: '行拖拽' },
-          // { title: '列首拖拽' },
-          // { title: 'col' },
-          // { title: 'row-handler-col' },
           { title: '关闭拖拽' },
         ],
       },
     })
-    dragSort: 'row' | undefined;
+    dragSort: 'row' | 'false' = 'false';
 
     // @Prop({
     //   group: '主要属性',

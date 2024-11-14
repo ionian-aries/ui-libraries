@@ -42,6 +42,7 @@ export const useTable: NaslComponentPluginOptions = {
         childrenField: 'chiildren',
       });
     });
+    const dragSort = props.useComputed('dragSort', (value) => (value === 'false' ? undefined : value));
     const autoMergeFields = ref([]);
     const rowspanAndColspan = ({ row, col }) => {
       return row?.rowspan?.[col.colKey] > 1
@@ -198,6 +199,7 @@ export const useTable: NaslComponentPluginOptions = {
     return {
       data,
       onPageChange,
+      dragSort,
       ...scroll.value,
       pagination,
       tree,
@@ -234,11 +236,11 @@ export const useTable: NaslComponentPluginOptions = {
         const vnodes = ctx.setupContext.slots?.default?.();
         const columns = renderSlot(vnodes);
         autoMergeFields.value = columns?.filter?.((item) => item.autoMerge) ?? [];
-        resultVNode.componentOptions.propsData.columns = columns;
         if (tree.value) {
           context.propsData.props.columns = columns;
           return h(EnhancedTable, context.propsData, context.childrenNodes);
         }
+        resultVNode.componentOptions.propsData.columns = columns;
         return resultVNode;
       },
     };

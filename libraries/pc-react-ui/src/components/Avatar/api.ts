@@ -8,7 +8,7 @@ namespace nasl.ui {
     group: 'Display',
   })
   export class Avatar extends ViewComponent {
-    constructor(options?: Partial<ImageOptions>) {
+    constructor(options?: Partial<AvatarOptions>) {
       super();
     }
   }
