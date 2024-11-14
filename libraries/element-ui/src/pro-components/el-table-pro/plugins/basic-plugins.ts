@@ -5,35 +5,25 @@ import _, { isFunction, isNil } from 'lodash';
 import {
   computed, ref, watch, onMounted,
 } from '@vue/composition-api';
-import { SelectOptions } from '@element-pro';
+import {
+  SelectOptions, Table, BaseTable, PrimaryTable, EnhancedTable,
+} from '@element-pro';
 import { listToTree } from '@lcap/vue2-utils/utils';
 import { $ref, $render, createUseUpdateSync } from '@lcap/vue2-utils';
 
-import type {
-  NaslComponentPluginOptions,
-  Slot,
-} from '@lcap/vue2-utils/plugins/types';
+import type { NaslComponentPluginOptions, Slot } from '@lcap/vue2-utils/plugins/types';
 
 export { useDataSource } from '@lcap/vue2-utils';
-export const useUpdateSync = createUseUpdateSync([
-  { name: 'selectedRowKeys', event: 'update:selectedRowKeys' },
-]);
+export const useUpdateSync = createUseUpdateSync([{ name: 'selectedRowKeys', event: 'update:selectedRowKeys' }]);
 
 export const useTable: NaslComponentPluginOptions = {
-  props: [
-    'onPageChange',
-    'page',
-    'pageSize',
-    'pageSizeOptions',
-    'showTotal',
-    'showJumper',
-    'treeDisplay',
-    'virtual',
-  ],
+  props: ['onPageChange', 'page', 'pageSize', 'pageSizeOptions', 'showTotal', 'showJumper', 'treeDisplay', 'virtual'],
   setup(props, ctx) {
     const current = props.useRef('page', (v) => v ?? 1);
     const pageSize = props.useRef('pageSize', (v) => v ?? 10);
     const sorting = props.useComputed('sorting', (value) => value);
+    const sort = ref<string | null>(null);
+    const order = ref<string | null>(null);
     const tree = props.useComputed('treeDisplay', (value) => (value
       ? {
         childrenKey: 'chiildren',
@@ -52,6 +42,7 @@ export const useTable: NaslComponentPluginOptions = {
         childrenField: 'chiildren',
       });
     });
+    const dragSort = props.useComputed('dragSort', (value) => (value === 'false' ? undefined : value));
     const autoMergeFields = ref([]);
     const rowspanAndColspan = ({ row, col }) => {
       return row?.rowspan?.[col.colKey] > 1
@@ -70,8 +61,10 @@ export const useTable: NaslComponentPluginOptions = {
           _.forEach(autoMergeFields, (field) => {
             let rowspan = 1;
             for (let i = index + 1; i < data.length; i++) {
-              const isPreMerge = item.rowspan?.[field.colKey];
-              if (isPreMerge || data[i][field.colKey] !== item[field.colKey]) break;
+              const isPreMerge = _.get(item, `rowspan.${field.colKey}`);
+              const dataFieldValue = _.get(data[i], field.colKey);
+              const itemFieldValue = _.get(item, field.colKey);
+              if (isPreMerge || dataFieldValue !== itemFieldValue) break;
               rowspan++;
               item.rowspan = _.merge(item.rowspan, { [field.colKey]: true });
             }
@@ -134,6 +127,8 @@ export const useTable: NaslComponentPluginOptions = {
         _.attempt(onLoadData, {
           page: pageInfo.current,
           size: pageInfo.pageSize,
+          sort: sort.value,
+          order: order.value,
         });
         _.attempt(value, pageInfo);
       };
@@ -148,14 +143,8 @@ export const useTable: NaslComponentPluginOptions = {
       }
     });
 
-    const totalContent = props.useComputed(
-      'showTotal',
-      (value: boolean) => value ?? true,
-    );
-    const showJumper = props.useComputed(
-      'showJumper',
-      (value: boolean) => value ?? true,
-    );
+    const totalContent = props.useComputed('showTotal', (value: boolean) => value ?? true);
+    const showJumper = props.useComputed('showJumper', (value: boolean) => value ?? true);
 
     const total = props.useComputed('total', (value) => value ?? 10);
 
@@ -179,6 +168,13 @@ export const useTable: NaslComponentPluginOptions = {
 
     const onSortChange = props.useComputed('onSortChange', (value) => {
       return (...arg) => {
+        if (arg[0]) {
+          sort.value = _.get(arg, '0.sortBy');
+          order.value = _.get(arg, '0.descending') ? 'desc' : 'asc';
+        } else {
+          sort.value = null;
+          order.value = null;
+        }
         _.attempt(onLoadData, {
           page: current.value,
           size: pageSize.value,
@@ -203,19 +199,17 @@ export const useTable: NaslComponentPluginOptions = {
     return {
       data,
       onPageChange,
+      dragSort,
       ...scroll.value,
       pagination,
-      // tree,
-      tree: {
-        childrenKey: 'chiildren',
-      },
+      tree,
+      // tree: {
+      //   childrenKey: 'chiildren',
+      // },
       rowspanAndColspan,
       onSortChange,
       bordered,
-      onSelectChange: (
-        selectedRowKeys: Array<string | number>,
-        context: SelectOptions<any>,
-      ) => {
+      onSelectChange: (selectedRowKeys: Array<string | number>, context: SelectOptions<any>) => {
         const onSelectChange = props.get('onSelectChange');
 
         if (isFunction(onSelectChange)) {
@@ -238,10 +232,14 @@ export const useTable: NaslComponentPluginOptions = {
           }
         },
       },
-      [$render](resultVNode) {
+      [$render](resultVNode, h, context) {
         const vnodes = ctx.setupContext.slots?.default?.();
         const columns = renderSlot(vnodes);
         autoMergeFields.value = columns?.filter?.((item) => item.autoMerge) ?? [];
+        if (tree.value) {
+          context.propsData.props.columns = columns;
+          return h(EnhancedTable, context.propsData, context.childrenNodes);
+        }
         resultVNode.componentOptions.propsData.columns = columns;
         return resultVNode;
       },

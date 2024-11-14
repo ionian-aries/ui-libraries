@@ -624,6 +624,7 @@ export default createComponent({
 
     adjustSize() {
       let { input } = this.$refs;
+
       const inputn = this.children;
       if (inputn && comSet.has(inputn.$options._componentTag)) {
         if (inputn.type === 'textarea') {
@@ -633,6 +634,8 @@ export default createComponent({
       } else if (!(this.type === 'textarea' && this.autosize) || !input) {
         return;
       }
+
+      if (!input) return;
 
       const scrollTop = getRootScrollTop();
       input.style.height = 'auto';
