@@ -34,7 +34,7 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
     return cap ? subSelector.slice(0, (cap.index || subSelector.length - 1) + 1) : subSelector;
   }
 
-  const isStartRootSelector = options.reportCSSInfo?.isStartRootSelector || ((selector: string, componentName: string) => {
+  const isSelectorStartRoot = options.reportCSSInfo?.isSelectorStartRoot || ((selector: string, componentName: string) => {
     const prefixes = [kebabCase(componentName)];
     const proRE = /^el-(.+)-pro$/;
     if (proRE.test(prefixes[0])) prefixes.push(prefixes[0].replace(proRE, 'el-p-$1'));
@@ -104,7 +104,7 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
         mainSelector += getMainSubSelector(sel.slice(lastIndex));
         if (mainSelector.endsWith(' *') || mainSelector.endsWith('>*')) return;
 
-        componentCSSInfo.mainSelectorMap.set(mainSelector, isStartRootSelector(mainSelector, componentName));
+        componentCSSInfo.mainSelectorMap.set(mainSelector, isSelectorStartRoot(mainSelector, componentName));
       });
 
       const parsedStyle: Record<SupportedCSSProperty, CSSValue> = {} as Record<SupportedCSSProperty, CSSValue>;
@@ -219,6 +219,7 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
       });
       const cssRule: CSSRule = {
         selector,
+        isStartRoot: isSelectorStartRoot(selector, componentName),
         description: '', // cssRuleSelectors[selector] || lastRuleDesc || '',
         // code: node.toString().replace(/^[\s\S]*?\{/, '{'),
         parsedStyle,
@@ -261,6 +262,7 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
       if (!componentCSSInfo.cssRuleMap.has(mainSelector)) {
         const cssRule: CSSRule = {
           selector: mainSelector,
+          isStartRoot: componentCSSInfo.mainSelectorMap.get(mainSelector) || false,
           description: '',
           parsedStyle: {},
         };
@@ -282,6 +284,7 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
         if (!componentCSSInfo.cssRuleMap.has(selector)) {
           const cssRule: CSSRule = {
             selector,
+            isStartRoot: componentCSSInfo.mainSelectorMap.get(mainSelector) || false,
             description: '', // mainSelectorDescription ? `${mainSelectorDescription}:${StateMap[state]}` : '',
             parsedStyle: {},
           };
@@ -295,6 +298,8 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
     if (!cssDescMap) cssDescMap = cssRulesDesc[componentName] = {};
 
     componentCSSInfo.cssRules.forEach((rule) => {
+      const matchedMainSelector = Array.from(componentCSSInfo.mainSelectorMap.keys()).find((mainSelector) => rule.selector.startsWith(mainSelector.split(/[ +>~]/g)[0]));
+      !matchedMainSelector && console.log(`selector: ${rule.selector} 匹配 mainSelector: ${matchedMainSelector}`);
       rule.description = cssDescMap[rule.selector] = cssDescMap[rule.selector] || '';
     });
     // eslint-disable-next-line no-nested-ternary

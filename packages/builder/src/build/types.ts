@@ -60,7 +60,7 @@ export interface LcapBuildOptions {
       mainSelectorMap?: Record<string, boolean>;
     }>;
     inferSelectorComponentName?: (selector: string, componentNames: string[]) => string | undefined;
-    isStartRootSelector?: (selector: string, componentName: string) => boolean;
+    isSelectorStartRoot?: (selector: string, componentName: string) => boolean;
   };
 }
 
@@ -106,6 +106,7 @@ export interface CSSValue {
 export interface CSSRule<V = CSSValue> {
   // key: string; // 目前发现用处不大
   selector: string;
+  isStartRoot: boolean;
   description: string;
   // code?: string;
   parsedStyle?: Partial<Record<SupportedCSSProperty, V>>;

@@ -2433,7 +2433,6 @@
     ".van-swipe-cell": "滑动单元格",
     ".van-swipe-cell__wrapper": "滑动单元格容器",
     ".van-swipe-cell__left,.van-swipe-cell__right": "滑动单元格左右",
-    ".van-swipe-cell__left [s-empty],.van-swipe-cell__right [s-empty]": "滑动单元格左右空状态",
     ".van-swipe-cell__left": "滑动单元格左侧",
     ".van-swipe-cell__right": "滑动单元格右侧",
     ".van-swipe-cell:hover,.van-swipe-cell._hover": "滑动单元格:鼠标移入",
@@ -2447,15 +2446,7 @@
     ".van-swipe-cell__left:focus,.van-swipe-cell__left._focus": "滑动单元格左侧:获得焦点",
     ".van-swipe-cell__right:hover,.van-swipe-cell__right._hover": "滑动单元格右侧:鼠标移入",
     ".van-swipe-cell__right:active,.van-swipe-cell__right._active": "滑动单元格右侧:鼠标按下",
-    ".van-swipe-cell__right:focus,.van-swipe-cell__right._focus": "滑动单元格右侧:获得焦点",
-    ".van-swipe-cell__left [s-empty]": "滑动单元格左侧空状态",
-    ".van-swipe-cell__left [s-empty]:hover,.van-swipe-cell__left [s-empty]._hover": "滑动单元格左侧空状态:鼠标移入",
-    ".van-swipe-cell__left [s-empty]:active,.van-swipe-cell__left [s-empty]._active": "滑动单元格左侧空状态:鼠标按下",
-    ".van-swipe-cell__left [s-empty]:focus,.van-swipe-cell__left [s-empty]._focus": "滑动单元格左侧空状态:获得焦点",
-    ".van-swipe-cell__right [s-empty]": "滑动单元格右侧空状态",
-    ".van-swipe-cell__right [s-empty]:hover,.van-swipe-cell__right [s-empty]._hover": "滑动单元格右侧空状态:鼠标移入",
-    ".van-swipe-cell__right [s-empty]:active,.van-swipe-cell__right [s-empty]._active": "滑动单元格右侧空状态:鼠标按下",
-    ".van-swipe-cell__right [s-empty]:focus,.van-swipe-cell__right [s-empty]._focus": "滑动单元格右侧空状态:获得焦点"
+    ".van-swipe-cell__right:focus,.van-swipe-cell__right._focus": "滑动单元格右侧:获得焦点"
   },
   "VanSwipeItem": {
     ".van-swipe-item": "滑动项",
