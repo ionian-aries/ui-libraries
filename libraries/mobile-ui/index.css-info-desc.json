@@ -1653,14 +1653,26 @@
     ".van-fieldtextarea__word-limit:focus,.van-fieldtextarea__word-limit._focus": "多行输入字数限制:获得焦点"
   },
   "VanForComponents": {
-    ".van-for-components__frag": "组件列表",
-    ".van-for-components__frag--nowrap": "组件列表:不换行",
-    ".van-for-components__frag:hover,.van-for-components__frag._hover": "组件列表:鼠标移入",
-    ".van-for-components__frag:active,.van-for-components__frag._active": "组件列表:鼠标按下",
-    ".van-for-components__frag:focus,.van-for-components__frag._focus": "组件列表:获得焦点",
+    ".van-for-components__frag": "组件列表片段",
+    ".van-for-components__frag--nowrap": "组件列表片段:不换行",
+    ".van-for-components__frag:hover,.van-for-components__frag._hover": "组件列表片段:鼠标移入",
+    ".van-for-components__frag:active,.van-for-components__frag._active": "组件列表片段:鼠标按下",
+    ".van-for-components__frag:focus,.van-for-components__frag._focus": "组件列表片段:获得焦点",
     ".van-for-components__frag--nowrap:hover,.van-for-components__frag--nowrap._hover": "组件列表:不换行:鼠标移入",
     ".van-for-components__frag--nowrap:active,.van-for-components__frag--nowrap._active": "组件列表:不换行:鼠标按下",
-    ".van-for-components__frag--nowrap:focus,.van-for-components__frag--nowrap._focus": "组件列表:不换行:获得焦点"
+    ".van-for-components__frag--nowrap:focus,.van-for-components__frag--nowrap._focus": "组件列表:不换行:获得焦点",
+    ".van-for-com": "组件列表",
+    ".van-for-com:hover,.van-for-com._hover": "组件列表:鼠标移入",
+    ".van-for-com:active,.van-for-com._active": "组件列表:鼠标按下",
+    ".van-for-com:focus,.van-for-com._focus": "组件列表:获得焦点",
+    ".van-for-com-frag": "组件列表片段",
+    ".van-for-com-frag:hover,.van-for-com-frag._hover": "组件列表片段:鼠标移入",
+    ".van-for-com-frag:active,.van-for-com-frag._active": "组件列表片段:鼠标按下",
+    ".van-for-com-frag:focus,.van-for-com-frag._focus": "组件列表片段:获得焦点",
+    ".van-for-com-item": "组件列表项",
+    ".van-for-com-item:hover,.van-for-com-item._hover": "组件列表项:鼠标移入",
+    ".van-for-com-item:active,.van-for-com-item._active": "组件列表项:鼠标按下",
+    ".van-for-com-item:focus,.van-for-com-item._focus": "组件列表项:获得焦点"
   },
   "VanForm": {
     ".van-form": "表单",

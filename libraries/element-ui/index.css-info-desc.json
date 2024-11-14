@@ -6433,5 +6433,19 @@
     ".el-p-tree-select--placeholder:hover,.el-p-tree-select--placeholder._hover": "树选择器占位符:鼠标移入",
     ".el-p-tree-select--placeholder:active,.el-p-tree-select--placeholder._active": "树选择器占位符:鼠标按下",
     ".el-p-tree-select--placeholder:focus,.el-p-tree-select--placeholder._focus": "树选择器占位符:获得焦点"
+  },
+  "ElListComponents": {
+    ".el-list-components__frag": "组件列表片段",
+    ".el-list-components__frag:hover,.el-list-components__frag._hover": "组件列表片段:鼠标移入",
+    ".el-list-components__frag:active,.el-list-components__frag._active": "组件列表片段:鼠标按下",
+    ".el-list-components__frag:focus,.el-list-components__frag._focus": "组件列表片段:获得焦点",
+    ".el-list-components": "组件列表",
+    ".el-list-components:hover,.el-list-components._hover": "组件列表:鼠标移入",
+    ".el-list-components:active,.el-list-components._active": "组件列表:鼠标按下",
+    ".el-list-components:focus,.el-list-components._focus": "组件列表:获得焦点",
+    ".el-list-components__item": "组件列表项",
+    ".el-list-components__item:hover,.el-list-components__item._hover": "组件列表项:鼠标移入",
+    ".el-list-components__item:active,.el-list-components__item._active": "组件列表项:鼠标按下",
+    ".el-list-components__item:focus,.el-list-components__item._focus": "组件列表项:获得焦点"
   }
 }

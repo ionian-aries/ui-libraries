@@ -1,7 +1,7 @@
 <template>
-    <div class="u-for-com" vusion-slot-name="default">
+    <div class="el-list-components" vusion-slot-name="default">
         <template v-if="options.length > 0">
-            <div v-for="(item, index) in options" :key="index" class="u-for-com-frag">
+            <div v-for="(item, index) in options" :key="index" class="el-list-components__frag">
                 <el-list-components-item v-for="(item2, index2) in item"
                     :key="idField ? $at(item2, idField) || item2 : index2" :item="item2" :colnum="colnum || 5"
                     :equal-width="equalWidth" :index="comIndex(index, index2)">
@@ -116,7 +116,7 @@ export default {
 </script>
 
 <style>
-.u-for-com-frag {
+.el-list-components__frag {
     display: flex;
     flex-basis: auto;
     flex-wrap: wrap;

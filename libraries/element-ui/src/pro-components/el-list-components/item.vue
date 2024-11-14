@@ -1,5 +1,5 @@
 <template>
-    <div class="u-for-com-item" :style="comStyle" vusion-slot-name="default">
+    <div class="el-list-components__item" :style="comStyle" vusion-slot-name="default">
         <slot :item="item" :index="index"></slot>
     </div>
 </template>
@@ -47,5 +47,5 @@ export default {
 };
 </script>
 <style>
-.u-for-com-item {}
+.el-list-components__item {}
 </style>
