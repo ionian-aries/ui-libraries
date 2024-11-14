@@ -27,7 +27,7 @@ namespace nasl.ui {
       description: '绑定值',
       setter: { concept: 'InputSetter' },
     })
-    value: nasl.core.Date | nasl.core.String | nasl.core.Decimal;
+    value: nasl.core.Date ;
 
     @Prop({
       group: '主要属性',
