@@ -28,7 +28,8 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
       const prefixes = [kebabCase(componentName)];
       const proRE = /^el-(.+)-pro$/;
       if (proRE.test(prefixes[0])) prefixes.push(prefixes[0].replace(proRE, 'el-p-$1'));
-      prefixes.push(...(options.reportCSSInfo?.extraComponentMap?.[componentName]?.selectorPrefixes || []));
+      const selectorPrefixMap = options.reportCSSInfo?.extraComponentMap?.[componentName]?.selectorPrefixMap;
+      selectorPrefixMap && prefixes.push(...Object.keys(selectorPrefixMap));
 
       const re = new RegExp(prefixes.map((prefix) => `^\\.${prefix}(__|--|$|[ +>~\\.:\\[])|^\\[class\\*=${prefix}_`).join('|'));
       return re.test(selector) && !/:(before|after)$|vusion|s-empty|designer|cw-style/.test(selector);
@@ -44,7 +45,18 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
     const prefixes = [kebabCase(componentName)];
     const proRE = /^el-(.+)-pro$/;
     if (proRE.test(prefixes[0])) prefixes.push(prefixes[0].replace(proRE, 'el-p-$1'));
-    prefixes.push(...(options.reportCSSInfo?.extraComponentMap?.[componentName]?.selectorPrefixes || []));
+    const selectorPrefixMap = options.reportCSSInfo?.extraComponentMap?.[componentName]?.selectorPrefixMap;
+    if (selectorPrefixMap) {
+      const notRootPrefixes: string[] = [];
+      Object.entries(selectorPrefixMap).forEach(([prefix, isRoot]) => {
+        if (!isRoot) notRootPrefixes.push(prefix);
+        else prefixes.push(prefix);
+      });
+      if (notRootPrefixes.length) {
+        const re = new RegExp(notRootPrefixes.map((prefix) => `^\\.${prefix}(--|$|[ +>~\\.:])|^\\[class\\*=${prefix}___`).join('|'));
+        if (re.test(selector)) return false;
+      }
+    }
 
     const re = new RegExp(prefixes.map((prefix) => `^\\.${prefix}(--|$|[ +>~\\.:])|^\\[class\\*=${prefix}___`).join('|'));
     return re.test(selector);
