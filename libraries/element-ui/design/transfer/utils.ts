@@ -5,6 +5,7 @@ import filter from 'lodash/filter';
 import {
   TransferListOptionBase, TransferItemOption, ElTransferProps, TransferValue, DataOption,
 } from './interface';
+import isNil from 'lodash/isNil';
 
 export { emitEvent } from '../utils/event';
 
@@ -174,7 +175,7 @@ function filterTransferData(
   if (!isTreeMode) {
     if (needMatch) {
       // 正向过滤。要保持filterValues顺序
-      return filterValues.map((value) => data.find((item) => item.value === value));
+      return filterValues.map((value) => data.find((item) => item.value === value)).filter((v) => !isNil(v));
     }
     // 反向过滤
     return data.filter((item) => {
