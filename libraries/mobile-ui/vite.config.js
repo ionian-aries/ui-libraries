@@ -57,31 +57,49 @@ export default defineConfig(({ command }) => {
           verbose: false,
           extraComponentMap: {
             VanCapsules: {
-              selectorPrefixes: ['van-capsules-item'],
+              selectorPrefixMap: {
+                'van-capsules-item': false,
+              },
             },
             VanCell: {
-              selectorPrefixes: ['van-cellson'],
+              selectorPrefixMap: {
+                'van-cellson': false,
+              },
             },
             VanField: {
-              selectorPrefixes: ['van-fieldsonforsearch'],
+              selectorPrefixMap: {
+                'van-fieldsonforsearch': false,
+              },
             },
             VanPickerson: {
-              selectorPrefixes: ['van-pickerson-column'],
+              selectorPrefixMap: {
+                'van-pickerson-column': false,
+              },
             },
             VanProgress: {
-              selectorPrefixes: ['van-progress-room'],
+              selectorPrefixMap: {
+                'van-progress-room': false,
+              },
             },
             VanSlider: {
-              selectorPrefixes: ['van-slider-room'],
+              selectorPrefixMap: {
+                'van-slider-room': false,
+              },
             },
             VanSwitch: {
-              selectorPrefixes: ['van-switch-cell'],
+              selectorPrefixMap: {
+                'van-switch-cell': false,
+              },
             },
             VanToast: {
-              selectorPrefixes: ['van-toast-group'],
+              selectorPrefixMap: {
+                'van-toast-group': false,
+              },
             },
             VanMyProcess: {
-              selectorPrefixes: ['van-my-process-toolbar'],
+              selectorPrefixMap: {
+                'van-my-process-toolbar': false,
+              },
             },
             VanForComponents: {
               mainSelectorMap: {

@@ -39,25 +39,39 @@ export default defineConfig(({ command }) => {
           verbose: false,
           extraComponentMap: {
             ElIcon: {
-              selectorPrefixes: ['el-icon-loading'],
+              selectorPrefixMap: {
+                'el-icon-loading': true,
+              },
             },
             ElAutocomplete: {
-              selectorPrefixes: ['el-autocomplete-suggestion'],
+              selectorPrefixMap: {
+                'el-autocomplete-suggestion': false,
+              },
             },
             ElDropdown: {
-              selectorPrefixes: ['el-dropdown-menu'],
+              selectorPrefixMap: {
+                'el-dropdown-menu': false,
+              },
             },
             ElMenu: {
-              selectorPrefixes: ['el-menu-item-group'],
+              selectorPrefixMap: {
+                'el-menu-item-group': false,
+              },
             },
             ElProgress: {
-              selectorPrefixes: ['el-progress-bar'],
+              selectorPrefixMap: {
+                'el-progress-bar': false,
+              },
             },
             ElImage: {
-              selectorPrefixes: ['el-image-preview'],
+              selectorPrefixMap: {
+                'el-image-preview': false,
+              },
             },
             ElCalendar: {
-              selectorPrefixes: ['el-calendar-table'],
+              selectorPrefixMap: {
+                'el-calendar-table': false,
+              },
             },
             ElListComponents: {
               mainSelectorMap: {

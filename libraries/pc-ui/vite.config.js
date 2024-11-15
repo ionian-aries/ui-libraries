@@ -38,7 +38,9 @@ export default defineConfig(({ command }) => {
           verbose: false,
           extraComponentMap: {
             IIco: {
-              selectorPrefixes: ['i-icon'],
+              selectorPrefixMap: {
+                'i-icon': true,
+              },
               mainSelectorMap: {
                 "[class*=i-icon___]": true,
               },
@@ -64,7 +66,9 @@ export default defineConfig(({ command }) => {
               },
             },
             UTableView: {
-              selectorPrefixes: ['u-table'],
+              selectorPrefixMap: {
+                'u-table': false,
+              },
             },
             UTreeViewNew: {
               mainSelectorMap: {
@@ -76,6 +80,12 @@ export default defineConfig(({ command }) => {
                 "[class*=u-for-com]": true,
                 "[class*=u-for-com-frag]": false,
                 "[class*=u-for-com-item]": false,
+              },
+            },
+            UToc: {
+              selectorPrefixMap: {
+                'u-toc': false,
+                'u-toc_wrap': true,
               },
             },
           },

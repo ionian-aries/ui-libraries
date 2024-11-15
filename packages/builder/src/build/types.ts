@@ -52,7 +52,7 @@ export interface LcapBuildOptions {
           ElAutocomplete: ['el-autocomplete-suggestion'],
         }
        */
-      selectorPrefixes?: string[];
+      selectorPrefixMap?: Record<string, boolean>;
       /**
        * 额外补充主选择器
        * true 表示为组件根节点，false 表示为组件内部的其他节点
