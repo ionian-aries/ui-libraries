@@ -173,7 +173,7 @@ namespace nasl.ui {
       title: '最大文本长度',
       description:
         '用户最多可以输入的文本长度，一个中文等于一个计数长度。默认为空，不限制输入长度。',
-      setter: { concept: 'InputSetter' },
+      setter: { concept: 'NumberInputSetter', min: 0 },
       // if: _ => !_.maxcharacter
     })
     maxlength: nasl.core.String | nasl.core.Decimal;
