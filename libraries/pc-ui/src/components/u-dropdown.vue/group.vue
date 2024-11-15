@@ -1,5 +1,5 @@
 <template>
-    <div :class="$style.root" ref="root" @click.stop>
+    <div :class="$style.root" :disabled="currentDisabled" ref="root" @click.stop>
         <div :class="$style.head" :selected="selected" vusion-click-enabled>
             <div
                 :class="$style.title"
@@ -32,7 +32,7 @@
             :reference="$refs.root"
             :trigger="$env.VUE_APP_DESIGNER? 'click' : trigger || rootVM.trigger"
             placement="right-start"
-            :disabled="disabled"
+            :disabled="currentDisabled"
             append-to="reference"
             :opened="($env.VUE_APP_DESIGNER && collapsible === false ) ? false :currentExpanded"
             @before-open="$event=>collapsible === false && $event.preventDefault()"
@@ -122,6 +122,9 @@ export default {
             }
             return this.$at(this.node, this.rootVM.childrenField) || [];
         },
+        currentDisabled() {
+          return this.disabled || this.parentVM.disabled || (this.groupVM && this.groupVM.disabled);
+        }
     },
 
     created() {
