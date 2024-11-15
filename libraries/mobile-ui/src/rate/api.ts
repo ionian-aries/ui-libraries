@@ -53,7 +53,7 @@ namespace nasl.ui {
     count: nasl.core.Integer = 5;
     @Prop({
       group: '主要属性',
-      title: '选中时的图标名称或图片链接',
+      title: '选中时的图标',
       setter: {
         concept: "IconSetter"
       }
@@ -61,7 +61,7 @@ namespace nasl.ui {
     icon: nasl.core.String;
     @Prop({
       group: '主要属性',
-      title: '未选中时的图标名称或图片链接',
+      title: '未选中时的图标',
       setter: {
         concept: "IconSetter"
       }
