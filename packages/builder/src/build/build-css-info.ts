@@ -25,13 +25,15 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
   // eslint-disable-next-line no-shadow
   const inferSelectorComponentName = options.reportCSSInfo?.inferSelectorComponentName || ((selector: string, componentNames: string[]) => {
     return componentNames.find((componentName) => {
-      const prefixes = [kebabCase(componentName)];
+      const firstPrefix = kebabCase(componentName);
+      const prefixMap = { [firstPrefix]: true };
       const proRE = /^el-(.+)-pro$/;
-      if (proRE.test(prefixes[0])) prefixes.push(prefixes[0].replace(proRE, 'el-p-$1'));
-      const selectorPrefixMap = options.reportCSSInfo?.extraComponentMap?.[componentName]?.selectorPrefixMap;
-      selectorPrefixMap && prefixes.push(...Object.keys(selectorPrefixMap));
+      if (proRE.test(firstPrefix)) prefixMap[firstPrefix.replace(proRE, 'el-p-$1')] = true;
 
-      const re = new RegExp(prefixes.map((prefix) => `^\\.${prefix}(__|--|$|[ +>~\\.:\\[])|^\\[class\\*=${prefix}_`).join('|'));
+      const selectorPrefixMap = options.reportCSSInfo?.extraComponentMap?.[componentName]?.selectorPrefixMap;
+      selectorPrefixMap && Object.assign(prefixMap, selectorPrefixMap);
+
+      const re = new RegExp(Object.keys(prefixMap).map((prefix) => `^\\.${prefix}(__|--|$|[ +>~\\.:\\[])|^\\[class\\*=${prefix}_`).join('|'));
       return re.test(selector) && !/:(before|after)$|vusion|s-empty|designer|cw-style/.test(selector);
     });
   });
@@ -42,23 +44,22 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
   }
 
   const isSelectorStartRoot = options.reportCSSInfo?.isSelectorStartRoot || ((selector: string, componentName: string) => {
-    const prefixes = [kebabCase(componentName)];
+    const firstPrefix = kebabCase(componentName);
+    const prefixMap = { [firstPrefix]: true };
     const proRE = /^el-(.+)-pro$/;
-    if (proRE.test(prefixes[0])) prefixes.push(prefixes[0].replace(proRE, 'el-p-$1'));
+    if (proRE.test(firstPrefix)) prefixMap[firstPrefix.replace(proRE, 'el-p-$1')] = true;
     const selectorPrefixMap = options.reportCSSInfo?.extraComponentMap?.[componentName]?.selectorPrefixMap;
-    if (selectorPrefixMap) {
-      const notRootPrefixes: string[] = [];
-      Object.entries(selectorPrefixMap).forEach(([prefix, isRoot]) => {
-        if (!isRoot) notRootPrefixes.push(prefix);
-        else prefixes.push(prefix);
-      });
-      if (notRootPrefixes.length) {
-        const re = new RegExp(notRootPrefixes.map((prefix) => `^\\.${prefix}(--|$|[ +>~\\.:])|^\\[class\\*=${prefix}___`).join('|'));
-        if (re.test(selector)) return false;
-      }
-    }
+    selectorPrefixMap && Object.assign(prefixMap, selectorPrefixMap);
 
-    const re = new RegExp(prefixes.map((prefix) => `^\\.${prefix}(--|$|[ +>~\\.:])|^\\[class\\*=${prefix}___`).join('|'));
+    const notRootPrefixes: string[] = [];
+    const rootPrefixes: string[] = [];
+    Object.entries(prefixMap).forEach(([prefix, isRoot]) => {
+      (isRoot ? rootPrefixes : notRootPrefixes).push(prefix);
+    });
+
+    let re = new RegExp(notRootPrefixes.map((prefix) => `^\\.${prefix}(--|$|[ +>~\\.:])|^\\[class\\*=${prefix}___`).join('|'));
+    if (re.test(selector)) return false;
+    re = new RegExp(rootPrefixes.map((prefix) => `^\\.${prefix}(--|$|[ +>~\\.:])|^\\[class\\*=${prefix}___`).join('|'));
     return re.test(selector);
   });
 

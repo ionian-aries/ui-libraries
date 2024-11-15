@@ -82,6 +82,12 @@ export default defineConfig(({ command }) => {
                 "[class*=u-for-com-item]": false,
               },
             },
+            UToc: {
+              selectorPrefixMap: {
+                'u-toc': false,
+                'u-toc_wrap': true,
+              },
+            },
           },
         },
       }),
