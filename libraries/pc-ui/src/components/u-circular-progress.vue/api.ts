@@ -24,6 +24,7 @@ namespace nasl.ui {
             docDescription: '进度条显示的进度百分比，1-100之间的数字',
             setter: {
                 concept: 'NumberInputSetter',
+                min: 0,
             },
             settable: true,
         })

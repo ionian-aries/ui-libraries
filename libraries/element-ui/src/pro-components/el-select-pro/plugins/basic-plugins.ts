@@ -101,7 +101,7 @@ export const useSelect: NaslComponentPluginOptions = {
               onClose: (context: { e: MouseEvent }) => onClose({ e: context.e, index }),
               closable: !readonly && !disabled,
             },
-          }, slotValue({ item }))
+          }, slotValue({ item }) || [lodashGet(item, textField.value)])
         ));
       },
       onChange: (value: SelectValue, context: { option?: any; selectedOptions: any[]; trigger: SelectValueChangeTrigger; }) => {
