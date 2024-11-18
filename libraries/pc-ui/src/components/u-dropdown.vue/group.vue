@@ -123,8 +123,8 @@ export default {
             return this.$at(this.node, this.rootVM.childrenField) || [];
         },
         currentDisabled() {
-          return this.disabled || this.parentVM.disabled || (this.groupVM && this.groupVM.disabled);
-        }
+          return this.disabled || (this.rootVM && this.rootVM.disabled) || (this.parentVM && (this.parentVM.currentDisabled || this.parentVM.disabled));
+        },
     },
 
     created() {
@@ -139,7 +139,7 @@ export default {
             return this.rootVM.hasChildren(node || this.node);
         },
         toggle(expanded, mode) {
-            if (this.disabled || this.parentVM.readonly || this.parentVM.disabled) {
+            if (this.currentDisabled || this.parentVM.readonly || this.parentVM.disabled) {
                 return;
             }
             const oldExpanded = this.currentExpanded;
