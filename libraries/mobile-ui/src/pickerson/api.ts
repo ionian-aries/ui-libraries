@@ -57,6 +57,18 @@ namespace nasl.ui {
       description: '重新加载数据'
     })
     reload(): any {}
+    
+    @Method({
+      title: 'undefined',
+      description: '打开选择器'
+    })
+    open(): any {}
+
+    @Method({
+      title: 'undefined',
+      description: '关闭选择器'
+    })
+    close(): any {}
   }
   export class VanPickersonOptions<T, V, M extends nasl.core.Boolean, P extends nasl.core.Boolean, C> extends ViewComponentOptions {
     @Prop({
