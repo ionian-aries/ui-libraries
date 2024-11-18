@@ -9,6 +9,7 @@ import genManifestConfig from './gens/gen-manifest-config';
 import type { LcapBuildOptions } from './types';
 import { execSync } from '../utils/exec';
 import { buildTheme } from './build-theme';
+import buildCSSInfo from './build-css-info';
 import buildDeclaration from './build-declaration';
 
 const zipDir = (basePath, fileName = 'client.zip', files: string[] = []) => new Promise((res) => {
@@ -131,6 +132,7 @@ export async function buildNaslExtension(options: LcapBuildOptions) {
   fs.writeJSONSync(naslConfigPath, naslExtensionConfig, { spaces: 2 });
   logger.success('生成 nasl.extension.json 成功！');
 
+  options.reportCSSInfo && buildCSSInfo(options);
   await buildTheme({
     ...options,
     components: viewComponents.map(({
