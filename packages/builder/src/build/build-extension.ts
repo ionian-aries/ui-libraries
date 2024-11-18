@@ -9,7 +9,7 @@ import genManifestConfig from './gens/gen-manifest-config';
 import type { LcapBuildOptions } from './types';
 import { execSync } from '../utils/exec';
 import { buildTheme } from './build-theme';
-import buildDecalaration from './build-declaration';
+import buildDeclaration from './build-declaration';
 
 const zipDir = (basePath, fileName = 'client.zip', files: string[] = []) => new Promise((res) => {
   const zipPath = path.resolve(basePath, fileName);
@@ -148,7 +148,7 @@ export async function buildNaslExtension(options: LcapBuildOptions) {
     }),
   });
 
-  await buildDecalaration(options);
+  await buildDeclaration(options);
   const manifest = genManifestConfig(options);
   (naslExtensionConfig.compilerInfoMap as any).manifest = JSON.stringify(manifest);
   fs.writeJSONSync(naslConfigPath, { ...naslExtensionConfig }, { spaces: 2 });
