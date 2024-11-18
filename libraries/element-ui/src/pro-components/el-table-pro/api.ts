@@ -47,6 +47,9 @@ namespace nasl.ui {
           expression: "!this.getAttribute('hasExpandedRow')?.value",
         },
       ],
+      events: {
+        click: "this.getAttribute('hasExpandedRow')?.value",
+      },
       forceUpdateWhenAttributeChange: true,
       dataSource: {
         display: 3,
@@ -67,16 +70,10 @@ namespace nasl.ui {
   @Component({
     title: '数据表格',
     icon: 'table-view',
-    description:
-      '用于展示大量结构化数据。支持排序、过滤（筛选）、分页、自定义操作等复杂功能。',
+    description: '用于展示大量结构化数据。支持排序、过滤（筛选）、分页、自定义操作等复杂功能。',
     group: 'Table',
   })
-  export class ElTablePro<
-    T,
-    V,
-    P extends nasl.core.Boolean,
-    M extends nasl.core.Boolean,
-  > extends ViewComponent {
+  export class ElTablePro<T, V, P extends nasl.core.Boolean, M extends nasl.core.Boolean> extends ViewComponent {
     @Prop({
       title: '数据',
     })
@@ -221,16 +218,13 @@ namespace nasl.ui {
         '表格展示的数据。数据源可以绑定变量或者逻辑。变量或逻辑的返回值可以是数组，也可以是对象。对象格式为{list:[], total:10}',
       designerValue: [{}, {}, {}],
     })
-    dataSource:
-      | { list: nasl.collection.List<T>; total: nasl.core.Integer }
-      | nasl.collection.List<T>;
+    dataSource: { list: nasl.collection.List<T>; total: nasl.core.Integer } | nasl.collection.List<T>;
 
     @Prop({
       group: '数据属性',
       title: '数据类型',
       description: '数据源返回的数据结构的类型，自动识别类型进行展示说明',
-      docDescription:
-        '表格每一行的数据类型。该属性为展示属性，由数据源推导得到，无需填写',
+      docDescription: '表格每一行的数据类型。该属性为展示属性，由数据源推导得到，无需填写',
     })
     dataSchema: T;
 
@@ -407,8 +401,7 @@ namespace nasl.ui {
     @Prop({
       group: '主要属性',
       title: '表格最大高度',
-      description:
-        '表格最大高度，超出后会出现滚动条。示例：100, "30%", "300"。值为数字类型，会自动加上单位 px',
+      description: '表格最大高度，超出后会出现滚动条。示例：100, "30%", "300"。值为数字类型，会自动加上单位 px',
       setter: { concept: 'InputSetter' },
     })
     maxHeight: nasl.core.String | nasl.core.Decimal;
@@ -481,8 +474,7 @@ namespace nasl.ui {
       group: '数据属性',
       title: '初始化排序规则',
       description: '设置数据初始化时的排序字段和顺序规则',
-      docDescription:
-        '支持选择数据表格数据源中的某一条数据，配置默认排序规则，支持升序和降序',
+      docDescription: '支持选择数据表格数据源中的某一条数据，配置默认排序规则，支持升序和降序',
     })
     sorting: {
       field: nasl.core.String;
@@ -527,8 +519,7 @@ namespace nasl.ui {
       group: '数据属性',
       title: '值字段',
       description: '在单选、多选操作、渲染树形数据中，指定数据唯一值的字段',
-      docDescription:
-        '在表格开启了单选、多选操作、渲染树形数据中，指定数据唯一值的字段',
+      docDescription: '在表格开启了单选、多选操作、渲染树形数据中，指定数据唯一值的字段',
       setter: {
         concept: 'PropertySelectSetter',
       },
@@ -643,8 +634,7 @@ namespace nasl.ui {
     @Prop<ElTableProOptions<T, V, P, M>, 'parentField'>({
       group: '数据属性',
       title: '父级值字段',
-      description:
-        '当数据源为平铺数据时自动生成树形数据的节点字段名，重要：值字段名需要一起配置',
+      description: '当数据源为平铺数据时自动生成树形数据的节点字段名，重要：值字段名需要一起配置',
       docDescription:
         '标识父节点字段名，用于标识表格行取哪个数据作为父级的判断，需同步配置“值字段名”。在"树行模式"属性开启时有效',
       setter: {
@@ -658,8 +648,7 @@ namespace nasl.ui {
       group: '数据属性',
       title: '关联选中类型',
       description: '父子树节点是否关联选中',
-      docDescription:
-        '当选中父节点时，子节点是否相应选中等。在"树形模式"属性开启并且表格存在"多选列"时有效',
+      docDescription: '当选中父节点时，子节点是否相应选中等。在"树形模式"属性开启并且表格存在"多选列"时有效',
       setter: {
         concept: 'SwitchSetter',
       },
@@ -670,14 +659,10 @@ namespace nasl.ui {
     @Prop({
       group: '主要属性',
       title: '行拖拽',
-      description:
-        '拖拽排序方式，行拖拽排序，这种方式无法进行文本复制，',
+      description: '拖拽排序方式，行拖拽排序，这种方式无法进行文本复制，',
       setter: {
         concept: 'EnumSelectSetter',
-        options: [
-          { title: '行拖拽' },
-          { title: '关闭拖拽' },
-        ],
+        options: [{ title: '行拖拽' }, { title: '关闭拖拽' }],
       },
     })
     dragSort: 'row' | 'false' = 'false';
@@ -907,12 +892,7 @@ namespace nasl.ui {
     title: '表格列',
     description: '表格列',
   })
-  export class ElTableColumnPro<
-    T,
-    V,
-    P extends nasl.core.Boolean,
-    M extends nasl.core.Boolean,
-  > extends ViewComponent {
+  export class ElTableColumnPro<T, V, P extends nasl.core.Boolean, M extends nasl.core.Boolean> extends ViewComponent {
     constructor(options?: Partial<ElTableColumnProOptions<T, V, P, M>>) {
       super();
     }
@@ -1055,11 +1035,7 @@ namespace nasl.ui {
         '该列是否固定。左侧固定列需要从第一列到当前固定列之间的列都是固定列。右侧固定列需要最后一列到当前固定列之间的列都是固定列。',
       setter: {
         concept: 'EnumSelectSetter',
-        options: [
-          { title: ' 左侧固定' },
-          { title: '右侧固定' },
-          { title: '不固定' },
-        ],
+        options: [{ title: ' 左侧固定' }, { title: '右侧固定' }, { title: '不固定' }],
       },
     })
     fixed: 'left' | 'right' | '' = '';
@@ -1068,8 +1044,7 @@ namespace nasl.ui {
       group: '主要属性',
       title: '表头文本过长省略',
       description: '文字过长是否省略显示。默认文字超出时会换行。',
-      docDescription:
-        '开启后，该列表头文本过长会省略显示，否则换行显示，默认关闭',
+      docDescription: '开启后，该列表头文本过长会省略显示，否则换行显示，默认关闭',
       setter: {
         concept: 'SwitchSetter',
       },
@@ -1095,7 +1070,6 @@ namespace nasl.ui {
       },
     })
     autoMerge: nasl.core.Boolean = false;
-
 
     // dragSort: 'row' | 'row-handler' | 'col' | 'row-handler-col' | 'drag-col';
 

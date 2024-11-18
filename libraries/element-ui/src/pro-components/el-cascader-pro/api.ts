@@ -12,16 +12,17 @@ namespace nasl.ui {
         dismiss: "!this.getAttribute('dataSource')",
         display: 3,
         loopRule: 'nth-last-child(-n+2)',
-        loopElem: "li.el-p-cascader__item",
+        loopElem: 'li.el-p-cascader__item',
         displayData: "\"[{value: '', label: ''}, {value:'1', label: ' '}, {value:'2', label: ' '}]\"",
-        propertyName: ":dataSource",
+        propertyName: ':dataSource',
       },
       additionalAttribute: {
         valueField: 'value',
         textField: 'label',
       },
       displaySlotConditions: {
-        option: "!!this.getAttribute('dataSource') && this.getAttribute('optionIsSlot') && this.getAttribute('optionIsSlot').value",
+        option:
+          "!!this.getAttribute('dataSource') && this.getAttribute('optionIsSlot') && this.getAttribute('optionIsSlot').value",
       },
       slotWrapperInlineStyle: {
         option: 'width:100%;',
@@ -29,7 +30,7 @@ namespace nasl.ui {
       slotInlineStyle: {
         option: 'min-height: 0;',
       },
-    }
+    },
   })
   @Component({
     title: '级联选择器',
@@ -37,13 +38,7 @@ namespace nasl.ui {
     description: '',
     group: 'Selector',
   })
-  export class ElCascaderPro<
-    T,
-    V,
-    P extends nasl.core.Boolean,
-    M extends nasl.core.Boolean,
-    C,
-  > extends ViewComponent {
+  export class ElCascaderPro<T, V, P extends nasl.core.Boolean, M extends nasl.core.Boolean, C> extends ViewComponent {
     constructor(options?: Partial<ElCascaderProOptions<T, V, P, M, C>>) {
       super();
     }
@@ -132,21 +127,16 @@ namespace nasl.ui {
     @Prop({
       group: '数据属性',
       title: '数据源',
-      description:
-        '展示数据的输入源，可设置为集合类型变量（List<T>）或输出参数为集合类型的逻辑。',
-      docDescription:
-        '支持动态绑定集合类型变量（List<T>）或输出参数为集合类型的逻辑',
+      description: '展示数据的输入源，可设置为集合类型变量（List<T>）或输出参数为集合类型的逻辑。',
+      docDescription: '支持动态绑定集合类型变量（List<T>）或输出参数为集合类型的逻辑',
     })
-    dataSource:
-      | { list: nasl.collection.List<T>; total: nasl.core.Integer }
-      | nasl.collection.List<T>;
+    dataSource: { list: nasl.collection.List<T>; total: nasl.core.Integer } | nasl.collection.List<T>;
 
     @Prop({
       group: '数据属性',
       title: '数据类型',
       description: '数据源返回的数据结构的类型，自动识别类型进行展示说明',
-      docDescription:
-        '该属性为只读状态，当数据源动态绑定集合List<T>后，会自动识别T的类型并进行展示。',
+      docDescription: '该属性为只读状态，当数据源动态绑定集合List<T>后，会自动识别T的类型并进行展示。',
     })
     dataSchema: T;
 
@@ -154,8 +144,7 @@ namespace nasl.ui {
       group: '数据属性',
       title: '文本字段',
       description: '集合的元素类型中，用于显示文本的属性名称',
-      docDescription:
-        '集合的元素类型中，用于显示文本的属性名称，支持自定义变更。',
+      docDescription: '集合的元素类型中，用于显示文本的属性名称，支持自定义变更。',
       setter: {
         concept: 'PropertySelectSetter',
       },
@@ -168,7 +157,7 @@ namespace nasl.ui {
       description: '自定义选项内容',
       docDescription: '自定义选项内容',
       setter: {
-        concept: 'SwitchSetter'
+        concept: 'SwitchSetter',
       },
       bindHide: true,
       if: (_) => !!_.dataSource,
@@ -195,15 +184,13 @@ namespace nasl.ui {
         concept: 'PropertySelectSetter',
       },
     })
-    childrenField: (item: T) => nasl.collection.List<any> = ((item: any) =>
-      item.children) as any;
+    childrenField: (item: T) => nasl.collection.List<any> = ((item: any) => item.children) as any;
 
     @Prop({
       group: '数据属性',
       title: '父级值字段',
       description: '集合的元素类型中，用于标识父节点的属性',
-      docDescription:
-        '集合的元素类型中，用于标识父级字段的属性，支持自定义变更',
+      docDescription: '集合的元素类型中，用于标识父级字段的属性，支持自定义变更',
       setter: {
         concept: 'PropertySelectSetter',
       },
@@ -270,17 +257,8 @@ namespace nasl.ui {
 
     @Prop({
       group: '主要属性',
-      title: '多选数量',
-      description: '用于控制多选数量，值为 0 则不限制',
-      setter: { concept: 'NumberInputSetter', min: 0 },
-    })
-    max: nasl.core.Decimal;
-
-    @Prop({
-      group: '主要属性',
       title: '最小折叠数量',
-      description:
-        '最小折叠数量，用于多选情况下折叠选中项，超出该数值的选中项折叠。值为 0 则表示不折叠',
+      description: '最小折叠数量，用于多选情况下折叠选中项，超出该数值的选中项折叠。值为 0 则表示不折叠',
       setter: { concept: 'NumberInputSetter', min: 0 },
     })
     minCollapsedNum: nasl.core.Decimal;
@@ -292,6 +270,15 @@ namespace nasl.ui {
       setter: { concept: 'SwitchSetter' },
     })
     multiple: nasl.core.Boolean = false;
+
+    @Prop<ElCascaderProOptions<T, V, P, M, C>, 'max'>({
+      group: '主要属性',
+      title: '多选数量',
+      description: '用于控制多选数量，值为 0 则不限制',
+      setter: { concept: 'NumberInputSetter', min: 0 },
+      if: (_) => _.multiple == true,
+    })
+    max: nasl.core.Decimal;
 
     // @Prop({
     //   group: '主要属性',
@@ -374,12 +361,7 @@ namespace nasl.ui {
       description: '输入框状态。可选项：default/success/warning/error',
       setter: {
         concept: 'EnumSelectSetter',
-        options: [
-          { title: '默认' },
-          { title: '成功' },
-          { title: '警告' },
-          { title: '错误' },
-        ],
+        options: [{ title: '默认' }, { title: '成功' }, { title: '警告' }, { title: '错误' }],
       },
     })
     status: 'default' | 'success' | 'warning' | 'error' = 'default';
@@ -458,11 +440,7 @@ namespace nasl.ui {
         '选中值模式。all 表示父节点和子节点全部会出现在选中值里面；parentFirst 表示当子节点全部选中时，仅父节点在选中值里面；onlyLeaf 表示无论什么情况，选中值仅呈现叶子节点。可选项：onlyLeaf/parentFirst/all',
       setter: {
         concept: 'EnumSelectSetter',
-        options: [
-          { title: '叶子节点' },
-          { title: '仅父节' },
-          { title: '父节点和子节' },
-        ],
+        options: [{ title: '叶子节点' }, { title: '仅父节' }, { title: '父节点和子节' }],
       },
     })
     valueMode: 'onlyLeaf' | 'parentFirst' | 'all' = 'onlyLeaf';
