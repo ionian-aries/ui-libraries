@@ -327,7 +327,7 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
       rule.description = cssDescMap[rule.selector] = cssDescMap[rule.selector] || '';
     });
     // eslint-disable-next-line no-nested-ternary
-    // componentCSSInfo.cssRules.sort((a, b) => (a.selector === b.selector ? 0 : a.selector < b.selector ? -1 : 1));
+    // componentCSSInfo.cssRules 不应该排序
     Object.keys(cssDescMap).forEach((selector) => {
       if (!componentCSSInfo.cssRuleMap.has(selector)) delete cssDescMap[selector];
     });

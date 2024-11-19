@@ -88,6 +88,18 @@ export default defineConfig(({ command }) => {
                 'u-toc_wrap': true,
               },
             },
+            UModal: {
+              selectorPrefixMap: {
+                'u-modal': false,
+                'u-modal_dialog': true,
+              },
+            },
+            UDrawer: {
+              selectorPrefixMap: {
+                'u-drawer': false,
+                'u-drawer_drawer': true,
+              },
+            }
           },
         },
       }),
