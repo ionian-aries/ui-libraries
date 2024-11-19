@@ -520,7 +520,7 @@
             },
             "scopedSlots": ["title", "picker-top", "pannel-title", "picker-bottom"],
             "displaySlotConditions": {
-                "option": false
+                "option": "!!this.getAttribute('dataSource') && this.getAttribute('optionIsSlot') && this.getAttribute('optionIsSlot').value"
             },
             "translateBindingProperty": ["title", "cancelButtonText", "confirmButtonText", "placeholder", "value"],
             "useFxOrEg":{"property": "value","displayAsAttr":true},

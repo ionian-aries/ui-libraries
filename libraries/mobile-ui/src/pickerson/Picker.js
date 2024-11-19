@@ -16,6 +16,10 @@ export default createComponent({
     ...pickerProps,
     value: [Number, String],
     columnsprop: [Array, String],
+    optionIsSlot: {
+      type: Boolean,
+      default: true,
+    },
     toolbarPosition: {
       type: String,
       default: 'top',
@@ -310,6 +314,7 @@ export default createComponent({
           disabled={this.disabled}
           textField={this.textField}
           allowHtml={this.allowHtml}
+          optionIsSlot={this.optionIsSlot}
           // className={item.className}
           itemHeight={this.itemPxHeight}
           defaultIndex={+this.defaultIndex}
