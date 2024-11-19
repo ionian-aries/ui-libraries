@@ -36,7 +36,7 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
       selectorPrefixMap && Object.assign(prefixMap, selectorPrefixMap);
 
       const re = new RegExp(Object.keys(prefixMap).map((prefix) => `^\\.${prefix}(__|--|$|[ +>~\\.:\\[])|^\\[class\\*=${prefix}_`).join('|'));
-      return re.test(selector) && !/:(before|after)$|vusion|s-empty|_fake|_empty|[dD]esigner|cw-style/.test(selector);
+      return re.test(selector);
     });
   });
 
@@ -84,13 +84,14 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
         .split(/,/g)
         .flatMap((sel) => (mockStateRE.test(sel) && !hasPesudoElementRE.test(sel) ? [sel, sel.replace(mockStateRE, '._$1')] : [sel])); // 增加模拟伪类
 
-      node.selector = selectors.join(','); // 更新 CSS 代码中的选择器
+      let selector = selectors.join(',');
+      if (/:(before|after)$|vusion|s-empty|_fake|_empty|[dD]esigner|cw-style/.test(selector) || isNonStandardRE.test(selector)) return;
+      node.selector = selector; // 更新 CSS 代码中的选择器
 
       selectors = selectors
         // .filter((sel) => !/|ms|o)-|^_/.test(sel)) // 过滤掉浏览器前缀和 _ 开头的选择器
         .map((sel) => sel.replace(hashClassRE, '[class*=$1___]')); // hash 类名改为 [class*=] 属性选择器
-
-      const selector = selectors.join(',');
+      selector = selectors.join(',');
       if (!selector) return;
 
       const componentName = inferSelectorComponentName?.(selector, componentNames);
