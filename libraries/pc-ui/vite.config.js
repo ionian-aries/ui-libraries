@@ -41,9 +41,6 @@ export default defineConfig(({ command }) => {
               selectorPrefixMap: {
                 'i-icon': true,
               },
-              mainSelectorMap: {
-                "[class*=i-icon___]": true,
-              },
             },
             UCrumb: {
               mainSelectorMap: {
@@ -98,6 +95,11 @@ export default defineConfig(({ command }) => {
               selectorPrefixMap: {
                 'u-drawer': false,
                 'u-drawer_drawer': true,
+              },
+            },
+            UCountDown: {
+              mainSelectorMap: {
+                '[class*=u-count-down]': true,
               },
             }
           },

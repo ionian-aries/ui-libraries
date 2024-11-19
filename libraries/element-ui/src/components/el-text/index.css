@@ -1,79 +1,79 @@
-.root {
+.el-text {
   white-space: pre-wrap;
   max-width: 100%;
 }
 
-.root.size-small {
+.el-text.el-text--size-small {
   font-size: var(--font-size-extra-small);
 }
 
-.root.size-normal {
+.el-text.el-text--size-normal {
   font-size: var(--font-size-base);
 }
 
-.root.size-large {
+.el-text.el-text--size-large {
   font-size: var(--font-size-medium);
 }
 
-.root.size-huge {
+.el-text.el-text--size-huge {
   font-size: var(--font-size-large);
 }
 
-.root.weight-normal {
+.el-text.el-text--weight-normal {
   font-weight: normal;
 }
 
-.root.weight-bold {
+.el-text.el-text--weight-bold {
   font-weight: bold;
 }
 
-.root.color-default {
+.el-text.el-text--color-default {
   color: inherit;
 }
 
-.root.color-primary {
+.el-text.el-text--color-primary {
   color: var(--color-primary);
 }
 
-.root.color-secondary {
+.el-text.el-text--color-secondary {
   color: var(--el-color-text-2);
 }
 
-.root.color-success {
+.el-text.el-text--color-success {
   color: var(--color-success);
 }
 
-.root.color-warning {
+.el-text.el-text--color-warning {
   color: var(--color-warning);
 }
 
-.root.color-error {
+.el-text.el-text--color-error {
   color: var(--color-error);
 }
 
-.root.color-disabled {
+.el-text.el-text--color-disabled {
   color: var(--font-color-disabled-base);
 }
 
-.root.overflow-ellipsis,
-.root.wrap-ellipsis {
+.el-text.el-text--overflow-ellipsis,
+.el-text.el-text--wrap-ellipsis {
   display: block;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
-.root.overflow-break, .root.wrap-break {
+.el-text.el-text--overflow-break, .el-text.el-text--wrap-break {
   word-wrap: break-word;
   hyphens: auto;
   white-space: normal;
   max-width: 100%;
 }
 
-.root.overflow-nowrap, .root.wrap-nowrap {
+.el-text.el-text--overflow-nowrap, .el-text.el-text--wrap-nowrap {
   white-space: nowrap;
 }
 
-.root.display-block {
+.el-text.el-text--display-block {
   display: block;
 }

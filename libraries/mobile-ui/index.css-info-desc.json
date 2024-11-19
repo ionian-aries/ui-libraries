@@ -363,19 +363,6 @@
   },
   "VanCapsules": {
     ".van-capsules": "胶囊",
-    ".van-capsules-item": "胶囊项",
-    ".van-capsules-item__label": "胶囊项标签",
-    ".van-capsules-item__label:active,.van-capsules-item__label._active": "胶囊项标签:鼠标按下",
-    ".van-capsules-item__label:focus,.van-capsules-item__label._focus": "胶囊项标签:获得焦点",
-    ".van-capsules-item__label:hover,.van-capsules-item__label._hover": "胶囊项标签:鼠标移入",
-    ".van-capsules-item:active,.van-capsules-item._active": "胶囊项:鼠标按下",
-    ".van-capsules-item:first-child": "胶囊项:第一个子元素",
-    ".van-capsules-item:focus,.van-capsules-item._focus": "胶囊项:获得焦点",
-    ".van-capsules-item:hover,.van-capsules-item._hover": "胶囊项:鼠标移入",
-    ".van-capsules-item:last-child": "胶囊项:最后一个子元素",
-    ".van-capsules-item[active]": "胶囊项:激活态",
-    ".van-capsules-item[active][disabled]": "胶囊项:激活禁用态",
-    ".van-capsules-item[disabled]": "胶囊项:禁用态",
     ".van-capsules:active,.van-capsules._active": "胶囊:鼠标按下",
     ".van-capsules:focus,.van-capsules._focus": "胶囊:获得焦点",
     ".van-capsules:hover,.van-capsules._hover": "胶囊:鼠标移入"
@@ -3508,5 +3495,32 @@
     "[class*=popup-combination_reference___]:active,[class*=popup-combination_reference___]._active": "弹出框参考:鼠标按下",
     "[class*=popup-combination_reference___]:focus,[class*=popup-combination_reference___]._focus": "弹出框参考:获得焦点",
     "[class*=popup-combination_reference___]:hover,[class*=popup-combination_reference___]._hover": "弹出框参考:鼠标移入"
+  },
+  "VanCapsulesItem": {
+    ".van-capsules-item": "胶囊项",
+    ".van-capsules-item__label": "胶囊项标签",
+    ".van-capsules-item__label:active,.van-capsules-item__label._active": "胶囊项标签:鼠标按下",
+    ".van-capsules-item__label:focus,.van-capsules-item__label._focus": "胶囊项标签:获得焦点",
+    ".van-capsules-item__label:hover,.van-capsules-item__label._hover": "胶囊项标签:鼠标移入",
+    ".van-capsules-item:active,.van-capsules-item._active": "胶囊项:鼠标按下",
+    ".van-capsules-item:first-child": "胶囊项:第一个子元素",
+    ".van-capsules-item:focus,.van-capsules-item._focus": "胶囊项:获得焦点",
+    ".van-capsules-item:hover,.van-capsules-item._hover": "胶囊项:鼠标移入",
+    ".van-capsules-item:last-child": "胶囊项:最后一个子元素",
+    ".van-capsules-item[active]": "胶囊项:激活态",
+    ".van-capsules-item[active][disabled]": "胶囊项:激活禁用态",
+    ".van-capsules-item[disabled]": "胶囊项:禁用态"
+  },
+  "VanCollapse": {
+    ".van-collapse": "",
+    ".van-collapse:active,.van-collapse._active": "",
+    ".van-collapse:focus,.van-collapse._focus": "",
+    ".van-collapse:hover,.van-collapse._hover": ""
+  },
+  "VanCountDownNew": {
+    ".count-down-new": "",
+    ".count-down-new:active,.count-down-new._active": "",
+    ".count-down-new:focus,.count-down-new._focus": "",
+    ".count-down-new:hover,.count-down-new._hover": ""
   }
 }
