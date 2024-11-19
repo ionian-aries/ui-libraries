@@ -11,7 +11,7 @@ import { execSync } from '../utils/exec';
 import genNaslUIConfig from './gens/gen-nasl-ui';
 import genThemeJsonOld from './gens/gen-theme-json-old';
 import genManifestConfig from './gens/gen-manifest-config';
-import buildDecalaration from './build-declaration';
+import buildDeclaration from './build-declaration';
 import { getConfigComponents } from '../utils';
 
 export function buildThemeOld(rootPath, destDir) {
@@ -111,10 +111,10 @@ export function buildManifest(options: LcapBuildOptions) {
 
 export async function buildNaslUILibrary(options: LcapBuildOptions, mode: BuildMode = 'production') {
   await buildNaslUI(options);
-  await buildCSSInfo(options);
+  options.reportCSSInfo && buildCSSInfo(options);
   await buildTheme(options, mode === 'watch');
   await buildI18N(options);
-  await buildDecalaration(options);
+  await buildDeclaration(options);
   await buildManifest(options);
 
   if (mode !== 'production') {
