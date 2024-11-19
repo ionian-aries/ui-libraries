@@ -1,7 +1,7 @@
 <!-- 基础用法 -->
 
 <template>
-  <van-pickerson title="标题" :showToolbar="true" :pageSize="50">
+  <van-pickerson title="标题" :showToolbar="true" :optionIsSlot="false" :pageSize="50">
   <template #title>
     <van-text text="标题"></van-text>
   </template>
