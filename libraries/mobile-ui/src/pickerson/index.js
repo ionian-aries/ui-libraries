@@ -224,6 +224,12 @@ export default createComponent({
 
       return title || defaultTitle;
     },
+    open() { 
+      this.popupVisible = true;
+    },
+    close() { 
+      this.closePopup('cancel');
+    },
     togglePopup() {
       this.popupVisible = !this.popupVisible;
     },
