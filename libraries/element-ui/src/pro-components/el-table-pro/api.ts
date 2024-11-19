@@ -50,6 +50,9 @@ namespace nasl.ui {
       events: {
         click: "this.getAttribute('hasExpandedRow')?.value",
       },
+      additionalAttribute:{
+        rowKey:'index',
+      },
       forceUpdateWhenAttributeChange: true,
       dataSource: {
         display: 3,
