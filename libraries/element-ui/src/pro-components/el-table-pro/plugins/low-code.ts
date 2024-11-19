@@ -5,7 +5,7 @@ export const useLowcodePlugin: NaslComponentPluginOptions = {
   setup() {
     return {
       [$deletePropList]: ['expandedRowKeys'],
-    }
+    };
   },
   onlyUseIDE: true,
 };

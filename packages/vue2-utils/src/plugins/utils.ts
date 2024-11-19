@@ -1,6 +1,6 @@
 /* eslint-disable guard-for-in */
 /* eslint-disable no-restricted-syntax */
-import Vue from 'vue';
+import Vue, { VNodeData } from 'vue';
 import type { ComponentOptions, PropOptions } from 'vue';
 import { isRef } from '@vue/composition-api';
 import { camelCase, isPlainObject, kebabCase } from 'lodash';
@@ -269,4 +269,34 @@ export const isShallowEqualArray = (values: any[], oldValues: any[]) => {
   }
 
   return false;
+};
+
+export const cloneShallowVNodeData = (propData: VNodeData) => {
+  const {
+    attrs = {},
+    props = {},
+    on = {},
+    nativeOn = {},
+    scopedSlots = {},
+    ...rest
+  } = propData;
+
+  return {
+    attrs: {
+      ...attrs,
+    },
+    props: {
+      ...props,
+    },
+    on: {
+      ...on,
+    },
+    nativeOn: {
+      ...nativeOn,
+    },
+    scopedSlots: {
+      ...scopedSlots,
+    },
+    ...rest,
+  } as VNodeData;
 };

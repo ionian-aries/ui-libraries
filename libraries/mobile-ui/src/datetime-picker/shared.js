@@ -108,6 +108,8 @@ export const TimePickerMixin = {
       if (this.readonly || this.disabled) {
         //
       } else {
+        this.$refs.picker.confirm();
+
         let value = this.innerValue;
 
         // 低代码可用type： date、 time、 datetime、 year-month(即将废弃)

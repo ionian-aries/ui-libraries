@@ -27,6 +27,7 @@ import {
   isShallowEqualArray,
   isNullOrUndefined,
   getEventName,
+  cloneShallowVNodeData,
 } from './utils';
 import { $deletePropList, $ref, $render } from './constants';
 
@@ -416,7 +417,10 @@ export default function createHocComponent(baseComponent: any, manger: PluginMan
           }
 
           return renderFns.reduce(
-            (value, renderFn = (v: any) => v) => renderFn.call(this, value, h, context),
+            (value, renderFn = (v: any) => v) => renderFn.call(this, value, h, {
+              ...context,
+              propsData: cloneShallowVNodeData(context.propsData),
+            }),
             resultVNode,
           );
         },
@@ -481,6 +485,7 @@ export default function createHocComponent(baseComponent: any, manger: PluginMan
         ref: '$base',
       };
 
+      const contextPropsData = cloneShallowVNodeData(propsData);
       const resultVNode = h(baseComponent, propsData, childrenNodes);
 
       return this.$render(resultVNode, h, {
@@ -488,7 +493,7 @@ export default function createHocComponent(baseComponent: any, manger: PluginMan
         listeners: refListeners,
         scopedSlots,
         childrenNodes,
-        propsData,
+        propsData: contextPropsData,
       });
     },
   });

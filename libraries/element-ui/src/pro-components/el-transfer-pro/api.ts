@@ -17,8 +17,8 @@ namespace nasl.ui {
         propertyName: ":dataSource",
       },
       additionalAttribute: {
-        valueField: 'value',
-        textField: 'label',
+        valueField: '"value"',
+        textField: '"label"',
       },
       slotWrapperInlineStyle: {
         option: 'width: 100%',
