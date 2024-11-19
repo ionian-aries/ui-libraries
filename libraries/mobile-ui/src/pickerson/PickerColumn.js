@@ -313,7 +313,7 @@ export default createComponent({
 
         return (
           <li {...data} vusion-slot-name="option">
-            { this.optionIsSlot ? this.slots('option', { ...option, item: option }) : <div {...childData} /> }
+            { this.optionIsSlot && this.slots('option', { ...option, item: option }) || <div {...childData} /> }
           </li>
         );
       });

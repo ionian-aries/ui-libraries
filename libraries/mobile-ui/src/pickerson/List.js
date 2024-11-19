@@ -126,14 +126,14 @@ export default createComponent({
                 {this.multiple && (
                   <div class="icon">
                     <Checkbox value={checked} shape="square">
-                      {this.optionIsSlot ? this.slots('option', { ...item, item }) : <div class={{ text: true, checked }}>{text}</div>}
+                      {this.optionIsSlot && this.slots('option', { ...item, item }) || <div class={{ text: true, checked }}>{text}</div>}
                     </Checkbox>
                   </div>
                 )}
 
                 {
                   !this.multiple &&
-                  (this.optionIsSlot ? this.slots('option', { ...item, item }) : <div class={{ text: true, checked }}>{text}</div>)
+                  (this.optionIsSlot && this.slots('option', { ...item, item }) || <div class={{ text: true, checked }}>{text}</div>)
                 }
 
                 {/* 单选 */}
