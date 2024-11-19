@@ -209,7 +209,7 @@ function transformTsCode(tsCode: string, componentMap: Record<string, ViewCompon
   return code;
 }
 
-export default async function buildDecalaration(options: LcapBuildOptions) {
+export default async function buildDeclaration(options: LcapBuildOptions) {
   logger.start('开始编译 api.ts');
   execSync('npx tsc -p tsconfig.api.json');
   const { code, componentMap } = await getMetaInfo(options);

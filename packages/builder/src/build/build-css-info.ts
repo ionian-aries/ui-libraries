@@ -58,9 +58,12 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
     });
 
     let re = new RegExp(notRootPrefixes.map((prefix) => `^\\.${prefix}(--|$|[ +>~\\.:])|^\\[class\\*=${prefix}___`).join('|'));
-    if (re.test(selector)) return false;
+    if (firstPrefix === 'van-sidebar-item') {
+      console.log(re.test(selector), prefixMap, notRootPrefixes, rootPrefixes);
+    }
+    if (notRootPrefixes.length && re.test(selector)) return false;
     re = new RegExp(rootPrefixes.map((prefix) => `^\\.${prefix}(--|$|[ +>~\\.:])|^\\[class\\*=${prefix}___`).join('|'));
-    return re.test(selector);
+    return !!rootPrefixes.length && re.test(selector);
   });
 
   const componentCSSInfoMap: Record<string, {
