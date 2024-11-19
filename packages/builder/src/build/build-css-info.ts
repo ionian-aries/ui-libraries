@@ -29,12 +29,14 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
       const prefixMap = { [firstPrefix]: true };
       const proRE = /^el-(.+)-pro$/;
       if (proRE.test(firstPrefix)) prefixMap[firstPrefix.replace(proRE, 'el-p-$1')] = true;
+      const vanRE = /^van-(.+)$/;
+      if (vanRE.test(firstPrefix)) prefixMap[firstPrefix.replace(vanRE, '$1')] = true;
 
       const selectorPrefixMap = options.reportCSSInfo?.extraComponentMap?.[componentName]?.selectorPrefixMap;
       selectorPrefixMap && Object.assign(prefixMap, selectorPrefixMap);
 
       const re = new RegExp(Object.keys(prefixMap).map((prefix) => `^\\.${prefix}(__|--|$|[ +>~\\.:\\[])|^\\[class\\*=${prefix}_`).join('|'));
-      return re.test(selector) && !/:(before|after)$|vusion|s-empty|designer|cw-style/.test(selector);
+      return re.test(selector) && !/:(before|after)$|vusion|s-empty|_fake|_empty|[dD]esigner|cw-style/.test(selector);
     });
   });
 
@@ -48,6 +50,9 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
     const prefixMap = { [firstPrefix]: true };
     const proRE = /^el-(.+)-pro$/;
     if (proRE.test(firstPrefix)) prefixMap[firstPrefix.replace(proRE, 'el-p-$1')] = true;
+    const vanRE = /^van-(.+)$/;
+    if (vanRE.test(firstPrefix)) prefixMap[firstPrefix.replace(vanRE, '$1')] = true;
+
     const selectorPrefixMap = options.reportCSSInfo?.extraComponentMap?.[componentName]?.selectorPrefixMap;
     selectorPrefixMap && Object.assign(prefixMap, selectorPrefixMap);
 
@@ -58,9 +63,6 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
     });
 
     let re = new RegExp(notRootPrefixes.map((prefix) => `^\\.${prefix}(--|$|[ +>~\\.:])|^\\[class\\*=${prefix}___`).join('|'));
-    if (firstPrefix === 'van-sidebar-item') {
-      console.log(re.test(selector), prefixMap, notRootPrefixes, rootPrefixes);
-    }
     if (notRootPrefixes.length && re.test(selector)) return false;
     re = new RegExp(rootPrefixes.map((prefix) => `^\\.${prefix}(--|$|[ +>~\\.:])|^\\[class\\*=${prefix}___`).join('|'));
     return !!rootPrefixes.length && re.test(selector);
