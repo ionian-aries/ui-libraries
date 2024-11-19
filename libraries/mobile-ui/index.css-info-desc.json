@@ -3512,15 +3512,15 @@
     ".van-capsules-item[disabled]": "胶囊项:禁用态"
   },
   "VanCollapse": {
-    ".van-collapse": "",
-    ".van-collapse:active,.van-collapse._active": "",
-    ".van-collapse:focus,.van-collapse._focus": "",
-    ".van-collapse:hover,.van-collapse._hover": ""
+    ".van-collapse": "折叠面板",
+    ".van-collapse:active,.van-collapse._active": "折叠面板:鼠标按下",
+    ".van-collapse:focus,.van-collapse._focus": "折叠面板:获得焦点",
+    ".van-collapse:hover,.van-collapse._hover": "折叠面板:鼠标移入"
   },
   "VanCountDownNew": {
-    ".count-down-new": "",
-    ".count-down-new:active,.count-down-new._active": "",
-    ".count-down-new:focus,.count-down-new._focus": "",
-    ".count-down-new:hover,.count-down-new._hover": ""
+    ".count-down-new": "计时器",
+    ".count-down-new:active,.count-down-new._active": "计时器:鼠标按下",
+    ".count-down-new:focus,.count-down-new._focus": "计时器:获得焦点",
+    ".count-down-new:hover,.count-down-new._hover": "计时器:鼠标移入"
   }
 }
