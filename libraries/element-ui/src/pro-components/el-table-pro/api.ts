@@ -50,17 +50,20 @@ namespace nasl.ui {
       events: {
         click: "this.getAttribute('hasExpandedRow')?.value",
       },
-      additionalAttribute:{
-        rowKey:'index',
+      additionalAttribute: {
+        rowKey: '"index"',
       },
       forceUpdateWhenAttributeChange: true,
       dataSource: {
         display: 3,
         loopElem: 'table > tbody > tr',
+        displayData: '"[{index:0},{index:1},{index:2}]"',
+        propertyName:':dataSource',
         emptySlot: {
           condition: 'this.elementsLength() === 0',
           accept: "target.concept === 'Entity'",
         },
+        loopRule: 'nth-last-child(-n+2):not(:only-child)',
         refInLoop: {
           child: 'ElTableColumnPro',
           slot: 'cell',
@@ -136,7 +139,7 @@ namespace nasl.ui {
       description: '选中行。',
       // setter: { concept: 'InputSetter' },
     })
-    selectedRowKeys: nasl.collection.List<V> ;
+    selectedRowKeys: nasl.collection.List<V>;
 
     @Prop({
       group: '主要属性',
