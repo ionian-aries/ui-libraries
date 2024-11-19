@@ -50,6 +50,9 @@ namespace nasl.ui {
       events: {
         click: "this.getAttribute('hasExpandedRow')?.value",
       },
+      additionalAttribute:{
+        rowKey:'index',
+      },
       forceUpdateWhenAttributeChange: true,
       dataSource: {
         display: 3,
@@ -133,7 +136,7 @@ namespace nasl.ui {
       description: '选中行。',
       // setter: { concept: 'InputSetter' },
     })
-    selectedRowKeys: nasl.collection.List<V> | V;
+    selectedRowKeys: nasl.collection.List<V> ;
 
     @Prop({
       group: '主要属性',
