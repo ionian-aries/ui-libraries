@@ -146,7 +146,6 @@ function Search(
             'left-icon': slots['left-icon'],
             'right-icon': slots['right-icon'],
           }}
-          frompara="vansearch"
           {...fieldData}
         />
       </div>
