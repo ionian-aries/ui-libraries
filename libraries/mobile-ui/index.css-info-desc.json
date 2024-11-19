@@ -1651,6 +1651,7 @@
     ".van-for-com:active,.van-for-com._active": "组件列表:鼠标按下",
     ".van-for-com:focus,.van-for-com._focus": "组件列表:获得焦点",
     ".van-for-com:hover,.van-for-com._hover": "组件列表:鼠标移入",
+    ".van-for-components": "组件列表",
     ".van-for-components__frag": "组件列表片段",
     ".van-for-components__frag--nowrap": "组件列表片段:不换行",
     ".van-for-components__frag--nowrap:active,.van-for-components__frag--nowrap._active": "组件列表:不换行:鼠标按下",
@@ -1658,7 +1659,10 @@
     ".van-for-components__frag--nowrap:hover,.van-for-components__frag--nowrap._hover": "组件列表:不换行:鼠标移入",
     ".van-for-components__frag:active,.van-for-components__frag._active": "组件列表片段:鼠标按下",
     ".van-for-components__frag:focus,.van-for-components__frag._focus": "组件列表片段:获得焦点",
-    ".van-for-components__frag:hover,.van-for-components__frag._hover": "组件列表片段:鼠标移入"
+    ".van-for-components__frag:hover,.van-for-components__frag._hover": "组件列表片段:鼠标移入",
+    ".van-for-components:active,.van-for-components._active": "组件列表:鼠标按下",
+    ".van-for-components:focus,.van-for-components._focus": "组件列表:获得焦点",
+    ".van-for-components:hover,.van-for-components._hover": "组件列表:鼠标移入"
   },
   "VanForm": {
     ".van-form": "表单",
