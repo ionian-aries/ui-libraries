@@ -3,32 +3,32 @@
   --el-flex-loading-mask-zindex: 2000;
   --el-flex-loading-color-primary: #409eff;
 }
-.flex {
+.el-flex {
   display: flex;
   box-sizing: border-box;
   position: relative;
 }
-.flex > [widthstretch="true"],
-.flex > [heightstretch="true"] {
+.el-flex > [widthstretch="true"],
+.el-flex > [heightstretch="true"] {
   flex: 1;
 }
-.flex > [widthstretch="true"] {
+.el-flex > [widthstretch="true"] {
   width: unset !important;
 }
-.flex > [heightstretch="true"] {
+.el-flex > [heightstretch="true"] {
   height: unset !important;
 }
-.flex > [class^="el-button"] + [class^="el-button"],
-.flexBlock > [class^="el-button"] + [class^="el-button"] {
+.el-flex > [class^="el-button"] + [class^="el-button"],
+.el-flex--block > [class^="el-button"] + [class^="el-button"] {
   margin-left: 0;
 }
 
-.flexBlock {
+.el-flex--block {
   display: block;
   box-sizing: border-box;
 }
 
-.loadmask {
+.el-flex__loadmask {
   position: absolute;
   z-index: 2000;
   background-color: var(--el-flex-loading-mask-background);
@@ -42,21 +42,21 @@
   align-items: center;
   justify-content: center;
 }
-.loadmask .spinner {
+.el-flex__loadmask .el-flex__spinner {
   color: var(--el-flex-loading-color-primary);
   text-align: center;
 }
-.loadmask .spinner p {
+.el-flex__loadmask .el-flex__spinner p {
   margin: 0;
 }
-.loadmask .spinner [class="el-icon-loading"] {
+.el-flex__loadmask .el-flex__spinner [class="el-icon-loading"] {
   animation: none;
 }
-.loadmask .rotating i,
-.loadmask .rotating i[class="el-icon-loading"] {
+.el-flex__loadmask .el-flex__rotating i,
+.el-flex__loadmask .el-flex__rotating i[class="el-icon-loading"] {
   animation: rotating 2s linear infinite;
 }
-@keyframes rotating {
+@keyframes el-flex__rotating {
   0% {
     transform: rotateZ(0deg);
   }

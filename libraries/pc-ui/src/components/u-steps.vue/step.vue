@@ -1,5 +1,5 @@
 <template>
-<div v-show="selected" vusion-slot-name="default">
+<div :class="$style.root" v-show="selected" vusion-slot-name="default">
     <slot></slot>
     <s-empty v-if="!$slots.default && $env.VUE_APP_DESIGNER && !!$attrs['vusion-node-path']"></s-empty>
 </div>
@@ -35,3 +35,7 @@ export default {
     },
 };
 </script>
+
+<style module>
+.root {}
+</style>

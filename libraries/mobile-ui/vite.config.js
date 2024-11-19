@@ -109,6 +109,16 @@ export default defineConfig(({ command }) => {
                 '.van-for-com-item': false,
               },
             },
+            VanCollapse: {
+              mainSelectorMap: {
+                '.van-collapse': true,
+              },
+            },
+            VanCountDownNew: {
+              mainSelectorMap: {
+                '.count-down-new': true,
+              },
+            },
           },
         },
       }),

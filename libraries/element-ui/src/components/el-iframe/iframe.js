@@ -1,4 +1,4 @@
-import styles from './index.module.css';
+import './index.css';
 
 export default {
   name: 'ElIframe',
@@ -23,7 +23,7 @@ export default {
     return h(
       'div',
       {
-        class: styles.root,
+        class: 'el-iframe',
         on: this.$listeners,
       },
       [

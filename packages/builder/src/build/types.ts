@@ -61,8 +61,8 @@ export interface LcapBuildOptions {
        */
       mainSelectorMap?: Record<string, boolean>;
     }>;
-    inferSelectorComponentName?: (selector: string, componentNames: string[]) => string | undefined;
-    isSelectorStartRoot?: (selector: string, componentName: string) => boolean;
+    inferSelectorComponentName?: (selector: string, componentNameMap: Record<string, string | undefined>) => string | undefined;
+    isSelectorStartRoot?: (selector: string, componentName: string, parentName: string | undefined) => boolean;
   };
 }
 

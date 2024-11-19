@@ -80,6 +80,51 @@ export default defineConfig(({ command }) => {
                 ".el-list-components__item": false,
               },
             },
+            ElOptionPro: {
+              selectorPrefixMap: {
+                'el-p-select-option': true,
+              },
+            },
+            ElOptionGroupPro: {
+              selectorPrefixMap: {
+                'el-p-select-option-group': true,
+              },
+            },
+            ElBreadcrumbItem: {
+              selectorPrefixMap: {
+                'el-breadcrumb__item': true,
+              },
+            },
+            ElRouterView: {
+              mainSelectorMap: {
+                '.el-router-view': true,
+              },
+            },
+            ElTabPane: {
+              mainSelectorMap: {
+                '.el-tab-pane': true,
+              },
+            },
+            ElFormItemPro: {
+              selectorPrefixMap: {
+                'el-p-form__item': true,
+              },
+            },
+            ElDropdownItem: {
+              selectorPrefixMap: {
+                'el-dropdown-menu__item': true,
+              },
+            },
+            ElCarouselItem: {
+              selectorPrefixMap: {
+                'el-carousel__item': true,
+              },
+            },
+            ElCol: {
+              mainSelectorMap: {
+                '.el-col': true,
+              },
+            },
           },
         },
         dependencies: [
