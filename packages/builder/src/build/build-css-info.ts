@@ -17,10 +17,10 @@ function sortMap(map: Record<string, any>) {
 function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc: Record<string, Record<string, string>>, options: LcapBuildOptions) {
   const root = postcss.parse(cssContent);
 
-  const mockStateRE = /:(hover|active|focus)/g;
-  const isNonStandardRE = /-(moz|webkit|ms|o)-/g;
-  const hasPesudoElementRE = /::|:(before|after|selection)/g;
-  const hashClassRE = /\.([a-zA-Z0-9][a-zA-Z0-9_-]*?)___[a-zA-Z0-9-]{6,}/g;
+  const mockStateRE = /:(hover|active|focus)/;
+  const isNonStandardRE = /-(moz|webkit|ms|o)-/;
+  const hasPesudoElementRE = /::|:(before|after|selection)/;
+  const hashClassRE = /\.([a-zA-Z0-9][a-zA-Z0-9_-]*?)___[a-zA-Z0-9-]{6,}/;
 
   // eslint-disable-next-line no-shadow
   const inferSelectorComponentName = options.reportCSSInfo?.inferSelectorComponentName || ((selector: string, componentNames: string[]) => {
@@ -82,7 +82,7 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
         .replace(/\s+/g, ' ') // 抹平换行符
         .replace(/\s*([>+~,])\s*/g, '$1') // 统一去除空格
         .split(/,/g)
-        .flatMap((sel) => (mockStateRE.test(sel) && !hasPesudoElementRE.test(sel) ? [sel, sel.replace(mockStateRE, '._$1')] : [sel])); // 增加模拟伪类
+        .flatMap((sel) => (mockStateRE.test(sel) && !hasPesudoElementRE.test(sel) ? [sel, sel.replace(new RegExp(mockStateRE, 'g'), '._$1')] : [sel])); // 增加模拟伪类
 
       let selector = selectors.join(',');
       if (/:(before|after)$|vusion|s-empty|_fake|_empty|[dD]esigner|cw-style/.test(selector) || isNonStandardRE.test(selector)) return;
@@ -90,7 +90,7 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
 
       selectors = selectors
         // .filter((sel) => !/|ms|o)-|^_/.test(sel)) // 过滤掉浏览器前缀和 _ 开头的选择器
-        .map((sel) => sel.replace(hashClassRE, '[class*=$1___]')); // hash 类名改为 [class*=] 属性选择器
+        .map((sel) => sel.replace(new RegExp(hashClassRE, 'g'), '[class*=$1___]')); // hash 类名改为 [class*=] 属性选择器
       selector = selectors.join(',');
       if (!selector) return;
 
