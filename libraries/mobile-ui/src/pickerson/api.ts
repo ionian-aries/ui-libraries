@@ -110,6 +110,19 @@ namespace nasl.ui {
     })
     textField: (item: T) => any = ((item: any)  => item.text) as any;
 
+    @Prop<VanPickersonOptions<T, V, M, P, C>, 'optionIsSlot'>({
+      group: '数据属性',
+      title: '动态选项插槽',
+      description: '自定义选项内容',
+      docDescription: '自定义选项内容',
+      setter: {
+        concept: 'SwitchSetter'
+      },
+      bindHide: true,
+      if: (_) => !!_.dataSource,
+    })
+    optionIsSlot: nasl.core.Boolean = true;
+
     @Prop({
       group: '数据属性',
       title: '值字段',

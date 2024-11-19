@@ -19,7 +19,10 @@ export default createComponent({
     valueField: { type: String },
     // 文本字段
     textField: { type: String },
-
+    optionIsSlot: {
+      type: Boolean,
+      default: true,
+    },
     multiple: {
       type: Boolean,
       default: false,
@@ -123,23 +126,15 @@ export default createComponent({
                 {this.multiple && (
                   <div class="icon">
                     <Checkbox value={checked} shape="square">
-                      {this.slots('option', { ...item, item }) ||
-                        (isInDesigner ? (
-                          <EmptyCol></EmptyCol>
-                        ) : (
-                          <div class={{ text: true, checked }}>{text}</div>
-                        ))}
+                      {this.optionIsSlot ? this.slots('option', { ...item, item }) : <div class={{ text: true, checked }}>{text}</div>}
                     </Checkbox>
                   </div>
                 )}
 
-                {!this.multiple &&
-                  (this.slots('option', { ...item, item }) ||
-                    (isInDesigner ? (
-                      <EmptyCol></EmptyCol>
-                    ) : (
-                      <div class={{ text: true, checked }}>{text}</div>
-                    )))}
+                {
+                  !this.multiple &&
+                  (this.optionIsSlot ? this.slots('option', { ...item, item }) : <div class={{ text: true, checked }}>{text}</div>)
+                }
 
                 {/* 单选 */}
                 {checked && !this.multiple && (

@@ -50,6 +50,10 @@ export default createComponent({
     columnsprop: [Array, String],
     pvalue: [String, Object], // 废弃
     value: [String, Object],
+    optionIsSlot: {
+      type: Boolean,
+      default: true,
+    },
     labelField: {
       type: String,
       default: '',
@@ -520,6 +524,7 @@ export default createComponent({
                     columnsprop: this.data,
                     valueField: this.valueField,
                     textField: this.textField || this.$attrs.valueKey,
+                    optionIsSlot: this.optionIsSlot,
                   },
                 }}
                 scopedSlots={{
@@ -538,6 +543,7 @@ export default createComponent({
                 textField={this.textField}
                 value={this.currentValue}
                 multiple={this.multiple}
+                optionIsSlot={this.optionIsSlot}
                 enableSelectAll={this.enableSelectAll}
                 scopedSlots={{
                   option: this.$scopedSlots.option,
