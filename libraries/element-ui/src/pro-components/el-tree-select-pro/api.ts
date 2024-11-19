@@ -17,8 +17,8 @@ namespace nasl.ui {
         propertyName: ":dataSource",
       },
       additionalAttribute: {
-        valueField: 'value',
-        textField: 'label',
+        valueField: '"value"',
+        textField: '"label"',
       },
       displaySlotConditions: {
         option: "!!this.getAttribute('dataSource') && this.getAttribute('optionIsSlot') && this.getAttribute('optionIsSlot').value",

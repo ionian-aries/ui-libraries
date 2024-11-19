@@ -24,8 +24,8 @@ namespace nasl.ui {
         value: 'min-height: 0;',
       },
       additionalAttribute: {
-        valueField: 'value',
-        textField: 'text',
+        valueField: '"value"',
+        textField: '"text"',
       },
       dataSource: {
         dismiss: "!this.getAttribute('dataSource')",
