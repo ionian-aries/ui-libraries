@@ -84,7 +84,10 @@ export default function registerIElement(methods, options = {}) {
     }
 
     const rect = el.getBoundingClientRect();
-    const hoveredElementSelector = el.tagName.toLowerCase() + Array.from(el.classList).map((cls) => `.${cls}`).join('');
+    const hoveredElementSelector = el.tagName.toLowerCase() + Array.from(el.classList)
+      .filter((cls) => !/^ide-css-rule-|^_|vusion|s-empty|_fake|_empty|[dD]esigner|cw-style/.test(cls))
+      .map((cls) => `.${cls}`)
+      .join('');
     if (!options.addPopoverManually) {
       INSPECTOR.children[0].children[0].textContent = hoveredElementSelector;
       INSPECTOR.children[0].children[1].textContent = `${rect.width.toFixed(1)}px × ${rect.height.toFixed(1)}px`;

@@ -256,7 +256,7 @@ content: "\e668";
     height: calc(100% - 140px);
 }
 
-.root .foot {
+.foot {
     position: fixed;
     width: inherit;
     padding: var(--drawer-foot-padding);

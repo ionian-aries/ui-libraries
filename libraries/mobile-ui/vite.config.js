@@ -103,9 +103,9 @@ export default defineConfig(({ command }) => {
             },
             VanForComponents: {
               mainSelectorMap: {
-                ".van-for-com": true,
-                ".van-for-com-frag": false,
-                ".van-for-com-item": false,
+                '.van-for-com': true,
+                '.van-for-com-frag': false,
+                '.van-for-com-item': false,
               },
             },
           },
