@@ -5834,7 +5834,7 @@
     ".el-p-tag-input--break-line .el-p-size-l .el-p-input:focus,.el-p-tag-input--break-line .el-p-size-l .el-p-input._focus": "标签输入:换行>大尺寸输入框:获得焦点",
     ".el-p-tag-input--break-line .el-p-size-l .el-p-input:hover,.el-p-tag-input--break-line .el-p-size-l .el-p-input._hover": "标签输入:换行>大尺寸输入框:鼠标移入",
     ".el-p-tag-input--break-line.el-p-tag-input--with-tag:not(.el-p-input--auto-width) .el-p-input,.el-p-tag-input.el-p-input--auto-width:hover .el-p-input,.el-p-tag-input.el-p-input--auto-width._hover .el-p-input": "标签输入框:换行模式且带标签:非自动宽度>输入框, 标签输入框:自动宽度:鼠标移入>输入框",
-    ".el-p-tag-input--break-line.el-p-tag-input--with-tag:not(.el-p-input--auto-width) .el-p-size-l .el-p-input,.el-p-tag-input.el-p-input--auto-width:hover .el-p-size-l .el-p-input,.el-p-tag-input.el-p-input--auto宽度._hover .el-p-size-l .el-p-input": "标签输入框:换行模式且带标签:非自动宽度>大号输入框, 标签输入框:自动宽度:鼠标移入>大号输入框",
+    ".el-p-tag-input--break-line.el-p-tag-input--with-tag:not(.el-p-input--auto-width) .el-p-size-l .el-p-input,.el-p-tag-input.el-p-input--auto-width:hover .el-p-size-l .el-p-input,.el-p-tag-input.el-p-input--auto-width._hover .el-p-size-l .el-p-input": "标签输入框:换行模式且带标签:非自动宽度>大号输入框, 标签输入框:自动宽度:鼠标移入>大号输入框",
     ".el-p-tag-input:active,.el-p-tag-input._active": "标签输入:鼠标按下",
     ".el-p-tag-input:focus,.el-p-tag-input._focus": "标签输入:获得焦点",
     ".el-p-tag-input:hover .el-p-input__inner:not(.el-p-input--soft-hidden),.el-p-tag-input._hover .el-p-input__inner:not(.el-p-input--soft-hidden),.el-p-tag-input .el-p-input--focused .el-p-input__inner:not(.el-p-input--soft-hidden)": "标签输入框:鼠标移入>输入框内部:非软隐藏, 标签输入框:获得焦点>输入框内部:非软隐藏",
@@ -6552,4 +6552,3 @@
     ".el-absolute-layout>*": "自由布局>子元素"
   }
 }
-
