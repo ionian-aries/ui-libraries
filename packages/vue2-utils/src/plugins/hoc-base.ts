@@ -12,7 +12,9 @@ import {
   SetupContext,
   ref,
 } from '@vue/composition-api';
-import { camelCase, kebabCase, upperFirst } from 'lodash';
+import {
+  camelCase, kebabCase, lowerFirst, upperFirst,
+} from 'lodash';
 import PluginManager from './plugin';
 import { MapGetKey, PluginSetUpContext, PluginSetupRef } from './types';
 import {
@@ -119,8 +121,9 @@ const usePropMap = (props: any, ctx: SetupContext) => {
   };
   const getDefaultValue = (k: string) => {
     if (slotRegex.test(k)) {
-      const slotName = kebabCase(k.substring(4));
-      return ctx.slots[slotName];
+      const slotName = lowerFirst(k.substring(4));
+      const kebabSlotName = kebabCase(k.substring(4));
+      return ctx.slots[slotName] || ctx.slots[kebabSlotName];
     }
 
     if (eventRegex.test(k)) {
@@ -319,8 +322,10 @@ const toRenderState = ({
     } else if (k.startsWith('update:')) {
       listeners[k] = map[k];
     } else if (slotRegex.test(k)) {
-      const slotName = kebabCase(k.substring(4));
+      const slotName = lowerFirst(k.substring(4));
+      const kebabSlotName = kebabCase(slotName);
       renderSlots[slotName] = map[k];
+      renderSlots[kebabSlotName] = map[k];
     } else {
       renderProps[k] = map[k];
     }
@@ -446,13 +451,19 @@ export default function createHocComponent(baseComponent: any, manger: PluginMan
         return n;
       }, {});
 
-      const scopedSlots: any = { ...this.$scopedSlots, ...getRefValueMap(slots) };
+      const scopedSlots: any = {
+        ...this.$scopedSlots,
+        ...getRefValueMap(slots),
+      };
 
       const childrenNodes: VNode[] = [];
       (this.$slotNames as string[]).forEach((slotName) => {
         if (scopedSlots[slotName]) {
           const nodes = scopedSlots[slotName]({});
-          delete scopedSlots[slotName];
+          [slotName, kebabCase(slotName), camelCase(slotName)].forEach((name) => {
+            delete scopedSlots[name];
+          });
+
           if (isEmptyVNodes(nodes)) {
             return;
           }
