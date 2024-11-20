@@ -816,7 +816,7 @@ namespace nasl.ui {
       title: '展开行',
       description: '表格列',
     })
-    slotExpandedRow: (current: T) => Array<ViewComponent>;
+    slotExpandedRow: (current: Current<T>) => Array<ViewComponent>;
 
     // @Event({
     //   title: 'On Scroll X',
