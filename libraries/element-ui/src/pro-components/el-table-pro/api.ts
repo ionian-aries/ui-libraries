@@ -61,7 +61,7 @@ namespace nasl.ui {
         propertyName:':dataSource',
         emptySlot: {
           condition: 'this.elementsLength() === 0',
-          accept: "target.concept === 'Entity'",
+          accept: false,
         },
         loopRule: 'nth-last-child(-n+2):not(:only-child)',
         refInLoop: {
@@ -816,7 +816,7 @@ namespace nasl.ui {
       title: '展开行',
       description: '表格列',
     })
-    slotExpandedRow: (current: T) => Array<ViewComponent>;
+    slotExpandedRow: (current: Current<T>) => Array<ViewComponent>;
 
     // @Event({
     //   title: 'On Scroll X',

@@ -208,6 +208,11 @@ export const useTable: NaslComponentPluginOptions = {
       // },
       rowspanAndColspan,
       onSortChange,
+      slotExpandedRow: computed(() => {
+        const slotExpandedRow = props.get<Slot>('slotExpandedRow');
+        if (!slotExpandedRow) return undefined;
+        return ({ row }) => slotExpandedRow({ item: row });
+      }),
       bordered,
       onSelectChange: (selectedRowKeys: Array<string | number>, context: SelectOptions<any>) => {
         const onSelectChange = props.get('onSelectChange');
