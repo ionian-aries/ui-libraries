@@ -101,6 +101,14 @@ export default defineConfig(({ command }) => {
               mainSelectorMap: {
                 '[class*=u-count-down]': true,
               },
+            },
+            UGallery: {
+              selectorPrefixMap: {
+                'u-gallery_wrap': true,
+                'u-gallery_wrapbig': true,
+                'u-gallery_wrapsmall': true,
+                'swiper\\b[a-z-]+': false,
+              },
             }
           },
         },

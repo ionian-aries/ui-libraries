@@ -155,7 +155,7 @@ export async function buildNaslExtension(options: LcapBuildOptions, mode: BuildM
   }
 
   await buildNaslExtensionConfig(options);
-  options.reportCSSInfo && buildCSSInfo(options);
+  await buildCSSInfo(options);
   await buildTheme(options, mode === 'watch');
   await buildDeclaration(options);
   await buildNaslExtensionManifest(options, mode === 'watch');
