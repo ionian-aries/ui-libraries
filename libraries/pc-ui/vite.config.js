@@ -85,18 +85,6 @@ export default defineConfig(({ command }) => {
                 'u-toc_wrap': true,
               },
             },
-            UModal: {
-              selectorPrefixMap: {
-                'u-modal': false,
-                'u-modal_dialog': true,
-              },
-            },
-            UDrawer: {
-              selectorPrefixMap: {
-                'u-drawer': false,
-                'u-drawer_drawer': true,
-              },
-            },
             UCountDown: {
               mainSelectorMap: {
                 '[class*=u-count-down]': true,
@@ -109,7 +97,12 @@ export default defineConfig(({ command }) => {
                 'u-gallery_wrapsmall': true,
                 'swiper\\b[a-z-]+': false,
               },
-            }
+            },
+            UPopupCombination: {
+              selectorPrefixMap: {
+                'u-popup': true,
+              },
+            },
           },
         },
       }),
