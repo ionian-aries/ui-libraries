@@ -10,7 +10,8 @@ import genManifestConfig from './gens/gen-manifest-config';
 import type { BuildMode, LcapBuildOptions } from './types';
 import { execSync } from '../utils/exec';
 import { buildTheme } from './build-theme';
-import buildDecalaration from './build-declaration';
+import buildCSSInfo from './build-css-info';
+import buildDeclaration from './build-declaration';
 
 const zipDir = (basePath, fileName = 'client.zip', files: string[] = []) => new Promise((res) => {
   const zipPath = path.resolve(basePath, fileName);
@@ -137,10 +138,10 @@ export async function buildNaslExtensionManifest(options: LcapBuildOptions, hash
   const naslExtensionConfig = fs.readJSONSync(naslConfigPath) as any;
   const manifest = genManifestConfig(options);
   naslExtensionConfig.compilerInfoMap.manifest = JSON.stringify(manifest);
-  if (hash) {
-    const contentHash = getHashDigest(JSON.stringify(naslExtensionConfig), 'md5', 'base64', 16);
-    naslExtensionConfig.compilerInfoMap.debug = JSON.stringify({ hash: contentHash });
-  }
+  // if (hash) {
+  //   const contentHash = getHashDigest(JSON.stringify(naslExtensionConfig), 'md5', 'base64', 16);
+  //   naslExtensionConfig.compilerInfoMap.debug = JSON.stringify({ hash: contentHash });
+  // }
   fs.writeJSONSync(naslConfigPath, { ...naslExtensionConfig }, { spaces: 2 });
 }
 
@@ -154,8 +155,9 @@ export async function buildNaslExtension(options: LcapBuildOptions, mode: BuildM
   }
 
   await buildNaslExtensionConfig(options);
+  await buildCSSInfo(options);
   await buildTheme(options, mode === 'watch');
-  await buildDecalaration(options);
+  await buildDeclaration(options);
   await buildNaslExtensionManifest(options, mode === 'watch');
 
   if (mode !== 'production') {

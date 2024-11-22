@@ -520,14 +520,26 @@
             },
             "scopedSlots": ["title", "picker-top", "pannel-title", "picker-bottom"],
             "displaySlotConditions": {
-                "option": false
+                "option": "!!this.getAttribute('dataSource') && this.getAttribute('optionIsSlot') && this.getAttribute('optionIsSlot').value"
             },
             "translateBindingProperty": ["title", "cancelButtonText", "confirmButtonText", "placeholder", "value"],
             "useFxOrEg":{"property": "value","displayAsAttr":true},
             "namedSlotOmitWrapper": ["picker-top", "picker-bottom", "option"],
             "slotWrapperInlineStyle": {
                 "option": "width: 100%"
-            }
+            },
+            "style": [
+                {
+                    "selector": ".van-picker-pick-column__wrapper > li:nth-child(n+2)" ,
+                    "declaration":"opacity: 0.4; cursor: not-allowed !important; pointer-events: none",
+                    "fromNodePath": true
+                },
+                {
+                    "selector": ".van-picker-list > .van-picker-list__item:nth-child(n+2)",
+                    "declaration":"opacity: 0.4; cursor: not-allowed !important; pointer-events: none",
+                    "fromNodePath": true
+                }
+            ]
         }
     },
     {

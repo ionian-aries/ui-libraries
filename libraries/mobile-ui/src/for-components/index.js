@@ -129,7 +129,7 @@ export default createComponent({
   },
   render() {
     return (
-      <div class={bem}>
+      <div class={bem()}>
         {this.options.length > 0 ? this.renderItems() : this.slots()}
       </div>
     )

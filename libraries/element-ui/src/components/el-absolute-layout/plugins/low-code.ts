@@ -1,7 +1,7 @@
 /* 仅在 ide 环境生效的插件 */
 import { computed, provide } from '@vue/composition-api';
 import { NaslComponentPluginOptions } from '@lcap/vue2-utils/plugins/index';
-import styles from '../index.module.css';
+import '../index.css';
 
 export const useLowcodeEmtpyTip: NaslComponentPluginOptions = {
   setup: (props, { h }) => {
@@ -10,7 +10,7 @@ export const useLowcodeEmtpyTip: NaslComponentPluginOptions = {
       const slotDefault = props.get('slotDefault');
       const defaultContent = typeof slotDefault === 'function' ? slotDefault() : null;
       if (!defaultContent || (Array.isArray(defaultContent) && defaultContent.length === 0)) {
-        return styles.empty;
+        return 'el-absolute-layout__empty';
       }
 
       return '';
@@ -22,7 +22,7 @@ export const useLowcodeEmtpyTip: NaslComponentPluginOptions = {
         const slotDefault = props.get('slotDefault');
         const defaultContent = typeof slotDefault === 'function' ? slotDefault() : null;
         if (!defaultContent || (Array.isArray(defaultContent) && defaultContent.length === 0)) {
-          return h('div', { class: styles.emptyTip }, '拖入组件放至任意位置');
+          return h('div', { class: 'el-absolute-layout__emptyTip' }, '拖入组件放至任意位置');
         }
 
         return defaultContent;

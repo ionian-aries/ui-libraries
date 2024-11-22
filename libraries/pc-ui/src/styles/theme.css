@@ -1806,7 +1806,7 @@
     --drawer-max-height: auto; /* @hidden */
     --drawer-background: white; /* @type color */ /* @desc 抽屉背景色 */
     --drawer-wrap-background: var(--el-color-background-3); /* @type color */ /* @desc 遮罩背景色 */
-    --drawer-close-size: 15px; /* @desc 关闭图标大小 */
+    --drawer-close-size: 12px; /* @desc 关闭图标大小 */
     --drawer-close-color: var(--gray-dark); /* @type color */ /* @desc 关闭图标颜色 */
     --drawer-close-color-hover: var(--gray-darker); /* @type color */ /* @desc 关闭图标hover颜色 */
     --drawer-head-padding: 15px; /* @desc 抽屉头部内边距 */

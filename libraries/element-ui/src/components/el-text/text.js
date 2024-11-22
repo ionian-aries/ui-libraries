@@ -1,4 +1,4 @@
-import styles from './text.module.css';
+import './index.css';
 
 export default {
   name: 'ElText',
@@ -23,11 +23,11 @@ export default {
   render(h, ctx) {
     return h('span', {
       class: [
-        styles.root,
-        styles[`size-${this.size}`],
-        styles[`color-${this.color}`],
-        styles[`display-${this.display}`],
-        styles[`overflow-${this.overflow}`],
+        'el-text',
+        `el-text--size-${this.size}`,
+        `el-text--color-${this.color}`,
+        `el-text--display-${this.display}`,
+        `el-text--overflow-${this.overflow}`,
       ],
       attrs: {
         'vusion-slot-name-edit': 'text',

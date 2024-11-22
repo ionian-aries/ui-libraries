@@ -225,8 +225,8 @@ export default {
 
 .close {
     position: absolute;
-    right: var(--drawer-close-size);
-    top: var(--drawer-close-size);
+    right: 15px;
+    top: 15px;
     color: var(--drawer-close-color);
 }
 
@@ -242,7 +242,7 @@ content: "\e668";
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
     font-smoothing: antialiased;
-    font-size: 12px;
+    font-size: var(--drawer-close-size);
     line-height: 0.8;
 }
 
@@ -256,7 +256,7 @@ content: "\e668";
     height: calc(100% - 140px);
 }
 
-.root .foot {
+.foot {
     position: fixed;
     width: inherit;
     padding: var(--drawer-foot-padding);

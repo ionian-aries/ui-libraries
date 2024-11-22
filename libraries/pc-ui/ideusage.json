@@ -524,7 +524,8 @@
                 "loopElem": "table > tbody > tr",
                 "emptySlot": {
                     "condition": "this.getDefaultElements().length === 0",
-                    "accept": "target.concept === 'Entity'"
+                    "accept": "target.concept === 'Entity'",
+                    "content": "(this.getAttribute('dataSource')?.value || this.getAttribute('dataSource')?.expression) ? '请插入子节点' : '请绑定数据源' "
                 }
             },
             "refInLoop": {

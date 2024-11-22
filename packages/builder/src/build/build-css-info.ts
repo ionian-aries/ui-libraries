@@ -14,27 +14,54 @@ function sortMap(map: Record<string, any>) {
   return Object.fromEntries(Object.entries(map).sort(([a], [b]) => a.localeCompare(b)));
 }
 
-function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc: Record<string, Record<string, string>>, options: LcapBuildOptions) {
+function parseCSSInfo(cssContent: string, componentNameMap: Record<string, string | undefined>, cssRulesDesc: Record<string, Record<string, string>>, options: LcapBuildOptions) {
+  const componentNames = Object.keys(componentNameMap);
+  const allCSSDescMap = Object.values(cssRulesDesc).reduce((acc, item) => Object.assign(acc, item), {});
+
   const root = postcss.parse(cssContent);
 
-  const mockStateRE = /:(hover|active|focus)/g;
-  const isNonStandardRE = /-(moz|webkit|ms|o)-/g;
-  const hasPesudoElementRE = /::|:(before|after|selection)/g;
-  const hashClassRE = /\.([a-zA-Z0-9][a-zA-Z0-9_-]*?)___[a-zA-Z0-9-]{6,}/g;
+  const mockStateRE = /:(hover|active|focus)/;
+  const isNonStandardRE = /-(moz|webkit|ms|o)-/;
+  const hasPesudoElementRE = /::|:(before|after|selection)/;
+  const hashClassRE = /\.([a-zA-Z0-9][a-zA-Z0-9_-]*?)___[a-zA-Z0-9-]{6,}/;
+
+  function getPrefixMap(componentName: string, parentName: string | undefined) {
+    const firstPrefix = kebabCase(componentName);
+    const prefixMap = { [firstPrefix]: true };
+    const proRE = /^el-(.+)-pro$/;
+    if (proRE.test(firstPrefix)) prefixMap[firstPrefix.replace(proRE, 'el-p-$1')] = true;
+    const vanRE = /^van-/;
+    if (vanRE.test(firstPrefix)) prefixMap[firstPrefix.replace(vanRE, '')] = true;
+    if (parentName) {
+      const parentPrefix = kebabCase(parentName);
+      if (firstPrefix.startsWith(parentPrefix)) {
+        const comboPrefix = `${parentPrefix}_${firstPrefix.slice(parentPrefix.length + 1)}`; // u-form_item
+        prefixMap[comboPrefix] = true;
+      } if (firstPrefix.replace(/-multi$/, '').startsWith(parentPrefix.replace(/-multi$/, ''))) {
+        const comboPrefix = `${parentPrefix}_${firstPrefix.replace(/-multi$/, '').slice(parentPrefix.replace(/-multi$/, '').length + 1)}`; // u-navar-multi_item
+        prefixMap[comboPrefix] = true;
+      } else {
+        const start = firstPrefix.match(/^(.+?)-/)?.[1];
+        if (start) {
+          const comboPrefix = `${parentPrefix}_${firstPrefix.slice(start.length + 1)}`; // u-radios_radio
+          prefixMap[comboPrefix] = true;
+        }
+      }
+    }
+
+    const selectorPrefixMap = options.reportCSSInfo?.extraComponentMap?.[componentName]?.selectorPrefixMap;
+    selectorPrefixMap && Object.assign(prefixMap, selectorPrefixMap);
+
+    return prefixMap;
+  }
 
   // eslint-disable-next-line no-shadow
-  const inferSelectorComponentName = options.reportCSSInfo?.inferSelectorComponentName || ((selector: string, componentNames: string[]) => {
-    return componentNames.find((componentName) => {
-      const firstPrefix = kebabCase(componentName);
-      const prefixMap = { [firstPrefix]: true };
-      const proRE = /^el-(.+)-pro$/;
-      if (proRE.test(firstPrefix)) prefixMap[firstPrefix.replace(proRE, 'el-p-$1')] = true;
-
-      const selectorPrefixMap = options.reportCSSInfo?.extraComponentMap?.[componentName]?.selectorPrefixMap;
-      selectorPrefixMap && Object.assign(prefixMap, selectorPrefixMap);
+  const inferSelectorComponentName = options.reportCSSInfo?.inferSelectorComponentName || ((selector: string, componentNameMap: Record<string, string | undefined>) => {
+    return Object.keys(componentNameMap).find((componentName) => {
+      const prefixMap = getPrefixMap(componentName, componentNameMap[componentName]);
 
       const re = new RegExp(Object.keys(prefixMap).map((prefix) => `^\\.${prefix}(__|--|$|[ +>~\\.:\\[])|^\\[class\\*=${prefix}_`).join('|'));
-      return re.test(selector) && !/:(before|after)$|vusion|s-empty|designer|cw-style/.test(selector);
+      return re.test(selector);
     });
   });
 
@@ -43,13 +70,8 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
     return cap ? subSelector.slice(0, (cap.index || subSelector.length - 1) + 1) : subSelector;
   }
 
-  const isSelectorStartRoot = options.reportCSSInfo?.isSelectorStartRoot || ((selector: string, componentName: string) => {
-    const firstPrefix = kebabCase(componentName);
-    const prefixMap = { [firstPrefix]: true };
-    const proRE = /^el-(.+)-pro$/;
-    if (proRE.test(firstPrefix)) prefixMap[firstPrefix.replace(proRE, 'el-p-$1')] = true;
-    const selectorPrefixMap = options.reportCSSInfo?.extraComponentMap?.[componentName]?.selectorPrefixMap;
-    selectorPrefixMap && Object.assign(prefixMap, selectorPrefixMap);
+  const isSelectorStartRoot = options.reportCSSInfo?.isSelectorStartRoot || ((selector: string, componentName: string, parentName: string | undefined) => {
+    const prefixMap = getPrefixMap(componentName, componentNameMap[componentName]);
 
     const notRootPrefixes: string[] = [];
     const rootPrefixes: string[] = [];
@@ -58,9 +80,9 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
     });
 
     let re = new RegExp(notRootPrefixes.map((prefix) => `^\\.${prefix}(--|$|[ +>~\\.:])|^\\[class\\*=${prefix}___`).join('|'));
-    if (re.test(selector)) return false;
+    if (notRootPrefixes.length && re.test(selector)) return false;
     re = new RegExp(rootPrefixes.map((prefix) => `^\\.${prefix}(--|$|[ +>~\\.:])|^\\[class\\*=${prefix}___`).join('|'));
-    return re.test(selector);
+    return !!rootPrefixes.length && re.test(selector);
   });
 
   const componentCSSInfoMap: Record<string, {
@@ -77,18 +99,19 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
         .replace(/\s+/g, ' ') // 抹平换行符
         .replace(/\s*([>+~,])\s*/g, '$1') // 统一去除空格
         .split(/,/g)
-        .flatMap((sel) => (mockStateRE.test(sel) && !hasPesudoElementRE.test(sel) ? [sel, sel.replace(mockStateRE, '._$1')] : [sel])); // 增加模拟伪类
+        .flatMap((sel) => (mockStateRE.test(sel) && !hasPesudoElementRE.test(sel) ? [sel, sel.replace(new RegExp(mockStateRE, 'g'), '._$1')] : [sel])); // 增加模拟伪类
 
-      node.selector = selectors.join(','); // 更新 CSS 代码中的选择器
+      let selector = selectors.join(',');
+      if (/:(before|after)$|vusion|s-empty|_fake|_empty|[dD]esigner|cw-style/.test(selector) || isNonStandardRE.test(selector)) return;
+      node.selector = selector; // 更新 CSS 代码中的选择器
 
       selectors = selectors
         // .filter((sel) => !/|ms|o)-|^_/.test(sel)) // 过滤掉浏览器前缀和 _ 开头的选择器
-        .map((sel) => sel.replace(hashClassRE, '[class*=$1___]')); // hash 类名改为 [class*=] 属性选择器
-
-      const selector = selectors.join(',');
+        .map((sel) => sel.replace(new RegExp(hashClassRE, 'g'), '[class*=$1___]')); // hash 类名改为 [class*=] 属性选择器
+      selector = selectors.join(',');
       if (!selector) return;
 
-      const componentName = inferSelectorComponentName?.(selector, componentNames);
+      const componentName = inferSelectorComponentName?.(selector, componentNameMap);
       if (!componentName) {
         if (options.reportCSSInfo?.verbose) {
           const tempComponentName = componentNames.find((name) => {
@@ -121,9 +144,9 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
           lastIndex = cap.index + 1;
         }
         mainSelector += getMainSubSelector(sel.slice(lastIndex));
-        if (mainSelector.endsWith(' *') || mainSelector.endsWith('>*')) return;
+        if (mainSelector.endsWith(' *') || mainSelector.endsWith('>*') || mainSelector.endsWith('(')) return;
 
-        componentCSSInfo.mainSelectorMap.set(mainSelector, isSelectorStartRoot(mainSelector, componentName));
+        componentCSSInfo.mainSelectorMap.set(mainSelector, isSelectorStartRoot(mainSelector, componentName, componentNameMap[componentName]));
       });
 
       const parsedStyle: Record<SupportedCSSProperty, CSSValue> = {} as Record<SupportedCSSProperty, CSSValue>;
@@ -238,7 +261,7 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
       });
       const cssRule: CSSRule = {
         selector,
-        isStartRoot: isSelectorStartRoot(selector, componentName),
+        isStartRoot: isSelectorStartRoot(selector, componentName, componentNameMap[componentName]),
         description: '', // cssRuleSelectors[selector] || lastRuleDesc || '',
         // code: node.toString().replace(/^[\s\S]*?\{/, '{'),
         parsedStyle,
@@ -319,10 +342,10 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
     componentCSSInfo.cssRules.forEach((rule) => {
       const matchedMainSelector = Array.from(componentCSSInfo.mainSelectorMap.keys()).find((mainSelector) => rule.selector.startsWith(mainSelector.split(/[ +>~]/g)[0]));
       !matchedMainSelector && console.log(`selector: ${rule.selector} 匹配 mainSelector: ${matchedMainSelector}`);
-      rule.description = cssDescMap[rule.selector] = cssDescMap[rule.selector] || '';
+      rule.description = cssDescMap[rule.selector] = allCSSDescMap[rule.selector] || '';
     });
     // eslint-disable-next-line no-nested-ternary
-    // componentCSSInfo.cssRules.sort((a, b) => (a.selector === b.selector ? 0 : a.selector < b.selector ? -1 : 1));
+    // componentCSSInfo.cssRules 不应该排序
     Object.keys(cssDescMap).forEach((selector) => {
       if (!componentCSSInfo.cssRuleMap.has(selector)) delete cssDescMap[selector];
     });
@@ -336,19 +359,77 @@ function parseCSSInfo(cssContent: string, componentNames: string[], cssRulesDesc
     if (!componentCSSInfoMap[componentName]) delete cssRulesDesc[componentName];
   });
 
+  if (options.reportCSSInfo?.verbose) {
+    componentNames.forEach((componentName) => {
+      if (!componentCSSInfoMap[componentName]) console.log(`[WARN] 组件 ${componentName} 上未匹配到任何选择器`);
+    });
+  }
+
+  // 整合
+  if (options.reportCSSInfo?.extraComponentMap) {
+    const compKeys = Object.keys(options.reportCSSInfo.extraComponentMap);
+    for (let i = 0; i < compKeys.length; i++) {
+      const curCompName = compKeys[i];
+      const { depCompList } = options.reportCSSInfo.extraComponentMap[compKeys[i]];
+      if (depCompList && depCompList.length) {
+        for (let j = 0; j < depCompList.length; j++) {
+          const depCompName = depCompList[j];
+          const depCompCssDesc = cssRulesDesc[depCompName];
+          cssRulesDesc[curCompName] = { ...cssRulesDesc[curCompName], ...depCompCssDesc };
+          const depCompCssInfo = componentCSSInfoMap[depCompName];
+          const resetCssRules = depCompCssInfo.cssRules.map((rule) => {
+            return {
+              ...rule,
+              isStartRoot: false,
+            };
+          });
+          const resetMainSelectorMap = Object.keys(depCompCssInfo.mainSelectorMap).reduce((acc, selector) => {
+            acc[selector] = false;
+            return acc;
+          }, {});
+
+          if (!componentCSSInfoMap[curCompName]) {
+            componentCSSInfoMap[curCompName] = {
+              cssRules: [],
+              cssRuleMap: new Map(),
+              mainSelectorMap: new Map(),
+            };
+          }
+          componentCSSInfoMap[curCompName].cssRules = [...componentCSSInfoMap[curCompName].cssRules, ...resetCssRules];
+          componentCSSInfoMap[curCompName].mainSelectorMap = { ...componentCSSInfoMap[curCompName].mainSelectorMap, ...resetMainSelectorMap };
+        }
+      }
+    }
+  }
+
   return { componentCSSInfoMap, cssRulesDesc, cssContent: root.toResult().css };
 }
 
-function collectComponentNames(componentList: any) {
-  const componentNames: string[] = [];
+// function collectComponentNames(componentList: any) {
+//   const componentNames: string[] = [];
+//   componentList.forEach((component) => {
+//     if (component.ignore) return;
+//     componentNames.push(component.name);
+//     if (component.children) {
+//       componentNames.push(...collectComponentNames(component.children));
+//     }
+//   });
+//   return componentNames;
+// }
+
+// { componentName: parentName }
+function collectComponentNameMap(
+  componentList: Array<{ name: string, ignore: boolean, children?: Array<{ name: string, ignore: boolean }> }>,
+  parentName?: string,
+) {
+  const componentNameMap: Record<string, string | undefined> = {};
   componentList.forEach((component) => {
     if (component.ignore) return;
-    componentNames.push(component.name);
-    if (component.children) {
-      componentNames.push(...collectComponentNames(component.children));
-    }
+    // 这里用了个技巧，先匹配子组件
+    component.children && Object.assign(componentNameMap, collectComponentNameMap(component.children, component.name));
+    componentNameMap[component.name] = parentName;
   });
-  return componentNames;
+  return componentNameMap;
 }
 
 export default function buildCSSInfo(options: LcapBuildOptions) {
@@ -357,13 +438,13 @@ export default function buildCSSInfo(options: LcapBuildOptions) {
   }
 
   const componentList = fs.readJSONSync(path.resolve(options.rootPath, options.destDir, 'nasl.ui.json'), 'utf-8');
-  const componentNames = collectComponentNames(componentList);
+  const componentNameMap = collectComponentNameMap(componentList);
 
   const cssContent = fs.readFileSync(path.resolve(options.rootPath, options.destDir, 'index.css'), 'utf-8');
 
   const cssRulesDescPath = path.resolve(options.rootPath, 'index.css-info-desc.json');
   const cssRulesDesc = fs.existsSync(cssRulesDescPath) ? fs.readJSONSync(cssRulesDescPath) : {};
-  const result = parseCSSInfo(cssContent, componentNames, cssRulesDesc, options);
+  const result = parseCSSInfo(cssContent, componentNameMap, cssRulesDesc, options);
 
   fs.writeJSONSync(path.resolve(options.rootPath, options.destDir, 'index.css-info-map.json'), result.componentCSSInfoMap, { spaces: 2 });
   fs.writeJSONSync(path.resolve(options.rootPath, 'index.css-info-desc.json'), result.cssRulesDesc, { spaces: 2 });

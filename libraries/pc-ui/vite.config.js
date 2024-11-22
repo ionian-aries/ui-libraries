@@ -41,9 +41,6 @@ export default defineConfig(({ command }) => {
               selectorPrefixMap: {
                 'i-icon': true,
               },
-              mainSelectorMap: {
-                "[class*=i-icon___]": true,
-              },
             },
             UCrumb: {
               mainSelectorMap: {
@@ -87,6 +84,30 @@ export default defineConfig(({ command }) => {
                 'u-toc': false,
                 'u-toc_wrap': true,
               },
+            },
+            UCountDown: {
+              mainSelectorMap: {
+                '[class*=u-count-down]': true,
+              },
+            },
+            UGallery: {
+              selectorPrefixMap: {
+                'u-gallery_wrap': true,
+                'u-gallery_wrapbig': true,
+                'u-gallery_wrapsmall': true,
+                'swiper\\b[a-z-]+': false,
+              },
+            },
+            UPopupCombination: {
+              selectorPrefixMap: {
+                'u-popup': true,
+              },
+            },
+            UTreeSelectNew: {
+              depCompList: ['UTreeViewNew'],
+            },
+            URegionSelect: {
+              depCompList: ['UCascader'],
             },
           },
         },

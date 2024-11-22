@@ -1,4 +1,4 @@
-import styles from './flex.module.css';
+import './index.css';
 
 export default {
   name: 'ElFlex',
@@ -93,7 +93,7 @@ export default {
 
     return h('div', {
       style,
-      class: this.mode === 'flex' ? styles.flex : styles.flexBlock,
+      class: this.mode === 'flex' ? 'el-flex' : 'el-flex--block',
       on: this.$listeners,
       attrs: {
         'vusion-slot-name': 'default',
@@ -103,10 +103,10 @@ export default {
     }, [
       childNodes,
       this.showLoading ? h('div', {
-        class: styles.loadmask,
+        class: 'el-flex__loadmask',
       }, [
         h('div', {
-          class: [styles.spinner, this.loadingIconRotate ? styles.rotating : ''],
+          class: ['el-flex__spinner', this.loadingIconRotate ? 'el-flex__rotating' : ''],
         }, [
           this.loadingIcon ? h('el-icon', {
             attrs: { name: this.loadingIcon },

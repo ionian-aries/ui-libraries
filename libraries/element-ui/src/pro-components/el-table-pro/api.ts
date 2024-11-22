@@ -61,7 +61,7 @@ namespace nasl.ui {
         propertyName:':dataSource',
         emptySlot: {
           condition: 'this.elementsLength() === 0',
-          accept: false,
+          accept: "target.concept === 'Entity'"
         },
         loopRule: 'nth-last-child(-n+2):not(:only-child)',
         refInLoop: {

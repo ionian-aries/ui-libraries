@@ -40,6 +40,10 @@ export default createComponent({
     defaultIndex: Number,
     swipeDuration: [Number, String],
     visibleItemCount: [Number, String],
+    optionIsSlot: {
+      type: Boolean,
+      default: true,
+    },
     initialOptions: {
       type: Array,
       default: () => [],
@@ -309,8 +313,7 @@ export default createComponent({
 
         return (
           <li {...data} vusion-slot-name="option">
-            {this.slots('option', { ...option, item: option }) ||
-              (isInDesigner ? <EmptyCol></EmptyCol> : <div {...childData} />)}
+            { this.optionIsSlot && this.slots('option', { ...option, item: option }) || <div {...childData} /> }
           </li>
         );
       });
