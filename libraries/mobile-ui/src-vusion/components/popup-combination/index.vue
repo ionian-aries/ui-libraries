@@ -54,13 +54,16 @@ export default {
 
       return style;
     },
-    getCssRuleClassName(staticClass = '') {
-      const cssRuleClassName = staticClass?.split(' ')?.find((className) => className.startsWith('css-rule')) || '';;
+    getCssRuleClassName() {
+      let list = this.$vnode?.data?.class || [];
+      list = [...list, ...(this.$vnode?.data?.staticClass?.split(' ') || [])];
+
+      const cssRuleClassName = list?.find((className) => className.startsWith('css-rule')) || '';;
       return cssRuleClassName;
     },
     beforeOpen() {
       this.staticStyle = this.getStaticStyle(this.$vnode.data.staticStyle)
-      this.cssRuleClassName = this.getCssRuleClassName(this.$vnode.data.staticClass);
+      this.cssRuleClassName = this.getCssRuleClassName();
     },
   }
 };
