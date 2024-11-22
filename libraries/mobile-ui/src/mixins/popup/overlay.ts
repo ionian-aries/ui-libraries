@@ -42,6 +42,15 @@ export function updateOverlay(vm: any): void {
 
     if (el && el.parentNode) {
       el.parentNode.insertBefore(overlay.$el, el);
+      /**
+       * 更新overlay上的css-rules className
+       */
+      // 1、查找vm上的class属性，以css-rule开头
+      const cssRuleClassName = Array.from(el.classList)?.find((className) => /^css-rule-?/.test(className));
+      // 2、如果有，添加到overlay上
+      if (cssRuleClassName && !overlay.$el.classList.contains(cssRuleClassName)) {
+        overlay.$el.classList.add(cssRuleClassName);
+      }
     }
 
     Object.assign(overlay, defaultConfig, config, {

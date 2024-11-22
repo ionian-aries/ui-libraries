@@ -5,6 +5,7 @@ import Icon from '../icon';
 
 const [createComponent, bem] = createNamespace('popup');
 
+// 挂载节点未指定，为默认节点
 export default createComponent({
   mixins: [
     PopupMixin({ independInDesigner: true }),
@@ -86,6 +87,9 @@ export default createComponent({
       style[key] = `${duration}s`;
     }
 
+    // 获取父组件的css-rule类名
+    const cssRuleClassName = this.$parent?.$vnode?.data?.staticClass?.split(' ')?.find((className) => /^css-rule-?/.test(className)) || '';
+
     return (
       <transition
         appear={this.transitionAppear}
@@ -100,7 +104,9 @@ export default createComponent({
             round,
             [position]: position,
             'safe-area-inset-bottom': this.safeAreaInsetBottom,
-          }), 'noforvant']}
+          }),
+          'noforvant',
+          cssRuleClassName]}
           onClick={this.onClick}
           empty={!this.$slots.default}
         >
