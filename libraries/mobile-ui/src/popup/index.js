@@ -87,9 +87,6 @@ export default createComponent({
       style[key] = `${duration}s`;
     }
 
-    // 获取父组件的css-rule类名
-    const cssRuleClassName = this.$parent?.$vnode?.data?.staticClass?.split(' ')?.find((className) => /^css-rule-?/.test(className)) || '';
-
     return (
       <transition
         appear={this.transitionAppear}
@@ -105,8 +102,7 @@ export default createComponent({
             [position]: position,
             'safe-area-inset-bottom': this.safeAreaInsetBottom,
           }),
-          'noforvant',
-          cssRuleClassName]}
+          'noforvant']}
           onClick={this.onClick}
           empty={!this.$slots.default}
         >
