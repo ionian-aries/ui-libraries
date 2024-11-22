@@ -154,6 +154,51 @@ export default defineConfig(({ command }) => {
                 '.el-popconfirm': false,
               },
             },
+            ElTabs: {
+              mainSelectorMap: {
+                '.el-tabs': true,
+                '.el-tabs--top': true,
+              },
+            },
+            ElSelectPro: {
+              selectorPrefixMap: {
+                'el-p-select__wrap': true,
+                'el-p-select': false,
+                'el-p-select-option': false,
+              },
+              mainSelectorMap: {
+                '.el-p-select-option': false,
+              },
+            },
+            ElCascaderPro: {
+              mainSelectorMap: {
+                '.el-p-cascader': true,
+              },
+            },
+            ElTreeSelectPro: {
+              selectorPrefixMap: {
+                'narrow-scrollbar': true,
+              },
+              depCompList: ['ElTreePro', 'ElSelectPro'],
+            },
+            ElDatePickerPro: {
+              mainSelectorMap: {
+                '.el-p-date-picker': true,
+              },
+              depCompList: ['ElSelectInputPro', 'ElInputPro'],
+            },
+            ElDateTimePickerPro: {
+              mainSelectorMap: {
+                '.el-p-date-picker': true,
+              },
+              depCompList: ['ElSelectInputPro', 'ElInputPro'],
+            },
+            ElTimePickerPro: {
+              selectorPrefixMap: {
+                'el-p-time-range-picker': true,
+              },
+              depCompList: ['ElRangeInputPro', 'ElInputPro'],
+            },
           },
         },
         dependencies: [
