@@ -8,6 +8,7 @@
     <u-popup
       ref="popup"
       :style="staticStyle"
+      :class="[cssRuleClassName]"
       reference="prev"
       v-bind="$attrs"
       v-on="$listeners"
@@ -28,6 +29,7 @@ export default {
   data() {
     return {
       staticStyle: '',
+      cssRuleClassName: '',
     }
   },
 
@@ -52,8 +54,13 @@ export default {
 
       return style;
     },
+    getCssRuleClassName(staticClass = '') {
+      const cssRuleClassName = staticClass?.split(' ')?.find((className) => className.startsWith('css-rule')) || '';;
+      return cssRuleClassName;
+    },
     beforeOpen() {
       this.staticStyle = this.getStaticStyle(this.$vnode.data.staticStyle)
+      this.cssRuleClassName = this.getCssRuleClassName(this.$vnode.data.staticClass);
     },
   }
 };
