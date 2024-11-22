@@ -6,6 +6,9 @@ export default {
   },
 
   created() {
-    this.cssRuleClassName = this?.$vnode?.data?.staticClass?.split(' ')?.find((className) => /^css-rule-?/.test(className)) || '';
+    let list = this.$vnode?.data?.class || [];
+    list = [...list, ...(this.$vnode?.data?.staticClass?.split(' ') || [])];
+
+    this.cssRuleClassName = list?.find((className) => /^css-rule-?/.test(className)) || '';
   },
 };
