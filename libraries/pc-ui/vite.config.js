@@ -74,9 +74,9 @@ export default defineConfig(({ command }) => {
             },
             UListComponents: {
               mainSelectorMap: {
-                "[class*=u-for-com]": true,
-                "[class*=u-for-com-frag]": false,
-                "[class*=u-for-com-item]": false,
+                ".u-for-com": true,
+                ".u-for-com-frag": false,
+                ".u-for-com-item": false,
               },
             },
             UToc: {

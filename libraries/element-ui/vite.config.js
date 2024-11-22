@@ -199,6 +199,12 @@ export default defineConfig(({ command }) => {
               },
               depCompList: ['ElRangeInputPro', 'ElInputPro'],
             },
+            ElInputPro: {
+              selectorPrefixMap: {
+                'el-p-input__wrap': true,
+                'el-p-input': false,
+              },
+            },
           },
         },
         dependencies: [
