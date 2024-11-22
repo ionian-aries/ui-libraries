@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import cls from 'classnames';
 import UPopupCombination from 'cloud-ui.vusion/src/components/u-popup-combination.vue/index.vue';
 import { context } from '../../../src/mixins/popup/context';
 
@@ -55,10 +56,9 @@ export default {
       return style;
     },
     getCssRuleClassName() {
-      let list = this.$vnode?.data?.class || [];
-      list = [...list, ...(this.$vnode?.data?.staticClass?.split(' ') || [])];
+      const clx = cls(this.$vnode?.data?.class || [], this.$vnode?.data?.staticClass || '');
 
-      const cssRuleClassName = list?.find((className) => className.startsWith('css-rule')) || '';;
+      const cssRuleClassName = clx.split(' ')?.find((className) => className.startsWith('css-rule')) || '';;
       return cssRuleClassName;
     },
     beforeOpen() {

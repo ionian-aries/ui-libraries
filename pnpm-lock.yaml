@@ -300,6 +300,9 @@ importers:
       animate.css:
         specifier: ^4.1.1
         version: 4.1.1
+      classnames:
+        specifier: ^2.2.6
+        version: 2.5.1
       clipboard:
         specifier: ^2.0.11
         version: 2.0.11
