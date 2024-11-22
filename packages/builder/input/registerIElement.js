@@ -232,7 +232,7 @@ export default function registerIElement(methods, options = {}) {
     selectors = data.selectors;
     if (!options.addEventsManually) {
       window.addEventListener('mousemove', onMouseMove);
-      window.addEventListener('click', onClick);
+      window.addEventListener('click', onClick, true);
     }
   };
 
@@ -240,7 +240,7 @@ export default function registerIElement(methods, options = {}) {
     inspecting = false;
     if (!options.addEventsManually) {
       window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('click', onClick);
+      window.removeEventListener('click', onClick, true);
     }
   };
 
