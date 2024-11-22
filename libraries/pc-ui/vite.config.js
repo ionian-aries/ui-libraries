@@ -103,6 +103,12 @@ export default defineConfig(({ command }) => {
                 'u-popup': true,
               },
             },
+            UTreeSelectNew: {
+              depCompList: ['UTreeViewNew'],
+            },
+            URegionSelect: {
+              depCompList: ['UCascader'],
+            },
           },
         },
       }),

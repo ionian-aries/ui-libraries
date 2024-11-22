@@ -144,7 +144,7 @@ function parseCSSInfo(cssContent: string, componentNameMap: Record<string, strin
           lastIndex = cap.index + 1;
         }
         mainSelector += getMainSubSelector(sel.slice(lastIndex));
-        if (mainSelector.endsWith(' *') || mainSelector.endsWith('>*')) return;
+        if (mainSelector.endsWith(' *') || mainSelector.endsWith('>*') || mainSelector.endsWith('(')) return;
 
         componentCSSInfo.mainSelectorMap.set(mainSelector, isSelectorStartRoot(mainSelector, componentName, componentNameMap[componentName]));
       });
@@ -363,6 +363,43 @@ function parseCSSInfo(cssContent: string, componentNameMap: Record<string, strin
     componentNames.forEach((componentName) => {
       if (!componentCSSInfoMap[componentName]) console.log(`[WARN] 组件 ${componentName} 上未匹配到任何选择器`);
     });
+  }
+
+  // 整合
+  if (options.reportCSSInfo?.extraComponentMap) {
+    const compKeys = Object.keys(options.reportCSSInfo.extraComponentMap);
+    for (let i = 0; i < compKeys.length; i++) {
+      const curCompName = compKeys[i];
+      const { depCompList } = options.reportCSSInfo.extraComponentMap[compKeys[i]];
+      if (depCompList && depCompList.length) {
+        for (let j = 0; j < depCompList.length; j++) {
+          const depCompName = depCompList[j];
+          const depCompCssDesc = cssRulesDesc[depCompName];
+          cssRulesDesc[curCompName] = { ...cssRulesDesc[curCompName], ...depCompCssDesc };
+          const depCompCssInfo = componentCSSInfoMap[depCompName];
+          const resetCssRules = depCompCssInfo.cssRules.map((rule) => {
+            return {
+              ...rule,
+              isStartRoot: false,
+            };
+          });
+          const resetMainSelectorMap = Object.keys(depCompCssInfo.mainSelectorMap).reduce((acc, selector) => {
+            acc[selector] = false;
+            return acc;
+          }, {});
+
+          if (!componentCSSInfoMap[curCompName]) {
+            componentCSSInfoMap[curCompName] = {
+              cssRules: [],
+              cssRuleMap: new Map(),
+              mainSelectorMap: new Map(),
+            };
+          }
+          componentCSSInfoMap[curCompName].cssRules = [...componentCSSInfoMap[curCompName].cssRules, ...resetCssRules];
+          componentCSSInfoMap[curCompName].mainSelectorMap = { ...componentCSSInfoMap[curCompName].mainSelectorMap, ...resetMainSelectorMap };
+        }
+      }
+    }
   }
 
   return { componentCSSInfoMap, cssRulesDesc, cssContent: root.toResult().css };
