@@ -267,7 +267,7 @@ namespace nasl.ui {
       group: '主要属性',
       title: '最小折叠数量',
       description: '最小折叠数量，用于多选情况下折叠选中项，超出该数值的选中项折叠。值为 0 则表示不折叠',
-      setter: { concept: 'NumberInputSetter', min: 0 },
+      setter: { concept: 'NumberInputSetter', min: 2 },
       if: (_) => _.multiple == true,
     })
     minCollapsedNum: nasl.core.Decimal;
