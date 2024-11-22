@@ -1,3 +1,5 @@
+import cls from 'classnames';
+
 export default {
   data() {
     return {
@@ -6,9 +8,8 @@ export default {
   },
 
   created() {
-    let list = this.$vnode?.data?.class || [];
-    list = [...list, ...(this.$vnode?.data?.staticClass?.split(' ') || [])];
+    const clx = cls(this.$vnode?.data?.class || [], this.$vnode?.data?.staticClass || '');
 
-    this.cssRuleClassName = list?.find((className) => /^css-rule-?/.test(className)) || '';
+    this.cssRuleClassName = clx.split(' ')?.find((className) => /^css-rule-?/.test(className)) || '';
   },
 };
