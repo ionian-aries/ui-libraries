@@ -2640,10 +2640,6 @@
     ".van-linear-layout>*:first-child:active,.van-linear-layout>*:first-child._active": "布局:第一个子元素:鼠标按下",
     ".van-linear-layout>*:first-child:focus,.van-linear-layout>*:first-child._focus": "布局:第一个子元素:获得焦点",
     ".van-linear-layout>*:first-child:hover,.van-linear-layout>*:first-child._hover": "布局:第一个子元素:鼠标移入",
-    ".van-linear-layout>*:hover": "布局:子元素:鼠标移入",
-    ".van-linear-layout>*:hover:active,.van-linear-layout>*:hover._active": "布局:子元素:鼠标移入:鼠标按下",
-    ".van-linear-layout>*:hover:focus,.van-linear-layout>*:hover._focus": "布局:子元素:鼠标移入:获得焦点",
-    ".van-linear-layout>*:hover:hover,.van-linear-layout>*:hover._hover": "布局:子元素:鼠标移入:鼠标移入",
     ".van-linear-layout>*:last-child": "布局:最后一个子元素",
     ".van-linear-layout>*:last-child:active,.van-linear-layout>*:last-child._active": "布局:最后一个子元素:鼠标按下",
     ".van-linear-layout>*:last-child:focus,.van-linear-layout>*:last-child._focus": "布局:最后一个子元素:获得焦点",
@@ -2651,11 +2647,7 @@
     ".van-linear-layout>*:not(:last-child)": "布局:非最后子元素",
     ".van-linear-layout>*:not(:last-child):active,.van-linear-layout>*:not(:last-child)._active": "布局:非最后子元素:鼠标按下",
     ".van-linear-layout>*:not(:last-child):focus,.van-linear-layout>*:not(:last-child)._focus": "布局:非最后子元素:获得焦点",
-    ".van-linear-layout>*:not(:last-child):hover,.van-linear-layout>*:not(:last-child)._hover": "布局:非最后子元素:鼠标移入",
-    ".van-linear-layout>*._hover": "布局:子元素:鼠标移入",
-    ".van-linear-layout>*._hover:active,.van-linear-layout>*._hover._active": "布局:子元素:鼠标移入:鼠标按下",
-    ".van-linear-layout>*._hover:focus,.van-linear-layout>*._hover._focus": "布局:子元素:鼠标移入:获得焦点",
-    ".van-linear-layout>*._hover:hover,.van-linear-layout>*._hover._hover": "布局:子元素:鼠标移入:鼠标移入"
+    ".van-linear-layout>*:not(:last-child):hover,.van-linear-layout>*:not(:last-child)._hover": "布局:非最后子元素:鼠标移入"
   },
   "VanNoticeBar": {
     ".van-notice-bar": "通知栏",
