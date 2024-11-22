@@ -125,6 +125,35 @@ export default defineConfig(({ command }) => {
                 '.el-col': true,
               },
             },
+            ElDrawer: {
+              selectorPrefixMap: {
+                'el-drawer__wrapper': true,
+                'el-drawer': false,
+              },
+            },
+            ElDialog: {
+              selectorPrefixMap: {
+                'el-dialog__wrapper': true,
+                'el-dialog': false,
+              },
+            },
+            ElMessageBox: {
+              selectorPrefixMap: {
+                'el-message-box__wrapper': true,
+                'el-message-box': false,
+              },
+            },
+            ElPopover: {
+              mainSelectorMap: {
+                '.popper__arrow': false,
+              },
+            },
+            ElPopconfirm: {
+              mainSelectorMap: {
+                '.el-popover': true,
+                '.el-popconfirm': false,
+              },
+            },
           },
         },
         dependencies: [
