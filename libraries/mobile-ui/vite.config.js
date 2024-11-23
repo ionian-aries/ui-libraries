@@ -198,6 +198,11 @@ export default defineConfig(({ command }) => {
                 'van-cardu__wrap': true,
               },
             },
+            VanPopupCombination: {
+              selectorPrefixMap: {
+                'u-popup': true,
+              },
+            },
           },
         },
       }),
