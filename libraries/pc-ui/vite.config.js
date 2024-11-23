@@ -109,6 +109,23 @@ export default defineConfig(({ command }) => {
             URegionSelect: {
               depCompList: ['UCascader'],
             },
+            UDatePicker: {
+              selectorPrefixMap: {
+                'u-calendar': false,
+                'u-date-picker_popper': true,
+              },
+            },
+            UTimePicker: {
+              selectorPrefixMap: {
+                'u-time-picker_popper_popper': true,
+              },
+            },
+            UDateTimePicker: {
+              selectorPrefixMap: {
+                'u-date-time-picker_popper': true,
+              },
+              depCompList: ['UDatePicker'],
+            },
           },
         },
       }),

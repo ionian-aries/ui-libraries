@@ -86,7 +86,7 @@ export default function registerIElement(methods, options = {}) {
 
     const rect = el.getBoundingClientRect();
     const hoveredElementSelector = el.tagName.toLowerCase() + Array.from(el.classList)
-      .filter((cls) => !/^ide-css-rule-|^_|vusion|s-empty|_fake|_empty|[dD]esigner|cw-style/.test(cls))
+      .filter((cls) => !/^cw-css-rule|^ide-custom-component|^_|vusion|s-empty|_fake|_empty|[dD]esigner|cw-style/.test(cls))
       .map((cls) => `.${cls}`)
       .join('');
     if (!options.addPopoverManually) {
@@ -232,7 +232,7 @@ export default function registerIElement(methods, options = {}) {
     selectors = data.selectors;
     if (!options.addEventsManually) {
       window.addEventListener('mousemove', onMouseMove);
-      window.addEventListener('click', onClick);
+      window.addEventListener('click', onClick, true);
     }
   };
 
@@ -240,7 +240,7 @@ export default function registerIElement(methods, options = {}) {
     inspecting = false;
     if (!options.addEventsManually) {
       window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('click', onClick);
+      window.removeEventListener('click', onClick, true);
     }
   };
 
