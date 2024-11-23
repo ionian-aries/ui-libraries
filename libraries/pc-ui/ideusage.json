@@ -461,7 +461,8 @@
                 "condition": "this.getAttribute('src').type === 'dynamic'",
                 "component": "UImageDesigner"
             },
-            "useFxOrEg":{"property": "src"}
+            "useFxOrEg":{"property": "src"},
+            "updateFrameHeightWhenTrigger": "load"
         }
     },
     {
