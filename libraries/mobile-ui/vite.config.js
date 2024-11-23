@@ -180,14 +180,17 @@ export default defineConfig(({ command }) => {
               depCompList: ['VanCell'],
             },
             VanDropdownItem: {
-              mainSelectorMap: {
-                '.van-dropdown-menu__item': true,
-                '.van-dropdown-menu__item--disabled': true,
-                '.van-dropdown-menu__title': false,
-                '.van-dropdown-menu__title--active': false,
-                '.van-dropdown-menu__item--disabled .van-dropdown-menu__title': false,
-                '.van-ellipsis': false,
+              selectorPrefixMap: {
+                'van-dropdown-item': false,
               },
+              // mainSelectorMap: {
+              //   '.van-dropdown-menu__item': true,
+              //   '.van-dropdown-menu__item--disabled': true,
+              //   '.van-dropdown-menu__title': false,
+              //   '.van-dropdown-menu__title--active': false,
+              //   '.van-dropdown-menu__item--disabled .van-dropdown-menu__title': false,
+              //   '.van-ellipsis': false,
+              // },
               depCompList: ['VanCell'],
             },
             VanCardu: {
