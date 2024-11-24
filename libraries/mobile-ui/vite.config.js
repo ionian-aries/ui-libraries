@@ -87,12 +87,14 @@ export default defineConfig(({ command }) => {
             },
             VanProgress: {
               selectorPrefixMap: {
-                'van-progress-room': false,
+                'van-progress-room': true,
+                'van-progress': false,
               },
             },
             VanSlider: {
               selectorPrefixMap: {
-                'van-slider-room': false,
+                'van-slider-room': true,
+                'van-slider': false,
               },
             },
             VanSwitch: {
@@ -201,6 +203,17 @@ export default defineConfig(({ command }) => {
             VanPopupCombination: {
               selectorPrefixMap: {
                 'u-popup': true,
+              },
+            },
+            VanBadge: {
+              selectorPrefixMap: {
+                'van-badge__wrapper': true,
+                'van-badge': false,
+              },
+            },
+            VanDialog: {
+              mainSelectorMap: {
+                '.dialogchild': false,
               },
             },
           },

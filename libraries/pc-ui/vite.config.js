@@ -66,6 +66,7 @@ export default defineConfig(({ command }) => {
               selectorPrefixMap: {
                 'u-table': false,
               },
+              depCompList: ['UPagination'],
             },
             UTreeViewNew: {
               mainSelectorMap: {
@@ -118,6 +119,7 @@ export default defineConfig(({ command }) => {
             UTimePicker: {
               selectorPrefixMap: {
                 'u-time-picker_popper_popper': true,
+                'u-time-picker_range': true,
               },
             },
             UDateTimePicker: {
@@ -125,6 +127,12 @@ export default defineConfig(({ command }) => {
                 'u-date-time-picker_popper': true,
               },
               depCompList: ['UDatePicker'],
+            },
+            UProcessRecord: {
+              depCompList: ['UTableView'],
+            },
+            UProcessMyprocess: {
+              depCompList: ['UTabs', 'UTableView', 'UForm', 'UButton'],
             },
           },
         },
