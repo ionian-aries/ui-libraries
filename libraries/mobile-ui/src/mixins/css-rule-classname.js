@@ -10,6 +10,6 @@ export default {
   created() {
     const clx = cls(this.$vnode?.data?.class || [], this.$vnode?.data?.staticClass || '');
 
-    this.cssRuleClassName = clx.split(' ')?.find((className) => /^css-rule-?/.test(className)) || '';
+    this.cssRuleClassName = clx.split(' ')?.find((className) => /^cw-css-rule-?/.test(className)) || '';
   },
 };

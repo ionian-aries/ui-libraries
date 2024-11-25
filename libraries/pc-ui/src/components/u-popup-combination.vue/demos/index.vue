@@ -1,6 +1,6 @@
 <template>
   <u-popup-combination
-    :class="['css-rule-popup-combination1___abcd']"
+    :class="['cw-css-rule-popup-combination1___abcd']"
   >
     <template #reference>
          <u-button color="primary" text="触发弹出框组件，可删除替换"></u-button>

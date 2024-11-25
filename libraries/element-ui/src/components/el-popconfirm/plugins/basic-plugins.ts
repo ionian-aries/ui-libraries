@@ -42,7 +42,7 @@ export const usePopconfirm: NaslComponentPluginOptions = {
 
 function getCssRuleClassName(vnode: VNode, popperClass: string) {
   const clx = cls(vnode.data?.class || [], vnode.data?.staticClass || '');
-  const cssRuleClassName = clx?.split(' ')?.find((name) => /^css-rule-?/.test(name)) || '';
+  const cssRuleClassName = clx?.split(' ')?.find((name) => /^cw-css-rule-?/.test(name)) || '';
 
   return `${popperClass} ${cssRuleClassName}`;
 }

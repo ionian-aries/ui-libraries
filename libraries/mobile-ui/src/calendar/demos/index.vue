@@ -6,7 +6,7 @@
           <span>日期选择</span>
         </template>
         <van-calendar
-          class="css-rule-calendar1___abcas"
+          class="cw-css-rule-calendar1___abcas"
           :value.sync="date1"
           :min-date="min"
           :max-date="end"
