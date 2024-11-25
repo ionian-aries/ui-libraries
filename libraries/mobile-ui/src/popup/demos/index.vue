@@ -3,7 +3,7 @@
     <demo-block card :title="t('basicUsage')">
       <van-cell :title="t('buttonBasic')" is-link @click="showBasic = true" />
       <van-popup
-        class="css-rule-popup1___asada"
+        class="cw-css-rule-popup1___asada"
         v-model="showBasic"
         position="bottom"
         safeAreaInsetBottom

@@ -16,7 +16,7 @@
 
   <demo-block card title="样式增强">
     <van-popup-combination
-      class="css-rule-popover1___asada"
+      class="cw-css-rule-popover1___asada"
       style="--popup-background: red;"
     >
       <template #reference>

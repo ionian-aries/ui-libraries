@@ -52,7 +52,7 @@ export const Default = {
     template: `
       <div>
         <el-select-pro
-          :class="[{ 'css-rule-select1___abcd': true }]"
+          :class="[{ 'cw-css-rule-select1___abcd': true }]"
           :popupProps="{ overlayClassName: [{ overlay1: true }] }"
           :filterable="true"
           :dataSource="data"
