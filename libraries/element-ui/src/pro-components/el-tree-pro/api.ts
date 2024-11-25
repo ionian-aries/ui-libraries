@@ -423,6 +423,8 @@ namespace nasl.ui {
         expanded: nasl.core.Boolean;
         indeterminate: nasl.core.Boolean;
         loading: nasl.core.Boolean;
+        value: V;
+        label: nasl.core.String;
       }
     }) => any;
 
