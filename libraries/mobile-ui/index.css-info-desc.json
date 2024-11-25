@@ -1820,6 +1820,10 @@
     ".van-cellson:hover,.van-cellson._hover": "鼠标移入"
   },
   "VanDialog": {
+    ".dialogchild": "对话框子元素",
+    ".dialogchild:active,.dialogchild._active": "对话框子元素:鼠标按下",
+    ".dialogchild:focus,.dialogchild._focus": "对话框子元素:获得焦点",
+    ".dialogchild:hover,.dialogchild._hover": "对话框子元素:鼠标移入",
     ".van-dialog": "对话框",
     ".van-dialog__cancel": "对话框取消按钮",
     ".van-dialog__cancel:active,.van-dialog__cancel._active": "对话框取消按钮:鼠标按下",
@@ -4542,4 +4546,3 @@
     ".count-down-new:hover,.count-down-new._hover": "计时器:鼠标移入"
   }
 }
-
