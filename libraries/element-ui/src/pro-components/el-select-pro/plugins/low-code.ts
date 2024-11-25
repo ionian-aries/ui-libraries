@@ -13,14 +13,6 @@ export const useLowcodeStyle: NaslComponentPluginOptions = {
     });
     return {
       value,
-      popupProps: props.useComputed('popupProps', (popupProps = {}) => {
-        return {
-          ...popupProps,
-          attach: () => {
-            return ctx.refs.$base?.$el;
-          },
-        };
-      }),
     };
   },
   onlyUseIDE: true,
