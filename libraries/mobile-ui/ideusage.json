@@ -260,7 +260,8 @@
         "ideusage": {
             "idetype": "element",
             "useFxOrEg":{"property": "src"},
-            "translateBindingProperty": ["src", "sr"]
+            "translateBindingProperty": ["src", "sr"],
+            "updateFrameHeightWhenTrigger": "load"
         }
     },
     {

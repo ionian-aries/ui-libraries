@@ -42,6 +42,9 @@ export default defineConfig(({ command }) => {
               selectorPrefixMap: {
                 'el-icon-loading': true,
               },
+              mainSelectorMap: {
+                '.el-p-icon': true,
+              },
             },
             ElAutocomplete: {
               selectorPrefixMap: {
@@ -198,6 +201,15 @@ export default defineConfig(({ command }) => {
                 'el-p-time-range-picker': true,
               },
               depCompList: ['ElRangeInputPro', 'ElInputPro'],
+            },
+            ElInputPro: {
+              selectorPrefixMap: {
+                'el-p-input__wrap': true,
+                'el-p-input': false,
+              },
+            },
+            ElTablePro: {
+              depCompList: ['ElPaginationPro'],
             },
           },
         },

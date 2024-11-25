@@ -87,12 +87,14 @@ export default defineConfig(({ command }) => {
             },
             VanProgress: {
               selectorPrefixMap: {
-                'van-progress-room': false,
+                'van-progress-room': true,
+                'van-progress': false,
               },
             },
             VanSlider: {
               selectorPrefixMap: {
-                'van-slider-room': false,
+                'van-slider-room': true,
+                'van-slider': false,
               },
             },
             VanSwitch: {
@@ -178,6 +180,41 @@ export default defineConfig(({ command }) => {
                 '.van-calendar__wrapppcalendar': true,
               },
               depCompList: ['VanCell'],
+            },
+            VanDropdownItem: {
+              selectorPrefixMap: {
+                'van-dropdown-item': false,
+              },
+              // mainSelectorMap: {
+              //   '.van-dropdown-menu__item': true,
+              //   '.van-dropdown-menu__item--disabled': true,
+              //   '.van-dropdown-menu__title': false,
+              //   '.van-dropdown-menu__title--active': false,
+              //   '.van-dropdown-menu__item--disabled .van-dropdown-menu__title': false,
+              //   '.van-ellipsis': false,
+              // },
+              depCompList: ['VanCell'],
+            },
+            VanCardu: {
+              selectorPrefixMap: {
+                'van-cardu__wrap': true,
+              },
+            },
+            VanPopupCombination: {
+              selectorPrefixMap: {
+                'u-popup': true,
+              },
+            },
+            VanBadge: {
+              selectorPrefixMap: {
+                'van-badge__wrapper': true,
+                'van-badge': false,
+              },
+            },
+            VanDialog: {
+              mainSelectorMap: {
+                '.dialogchild': false,
+              },
             },
           },
         },
