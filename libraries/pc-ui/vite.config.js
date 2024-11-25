@@ -108,7 +108,12 @@ export default defineConfig(({ command }) => {
               depCompList: ['UTreeViewNew'],
             },
             URegionSelect: {
-              depCompList: ['UCascader'],
+              depCompList: [
+                {
+                  compName: 'UCascader',
+                  isResetRoot: false,
+                },
+              ],
             },
             UDatePicker: {
               selectorPrefixMap: {
