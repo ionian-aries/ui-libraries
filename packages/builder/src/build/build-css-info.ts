@@ -382,20 +382,28 @@ function parseCSSInfo(cssContent: string, componentNameMap: Record<string, strin
       const { depCompList } = options.reportCSSInfo.extraComponentMap[compKeys[i]];
       if (depCompList && depCompList.length) {
         for (let j = 0; j < depCompList.length; j++) {
-          const depCompName = depCompList[j];
+          const depCompItem = depCompList[j];
+          let depCompName = '';
+          let isResetRoot = true;
+          if (typeof depCompItem !== 'string') {
+            depCompName = depCompItem.compName;
+            isResetRoot = depCompItem.isResetRoot;
+          } else {
+            depCompName = depCompItem;
+          }
           const depCompCssDesc = cssRulesDesc[depCompName];
           cssRulesDesc[curCompName] = { ...cssRulesDesc[curCompName], ...depCompCssDesc };
           const depCompCssInfo = componentCSSInfoMap[depCompName];
           const resetCssRules = depCompCssInfo.cssRules.map((rule) => {
             return {
               ...rule,
-              isStartRoot: false,
+              isStartRoot: isResetRoot ? false : rule.isStartRoot,
             };
           });
-          const resetMainSelectorMap = Object.keys(depCompCssInfo.mainSelectorMap).reduce((acc, selector) => {
+          const resetMainSelectorMap = isResetRoot ? Object.keys(depCompCssInfo.mainSelectorMap).reduce((acc, selector) => {
             acc[selector] = false;
             return acc;
-          }, {});
+          }, {}) : { ...depCompCssInfo.mainSelectorMap };
 
           if (!componentCSSInfoMap[curCompName]) {
             componentCSSInfoMap[curCompName] = {
