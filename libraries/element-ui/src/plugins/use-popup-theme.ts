@@ -27,7 +27,7 @@ function getOverlayClassName(vnode: VNode, overlayClassName: PopupProps['overlay
   }
 
   const clx = cls(vnode.data?.class || [], vnode.data?.staticClass || '');
-  const cssRuleClassName = clx?.split(' ')?.find((name) => /^css-rule-?/.test(name)) || '';
+  const cssRuleClassName = clx?.split(' ')?.find((name) => /^cw-css-rule-?/.test(name)) || '';
 
   if (cssRuleClassName) {
     className.push(cssRuleClassName);
