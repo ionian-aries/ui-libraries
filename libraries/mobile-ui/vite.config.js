@@ -224,6 +224,11 @@ export default defineConfig(({ command }) => {
                 'van-fieldtextarea__newwrap': true,
               },
             },
+            VanFieldinput: {
+              selectorPrefixMap: {
+                'van-fieldinput__newwrap': true,
+              },
+            },
           },
         },
       }),
