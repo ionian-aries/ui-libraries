@@ -639,6 +639,7 @@
                 "reference": true
             },
             "events": {
+                "mousedown": true,
                 "click": true
             },
             "eventsEffect": "reference",
