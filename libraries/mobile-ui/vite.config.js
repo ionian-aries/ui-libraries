@@ -219,6 +219,11 @@ export default defineConfig(({ command }) => {
             VanSearch: {
               depCompList: ['VanField'],
             },
+            VanFieldtextarea: {
+              selectorPrefixMap: {
+                'van-fieldtextarea__newwrap': true,
+              },
+            },
           },
         },
       }),
