@@ -1860,7 +1860,11 @@
     "[class*=u-rate_text___]": "评分文本",
     "[class*=u-rate_text___]:active,[class*=u-rate_text___]._active": "评分文本:鼠标按下",
     "[class*=u-rate_text___]:focus,[class*=u-rate_text___]._focus": "评分文本:获得焦点",
-    "[class*=u-rate_text___]:hover,[class*=u-rate_text___]._hover": "评分文本:鼠标移入"
+    "[class*=u-rate_text___]:hover,[class*=u-rate_text___]._hover": "评分文本:鼠标移入",
+    "[class*=u-rate]": "评分组件",
+    "[class*=u-rate]:active,[class*=u-rate]._active": "评分组件:鼠标按下",
+    "[class*=u-rate]:focus,[class*=u-rate]._focus": "评分组件:获得焦点",
+    "[class*=u-rate]:hover,[class*=u-rate]._hover": "评分组件:鼠标移入"
   },
   "UCascader": {
     "[class*=u-cascader___]": "级联选择器",
