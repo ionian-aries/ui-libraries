@@ -65,6 +65,7 @@ export default defineConfig(({ command }) => {
             UTableView: {
               selectorPrefixMap: {
                 'u-table': false,
+                'u-table-view_filters-popper': true,
               },
               depCompList: ['UPagination'],
             },
@@ -138,6 +139,11 @@ export default defineConfig(({ command }) => {
             },
             UProcessMyprocess: {
               depCompList: ['UTabs', 'UTableView', 'UForm', 'UButton'],
+            },
+            URate: {
+              mainSelectorMap: {
+                '[class*=u-rate]': true,
+              },
             },
           },
         },
