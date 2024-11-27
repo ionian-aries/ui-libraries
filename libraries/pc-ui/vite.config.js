@@ -67,7 +67,11 @@ export default defineConfig(({ command }) => {
                 'u-table': false,
                 'u-table-view_filters-popper': true,
               },
+              mainSelectorMap: {
+                '[class*=u-table-view_filters-popper___]': true,
+              },
               depCompList: ['UPagination'],
+              hiddenSelectorPreFixList: ['u-table-view_filter'],
             },
             UTreeViewNew: {
               mainSelectorMap: {
@@ -143,6 +147,11 @@ export default defineConfig(({ command }) => {
             URate: {
               mainSelectorMap: {
                 '[class*=u-rate]': true,
+              },
+            },
+            UDropdown: {
+              mainSelectorMap: {
+                '[class*=u-dropdown_title___]': false,
               },
             },
           },
