@@ -543,6 +543,7 @@ export default {
                 size: files.reduce((acc, file) => acc + file.size, 0),
                 percent: 0,
                 showProgress: true,
+                type: file.type,
             };
 
             if (this.listType === 'image' || this.listType === 'card')
