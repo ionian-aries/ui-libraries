@@ -1,11 +1,11 @@
 <template>
   <demo-section>
     <demo-block :title="t('basicUsage')">
-      <van-switch v-model="checked" show-text active-text="开开开开开开" inactive-text="关" size="50px" />
+      <van-switch v-model="checked" />
     </demo-block>
 
     <demo-block :title="t('disabled')">
-      <van-switch v-model="checked" disabled show-text />
+      <van-switch v-model="checked" disabled />
     </demo-block>
 
     <demo-block :title="t('loadingStatus')">
@@ -35,6 +35,12 @@
         </template>
       </van-cell>
     </demo-block>
+
+    <demo-block title="文本展示">
+      <van-switch v-model="checked" show-text active-text="开开开开开开" inactive-text="关" size="50px" />
+      <van-switch v-model="checked" disabled show-text />
+    </demo-block>
+
   </demo-section>
 </template>
 
