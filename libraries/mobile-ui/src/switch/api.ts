@@ -70,25 +70,27 @@ namespace nasl.ui {
     })
     showText: nasl.core.Boolean = false;
 
-    @Prop({
+    @Prop<VanSwitchOptions, 'activeText'>({
       group: '交互属性',
       title: '开启文字',
       description: '开启时显示的文字',
       setter: {
         concept: "SwitchSetter"
       },
+      if: _ => _.showText === true
     })
-    activeText: nasl.core.String = '';
+    activeText: nasl.core.String = 'ON';
 
-    @Prop({
+    @Prop<VanSwitchOptions, 'inactiveText'>({
       group: '交互属性',
       title: '关闭文字',
       description: '关闭时显示的文字',
       setter: {
         concept: "SwitchSetter"
       },
+      if: _ => _.showText === true
     })
-    inactiveText: nasl.core.String = '';
+    inactiveText: nasl.core.String = 'OFF';
 
     @Event({
       title: '点击',
