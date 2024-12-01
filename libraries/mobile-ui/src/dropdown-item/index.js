@@ -132,10 +132,6 @@ export default createComponent({
         return this.slots('item', { item, index });
       });
     },
-
-    renderNormal() {
-      return this.slots();
-    },
   },
 
   render() {
@@ -221,7 +217,7 @@ export default createComponent({
           >
             {this.dataSource !== undefined
               ? this.renderDataSource()
-              : this.renderNormal()}
+              : [Options, this.slots('default')]}
           </Popup>
         </div>
       </div>
