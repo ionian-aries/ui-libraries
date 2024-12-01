@@ -121,7 +121,17 @@
             "childAccept": "['van-dropdown-item-son'].includes(target.tag)",
             "translateBindingProperty": ["value", "title"],
             "useFxOrEg":{"property": "title"},
-            "selector": "multiple"
+            "selector": "multiple",
+            "dataSource": {
+                "dismiss": "this.getDefaultElements().length > 0 && !this.getAttribute('dataSource')",
+                "display": 3,
+                "emptySlot": {
+                    "display": "inline",
+                    "condition": "!this.getAttribute('dataSource')",
+                    "accept": false
+                }
+            },
+            "namedSlotOmitWrapper": ["item"]
         }
     },
     {
