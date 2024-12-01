@@ -37,11 +37,11 @@
     position: absolute !important;
     max-height: @dropdown-menu-content-max-height !important;
 
-    &--inDesigner > :not(:first-child) {
+    // inDesigner
+    &--hasData > :not(:first-child) {
       position: relative;
     }
-
-    &--inDesigner > :not(:first-child)::before {
+    &--hasData > :not(:first-child)::before {
       content: '';
       display: block;
       position: absolute;
