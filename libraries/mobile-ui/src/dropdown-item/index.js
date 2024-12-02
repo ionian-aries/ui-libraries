@@ -200,7 +200,7 @@ export default createComponent({
             ref="popfordropdown"
             overlay={overlay}
             class={bem('content', {
-              hasData: this.inDesigner && this.dataSource !== undefined,
+              hasData: this.inDesigner() && this.dataSource !== undefined,
             })}
             position={direction === 'down' ? 'top' : 'bottom'}
             duration={this.transition ? duration : 0}
