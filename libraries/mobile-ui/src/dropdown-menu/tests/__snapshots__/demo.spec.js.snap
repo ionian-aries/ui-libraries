@@ -35,7 +35,7 @@ exports[`renders demo correctly 1`] = `
       </div>
       <div>
         <div class="van-dropdown-item van-dropdown-item--down" style="top: 0px; display: none;">
-          <transition-stub name="van-popup-slide-top" class="van-dropdown-item__content van-dropdown-item__content--hasData">
+          <transition-stub name="van-popup-slide-top" class="van-dropdown-item__content">
             <div class="van-popup van-popup--top noforvant" style="transition-duration: 0.2s; display: none;">
               <div noallow="" role="button" tabindex="0" class="van-cell van-cell--clickable van-cell--center">
                 <div vusion-slot-name="title" vusion-slot-name-edit="title" class="van-cell__title">a</div>
