@@ -339,7 +339,7 @@ namespace nasl.ui {
         'startInitialValue', 'endInitialValue',
       ],
     }, {
-      name: 'ElInputPro',
+      name: 'ElInputNumberPro',
     }],
   })
   @Component({
