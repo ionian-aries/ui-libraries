@@ -1,4 +1,3 @@
-
 import Vue, { ComponentOptions } from 'vue';
 import { type ScopedSlot } from 'vue/types/vnode';
 import { IN_ELEMENT_FORM, IN_ELEMENT_FORM_ITEM } from './constants';
@@ -16,6 +15,7 @@ export const FormItemProps = [
   'colSpan',
   'help',
   'helpIsSlot',
+  'hiddenLabel',
   'labelAlign',
   'labelWidthType',
   'labelWidth',
