@@ -86,7 +86,7 @@ namespace nasl.ui {
         title: 'undefined',
         description: '树形表格展开/折叠所有节点',
       })
-      toggleAll(
+      setAllTreeNodeExpanded(
           @Param({
               title: '展开/折叠',
               description: 'true 展开 / false 折叠',
@@ -104,7 +104,7 @@ namespace nasl.ui {
         title: '展开某个节点',
         description: '树形表格展开'
       })
-      toggle(
+      setTreeNodeExpanded(
         @Param({
             title: '数据唯一值',
         })
@@ -116,26 +116,26 @@ namespace nasl.ui {
         expanded: nasl.core.Boolean,
       ): void {}
 
-      @Method({
-        title: '添加一行数据',
-        description: '添加一行数据',
-      })
-      addRow(
-        item: T,
-        parentValue: V | null = null,
-      ): void {}
+      // @Method({
+      //   title: '添加一行数据',
+      //   description: '添加一行数据',
+      // })
+      // addRow(
+      //   item: T,
+      //   parentValue: V | null = null,
+      // ): void {}
 
-      @Method({
-        title: '删除行',
-        description: '删除行',
-      })
-      removeRow(value: V): void {}
+      // @Method({
+      //   title: '删除行',
+      //   description: '删除行',
+      // })
+      // removeRow(value: V): void {}
 
-      @Method({
-        title: '编辑行',
-        description: '将某一行数据改为编辑态',
-      })
-      editRow(value: V): void {}
+      // @Method({
+      //   title: '更新一条数据',
+      //   description: '更新一条数据',
+      // })
+      // setRowData(item: T): void {}
 
       @Method({
           title: 'undefined',
