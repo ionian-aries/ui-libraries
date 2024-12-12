@@ -34,6 +34,7 @@ export default defineConfig(({ command }) => {
         //   useOldCssVarParser: true,
         // },
         i18n: {},
+        modules: true,
         reportCSSInfo: {
           enabled: true,
           verbose: false,

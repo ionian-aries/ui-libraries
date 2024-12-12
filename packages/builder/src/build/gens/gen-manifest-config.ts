@@ -23,6 +23,9 @@ const getManifest = (type, outDir) => {
     ],
     package: ['source.zip'],
     i18n: [`${outDir}/i18n.json`],
+    modules: [
+      'es/modules.json',
+    ],
     ide: [
       `${outDir}/ide/index.js`,
       `${outDir}/ide/index.css`,

@@ -88,7 +88,7 @@ viteLogger.warn = (msg, options) => {
 
 export default (options: LcapViteConfigPluginOptions) => {
   return {
-    name: 'vite-lcap:default-config',
+    name: 'vite:lcap-default-config',
     config(config, { command }) {
       if (!config.define) {
         config.define = {};
