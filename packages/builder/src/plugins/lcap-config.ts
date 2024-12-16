@@ -74,6 +74,7 @@ function getCommonjsOptionsInclude(config: UserConfig): Array<string | RegExp> {
 
   return config.build.commonjsOptions.include;
 }
+
 const viteLogger = createLogger();
 const loggerWarn = viteLogger.warn;
 
