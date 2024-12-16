@@ -191,6 +191,18 @@ namespace nasl.ui {
         })
         size: 'normal' | 'small' | 'mini' = 'normal';
 
+        @Prop({
+            group: '样式属性',
+            title: '内容区充满',
+            docDescription: '内容区充满',
+            setter: {
+                concept: 'SwitchSetter',
+            },
+        })
+        fullContainer: false;
+
+        
+
         @Event({
             title: '点击后',
             description: '点击某一项后触发',

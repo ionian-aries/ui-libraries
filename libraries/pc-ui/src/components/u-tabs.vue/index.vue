@@ -1,5 +1,5 @@
 <template>
-    <div :class="$style.root" :disabled="disabled" :appear="appear" :size="size" :item-width="itemWidth">
+    <div :class="$style.root" :fullContainer="fullContainer" :disabled="disabled" :appear="appear" :size="size" :item-width="itemWidth">
         <div :class="$style.head">
             <span :class="$style.extra" vusion-slot-name="extra">
                 <slot name="extra"></slot>
@@ -79,7 +79,7 @@
                 <span :class="$style.next" @click="scrollNext" :vusion-click-enabled="$env.VUE_APP_DESIGNER"></span>
             </nav>
         </div>
-        <div :class="$style.body">
+        <div :class="$style.body" :fullContainer="fullContainer">
             <template v-if="$env.VUE_APP_DESIGNER && !itemVMs && !itemVMs.length && !dataSource && !$slots.default">
                 <span :class="$style.loadContent">{{ treeSelectTip }}</span>
             </template>
@@ -154,6 +154,7 @@ export default {
         urlField: { type: String, default: 'url' },
         contentField: { type: String, default: '' },
         closableField: { type: String, default: 'closable' },
+        fullContainer:{ type: Boolean, default: false },
     },
     data() {
         return {
