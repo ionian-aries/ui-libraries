@@ -2,7 +2,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import type { LcapBuildOptions } from '../types';
 
-const getManifest = (type, outDir) => {
+const getManifest = (type, outDir, modulesOutDir = 'es') => {
   return {
     nasl: [
       ...type === 'extension'
@@ -24,7 +24,8 @@ const getManifest = (type, outDir) => {
     package: ['source.zip'],
     i18n: [`${outDir}/i18n.json`],
     modules: [
-      'es/modules.json',
+      `${modulesOutDir}/modules.json`,
+      `${modulesOutDir}/index.d.ts`,
     ],
     ide: [
       `${outDir}/ide/index.js`,
