@@ -108,6 +108,7 @@ import SEmpty from '../s-empty.vue';
 import SupportDataSource from '../../mixins/support.datasource.js';
 import UTab from './tab.vue';
 import URouterView from '../../components/u-router-view.vue';
+import _ from 'lodash';
 
 export default {
     name: 'u-tabs',
@@ -155,6 +156,7 @@ export default {
         contentField: { type: String, default: '' },
         closableField: { type: String, default: 'closable' },
         fullContainer:{ type: Boolean, default: false },
+        uniqValue:{ type: Boolean, default: false },
     },
     data() {
         return {
@@ -174,7 +176,12 @@ export default {
                 return this.itemWidth;
         },
         tabDataSource() {
-            return this.currentDataSource && this.currentDataSource.data || [];
+            const list=this.currentDataSource && this.currentDataSource.data || [];
+            if(!this.uniqValue){
+                return list
+            }else{
+                return _.uniqWith(list, (a, b) => _.get(a, this.valueField) === _.get(b, this.valueField));
+            }
         },
     },
     watch: {
