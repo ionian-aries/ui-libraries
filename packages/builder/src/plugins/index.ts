@@ -3,7 +3,6 @@ import LcapThemeCode from './lcap-theme-code';
 import LcapBuild from './lcap-build';
 import LcapDefaultConfig from './lcap-default-config';
 import lcapUseNaslUI from './lcap-use-nasl-ui';
-// import LcapConfig from './lcap-config';
 import type { LcapThemeOptions, ViteLcapPluginOptions } from './lcap-build';
 import { getConfigComponents } from '../utils';
 
