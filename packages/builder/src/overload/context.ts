@@ -25,6 +25,7 @@ export interface OverloadComponentContext {
   framework: string;
   pkgComponentFolderPath: string;
   componentFolderPath: string;
+  uiPkgName: string;
   pkgName: string;
   fork: boolean;
   type: 'pc' | 'h5';
@@ -42,8 +43,8 @@ export function getProjectContext(rootPath) {
 
   if (pkg && pkg.lcap && pkg.lcap['lcap-ui']) {
     return {
-      pkgName: pkg.name,
       ...pkg.lcap['lcap-ui'],
+      name: pkg.name,
     };
   }
 
@@ -52,7 +53,7 @@ export function getProjectContext(rootPath) {
 
 function getComponentFloderPath(rootPath, component, framework, apiMap?: Record<string, string> | null) {
   if (apiMap && apiMap[component]) {
-    return path.resolve(apiMap[component], '../');
+    return path.resolve(rootPath, LCAP_UI_PACKAGE_PATH, apiMap[component], '../');
   }
 
   const pkg = fs.readJSONSync(path.resolve(rootPath, '.lcap/lcap-ui/package/package.json'));
@@ -172,7 +173,8 @@ export function getOverloadComponentContext(rootPath, { component, prefix, fork 
     naslUIConfig: comp,
     name,
     tagName,
-    pkgName: env.pkgName,
+    uiPkgName: env.pkgName,
+    pkgName: env.name,
     framework: env.framework,
     type: env.type,
     pkgComponentFolderPath: getComponentFloderPath(rootPath, component, env.framework, modulesInfo?.api),
