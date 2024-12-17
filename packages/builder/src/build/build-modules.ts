@@ -280,33 +280,32 @@ async function buildDts(options: BuildModulesOptions) {
     entry = `${typesPath}/src/index.d.ts`;
   }
 
-  const bundle = await rollup.rollup({
-    input: entry,
-    plugins: [
-      dts(),
-      {
-        name: 'rollup-temp-dts',
-        resolveId(source) {
-          if (source.endsWith('.css') || source.endsWith('.less') || source.endsWith('.scss') || source.endsWith('.vue')) {
-            return 'vite__temp.d.ts';
-          }
-
-          return undefined;
-        },
-        load(id) {
-          if (id === 'vite__temp.d.ts') {
-            return {
-              code: 'declare const _temp: any; export default _temp;',
-            };
-          }
-
-          return undefined;
-        },
-      },
-    ],
-  });
-
   try {
+    const bundle = await rollup.rollup({
+      input: entry,
+      plugins: [
+        dts(),
+        {
+          name: 'rollup-temp-dts',
+          resolveId(source) {
+            if (source.endsWith('.css') || source.endsWith('.less') || source.endsWith('.scss') || source.endsWith('.vue')) {
+              return 'vite__temp.d.ts';
+            }
+
+            return undefined;
+          },
+          load(id) {
+            if (id === 'vite__temp.d.ts') {
+              return {
+                code: 'declare const _temp: any; export default _temp;',
+              };
+            }
+
+            return undefined;
+          },
+        },
+      ],
+    });
     await Promise.all([{ file: `${options.outDir}/index.d.ts`, format: 'es' }].map(bundle.write as any));
   } catch (e) {
     logger.error('构建 d.ts 失败');
