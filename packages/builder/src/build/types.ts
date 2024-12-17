@@ -1,5 +1,3 @@
-import { BuildOptions } from 'vite';
-
 export type BuildMode = 'production' | 'watch';
 
 export interface BuildIdeOptions {
@@ -46,6 +44,7 @@ export interface BuildModulesOptions extends LcapMetaOptions {
   outDir: string; // es
   entries?: { [key: string]: string };
   external?: (string | RegExp)[];
+  tsconfigPath?: string;
 }
 
 export interface LcapBuildOptions extends LcapMetaOptions {

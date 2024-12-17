@@ -95,6 +95,8 @@
     "postcss-values-parser": "^6.0.2",
     "prompts": "^2.4.2",
     "react-style-object-to-css": "^1.1.2",
+    "rollup": "^4.28.1",
+    "rollup-plugin-dts": "^6.1.1",
     "semver": "^7.5.4",
     "send": "^1.1.0",
     "serve-index": "^1.9.1"

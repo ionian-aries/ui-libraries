@@ -9,12 +9,15 @@ import {
 import { kebabCase } from 'lodash';
 import fs from 'fs-extra';
 import path from 'path';
+import rollup from 'rollup';
+import { dts } from 'rollup-plugin-dts';
 import { virtualInjectCSSFileId, virtualThemeCSSFileId } from '../constants/virtual-file-names';
 import logger from '../utils/logger';
 import type { BuildModulesOptions, LcapBuildOptions } from './types';
 import { getComponentMetaInfos } from '../utils/lcap';
 import type { ComponentMetaInfo } from '../utils/types';
 import { getBuildOutputConifg } from '../utils/build-utils';
+import { exec } from '../utils/exec';
 
 function getTagName(name: string, framework: string) {
   let key = name;
@@ -247,7 +250,70 @@ async function generateModulesJSON(options: BuildModulesOptions, exportsMap: Rec
     });
   });
 
-  fs.writeJSONSync(filePath, { exports: exportNameMap, api: apiPathMap }, { spaces: 2 });
+  const moduleInfo = { exports: exportNameMap, api: apiPathMap };
+
+  fs.writeJSONSync(filePath, moduleInfo, { spaces: 2 });
+
+  return moduleInfo;
+}
+
+async function generateIndexDts(options: BuildModulesOptions, exportNameMap: { [key: string]: { src: string; isDefault: boolean }}) {
+  const codes = Object.keys(exportNameMap).map((key) => {
+    return `export declare const ${key}: any;`;
+  });
+
+  codes.push('');
+
+  fs.writeFileSync(path.resolve(options.rootPath, options.outDir, 'index.d.ts'), codes.join('\n'));
+}
+
+async function buildDts(options: BuildModulesOptions) {
+  const typesPath = '_temp/types';
+  try {
+    await exec(`npx tsc -d --emitDeclarationOnly -p ${options.tsconfigPath} --outDir ${typesPath}`);
+  } catch (e) {
+    logger.error(e);
+  }
+
+  let entry = `${typesPath}/index.d.ts`;
+  if (!fs.existsSync(entry)) {
+    entry = `${typesPath}/src/index.d.ts`;
+  }
+
+  const bundle = await rollup.rollup({
+    input: entry,
+    plugins: [
+      dts(),
+      {
+        name: 'rollup-temp-dts',
+        resolveId(source) {
+          if (source.endsWith('.css') || source.endsWith('.less') || source.endsWith('.scss') || source.endsWith('.vue')) {
+            return 'vite__temp.d.ts';
+          }
+
+          return undefined;
+        },
+        load(id) {
+          if (id === 'vite__temp.d.ts') {
+            return {
+              code: 'declare const _temp: any; export default _temp;',
+            };
+          }
+
+          return undefined;
+        },
+      },
+    ],
+  });
+
+  try {
+    await Promise.all([{ file: `${options.outDir}/index.d.ts`, format: 'es' }].map(bundle.write as any));
+  } catch (e) {
+    logger.error('构建 d.ts 失败');
+    throw e;
+  } finally {
+    fs.rmSync('_temp', { recursive: true });
+  }
 }
 
 export async function buildModules(options: LcapBuildOptions) {
@@ -268,6 +334,13 @@ export async function buildModules(options: LcapBuildOptions) {
   logger.start('开始模块构建....');
   const components = getComponentMetaInfos(options.rootPath, true);
   const exportsMap = await viteBuildModules(buildModulesOptions, components);
-  await generateModulesJSON(buildModulesOptions, exportsMap, components);
+  const moduleInfo = await generateModulesJSON(buildModulesOptions, exportsMap, components);
+
+  if (buildModulesOptions.tsconfigPath && fs.existsSync(buildModulesOptions.tsconfigPath)) {
+    await buildDts(buildModulesOptions);
+  } else {
+    await generateIndexDts(buildModulesOptions, moduleInfo.exports);
+  }
+
   logger.success('已完成模块构建....');
 }
