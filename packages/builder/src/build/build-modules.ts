@@ -269,8 +269,9 @@ async function generateIndexDts(options: BuildModulesOptions, exportNameMap: { [
 
 async function buildDts(options: BuildModulesOptions) {
   const typesPath = '_temp/types';
+  const command = options.framework === 'vue3' ? 'vue-tsc' : 'tsc';
   try {
-    await exec(`npx tsc -d --emitDeclarationOnly -p ${options.tsconfigPath} --outDir ${typesPath}`);
+    await exec(`npx ${command} -d --emitDeclarationOnly -p ${options.tsconfigPath} --outDir ${typesPath}`);
   } catch (e) {
     logger.error(e);
   }
