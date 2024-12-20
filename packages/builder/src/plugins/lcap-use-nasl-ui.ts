@@ -225,6 +225,13 @@ export default function lcapUseNaslUI(options: LcapUseNaslUIPluginOptions) {
   return [{
     name: 'vite:lcap-use-nasl-ui',
     enforce: 'post',
+    resolveId(id) {
+      if (id === LCAP_UI_PACKAGE_NAME && useModules) {
+        return generateModulePath('index.mjs');
+      }
+
+      return undefined;
+    },
     transform(code) {
       if (!useModules || !modulesInfo || !modulesInfo.exports) {
         return undefined;
