@@ -100,7 +100,13 @@
             "childAccept": "target.tag === 'u-crumb-item'",
             "additionalAttribute": {
                 ":showInDesiner": true
-            }
+            },
+            "style": [
+                {
+                    "selector": ".empty-slot-wrapper",
+                    "declaration": "display: table-cell"
+                }
+            ]
         }
     },
     {
@@ -1345,6 +1351,19 @@
             },
             "additionalAttribute": {
                 ":showInDesigner": true
+            }
+        }
+    },
+    {
+        "name": "UProcessMyprocess",
+        "ideusage": {
+            "idetype": "container",
+            "operator": {
+                "delete": true,
+                "d2c": false,
+                "cut": false,
+                "duplicate": false,
+                "copy": false
             }
         }
     },
