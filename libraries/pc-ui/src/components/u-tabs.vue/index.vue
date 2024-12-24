@@ -293,6 +293,7 @@ export default {
                         oldValue,
                         itemVM,
                     }, this);
+                    this.$forceUpdate();
                     return;
                 }
                 this.$forceUpdate();
