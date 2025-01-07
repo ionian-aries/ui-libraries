@@ -1322,7 +1322,7 @@
                 "component": "UToastDesigner",
                 "selector": {
                     "slot": "inject",
-                    "cssSelector": "div[class^='u-toast_index']"
+                    "cssSelector": "div[class^='u-toast_item']"
                 }
             },
             "cacheOpenKey": "visible"
