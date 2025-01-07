@@ -244,7 +244,7 @@ test('Render Primary Button', () => {
 
 修改代码请阅读我们的 [贡献指南](./.github/CONTRIBUTING.md)。
 
-## 资源
+## 资源 
 
 * [pnpm](https://pnpm.io/zh/installation)
 * [vite](https://vitejs.dev/)
