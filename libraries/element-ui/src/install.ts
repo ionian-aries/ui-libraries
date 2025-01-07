@@ -1,9 +1,11 @@
+import VueCompositionAPI from '@vue/composition-api';
 import Loading from 'element-ui/lib/loading';
 import Message from 'element-ui/lib/message';
 import * as Components from './components';
 import * as ProComponents from './pro-components';
 
 export const install = (Vue) => {
+  Vue.use(VueCompositionAPI);
   Vue.prototype.$env = Vue.prototype.$env || {};
   Vue.prototype.$env.VUE_APP_DESIGNER = String(process.env.VUE_APP_DESIGNER) === 'true';
   Object.keys(Components).forEach((key) => {
