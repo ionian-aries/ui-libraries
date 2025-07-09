@@ -215,6 +215,12 @@
                                     </tr>
                                 </template>
                             </template>
+                            <tr v-if="showFooterCalcRow && currentData.length" ref="footer" :class="$style.row">
+                                <td :class="$style.cell" v-for="(item, index) in visibleColumnVMs">
+                                    <span v-if="index === 0">{{ footerCalcText }}</span>
+                                    <span v-else>--</span>
+                                </td>
+                            </tr>
                         </template>
                         <tr key="no-data-source" v-if="currentData === undefined && !currentError && $env.VUE_APP_DESIGNER">
                             <td :class="$style.center" :colspan="visibleColumnVMs.length">

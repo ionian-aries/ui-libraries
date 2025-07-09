@@ -44,6 +44,10 @@
 
         :thEllipsis="thEllipsis"
         :ellipsis="ellipsis"
+        
+        :showFooterCalcRow="showFooterCalcRow"
+        :footerCalcText="footerCalcText"
+        :footerCalcOption="footerCalcOption"
 
         :resizable="resizable"
         :minColumnWidth="minColumnWidth"
@@ -143,6 +147,10 @@
 
         :thEllipsis="thEllipsis"
         :ellipsis="ellipsis"
+        
+        :showFooterCalcRow="showFooterCalcRow"
+        :footerCalcText="footerCalcText"
+        :footerCalcOption="footerCalcOption"
 
         :resizable="resizable"
         :minColumnWidth="minColumnWidth"
@@ -376,6 +384,9 @@ export default {
         defaultColumnWidth: [String, Number],
         thEllipsis: { type: Boolean, default: false }, // 表头是否缩略展示
         ellipsis: { type: Boolean, default: false }, // 单元格是否缩略展示
+        showFooterCalcRow: { type: Boolean, default: false }, 
+        footerCalcText: { type: String, default: '合计' },
+        footerCalcOption: { type: String, default: 'sum' },
 
         rowStyle: Function, // 设置行背景色
 

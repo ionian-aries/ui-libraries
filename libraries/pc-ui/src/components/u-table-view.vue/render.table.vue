@@ -128,6 +128,13 @@
                                     </u-table-render-tr-expander>
                                 </template>
                             </template>
+                            <u-table-render-footer
+                                v-if="showFooterCalcRow && currentData.length"
+                                :footerCalcText="footerCalcText"
+                                :footerCalcOption="footerCalcOption"
+                                :visibleColumnVMs="visibleColumnVMs"
+                                :currentData="currentData"
+                            />
                             <tr key="loading" v-if="(currentData === undefined && !currentError) || currentLoading"><!-- 初次加载与加载更多 loading 合并在一起 -->
                                 <td :class="[$style.center, $style.centerSticky]" :colspan="visibleColumnVMs.length">
                                     <div :class="$style.wrap" :style="{ width: rootWidth? number2Pixel(rootWidth): undefined }" vusion-slot-name="loading">
@@ -187,6 +194,7 @@ import UTableRenderTd from './render.td.vue';
 import UTableRenderTr from './render.tr.vue';
 import UTableRenderTrExpander from './render.tr.expander.vue';
 import UTableRenderTh from './render.th.vue';
+import UTableRenderFooter from './render.footer.vue';
 
 
 export default {
@@ -197,6 +205,7 @@ export default {
         UTableRenderTr,
         UTableRenderTrExpander,
         UTableRenderTh,
+        UTableRenderFooter,
     },
     props: {
         tableMetaList: Array,
@@ -275,6 +284,9 @@ export default {
 
         thEllipsis: { type: Boolean, default: false }, // 表头是否缩略展示
         ellipsis: { type: Boolean, default: false }, // 单元格是否缩略展示
+        showFooterCalcRow: { type: Boolean, default: false },
+        footerCalcText: { type: String, default: '合计' },
+        footerCalcOption: { type: String, default: 'sum' },
 
         resizable: { type: Boolean, default: false },
         minColumnWidth: { type: Number, default: 44 },
@@ -339,6 +351,7 @@ export default {
             isTdLastLeftFixed: this.isTdLastLeftFixed,
             isFirstRightFixed: this.isFirstRightFixed,
             getStyle: this.getStyle,
+            getCellText: this.getCellText,
         };
     },
     watch: {
@@ -739,6 +752,9 @@ export default {
                 tablewrap: this.$refs.tablewrap[0],
             }
         },
+        getCellText(vm, item) {
+            return vm.currentFormatter.format(this.$at(item, vm.field) || item);
+        }
     },
 };
 </script>
