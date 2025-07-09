@@ -444,6 +444,7 @@ export default {
             tableHeadTrArr: [],
             currentPageSize: undefined,
             rootWidth: undefined,
+            calcData: [],
         };
     },
     provide() {

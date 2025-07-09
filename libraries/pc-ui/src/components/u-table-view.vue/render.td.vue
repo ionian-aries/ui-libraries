@@ -42,7 +42,8 @@
                 columnIndex,
                 index: rowIndex,
                 columnItem: vm.columnItem,
-                toggle: () => toggleExpanded(item)
+                toggle: () => toggleExpanded(item),
+                inTableView: true,
             }">
             <u-table-view-expander
                v-if="!vm.$scopedSlots.expander"
@@ -68,19 +69,19 @@
                 :editing="item.editing === vm.field">
                 <div>
                     <template v-if="item.editing === vm.field">
-                        <f-slot name="editcell" :vm="vm" :props="{ item: item, value: $at(item, vm.field), vm, rowIndex: rowIndex, columnIndex, index: rowIndex }">
+                        <f-slot name="editcell" :vm="vm" :props="{ item: item, value: $at(item, vm.field), vm, rowIndex: rowIndex, columnIndex, index: rowIndex, inTableView: true }">
                             <span v-if="vm.field && !['radio', 'checkbox'].includes(vm.type)" :class="$style['column-field']">{{ vm.currentFormatter.format($at(item, vm.field)) }}</span>
                         </f-slot>
                     </template>
                     <template v-else>
-                        <f-slot name="cell" :vm="vm" :props="{ item: item, value: $at(item, vm.field), vm, rowIndex: rowIndex, columnIndex, index: rowIndex, columnItem: vm.columnItem }">
+                        <f-slot name="cell" :vm="vm" :props="{ item: item, value: $at(item, vm.field), vm, rowIndex: rowIndex, columnIndex, index: rowIndex, columnItem: vm.columnItem, inTableView: true }">
                             <span v-if="vm.field && !['radio', 'checkbox'].includes(vm.type)" :class="$style['column-field']">{{ vm.currentFormatter.format($at(item, vm.field)) }}</span>
                         </f-slot>
                     </template>
                 </div>
             </div>
         </template>
-        <f-slot v-else name="cell" :vm="vm" :props="{ item: item, value: $at(item, vm.field), columnVM: vm, rowIndex, columnIndex, index: rowIndex, columnItem: vm.columnItem }">
+        <f-slot v-else name="cell" :vm="vm" :props="{ item: item, value: $at(item, vm.field), columnVM: vm, rowIndex, columnIndex, index: rowIndex, columnItem: vm.columnItem, inTableView: true }">
             <span v-if="vm.field && !['radio', 'checkbox'].includes(vm.type)" :class="$style['column-field']">{{ vm.currentFormatter.format($at(item, vm.field) || item) }}</span>
         </f-slot>
         <!-- type === 'expander' right -->
@@ -96,7 +97,8 @@
                 columnIndex,
                 index: rowIndex,
                 columnItem: vm.columnItem,
-                toggle: () => toggleExpanded(item)
+                toggle: () => toggleExpanded(item),
+                inTableView: true,
             }">
             <u-table-view-expander
                v-if="!vm.$scopedSlots.expander"
