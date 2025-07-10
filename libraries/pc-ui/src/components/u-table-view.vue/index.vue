@@ -151,6 +151,7 @@
         :showFooterCalcRow="showFooterCalcRow"
         :footerCalcText="footerCalcText"
         :footerCalcOption="footerCalcOption"
+        :calcData="calcData"
 
         :resizable="resizable"
         :minColumnWidth="minColumnWidth"

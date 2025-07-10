@@ -22,6 +22,10 @@ export default {
       type: Array,
       default: () => [],
     },
+    calcData: {
+      type: Array,
+      default: () => [],
+    },
   },
   data() {
     return {};
@@ -34,6 +38,7 @@ export default {
           : [],
       );
     },
+    
     currentList() {
       return this.getCurrentList();
     },

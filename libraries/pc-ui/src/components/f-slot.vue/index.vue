@@ -2,19 +2,17 @@
 import MEmitter from '../m-emitter.vue';
 export default {
     name: 'f-slot',
-    functional: true,
     mixins: [MEmitter],
     props: {
         vm: null,
         name: String,
         props: Object,
         catchError: { type: Boolean, default: true },
-        inTableView: { type: Boolean, default: false },
     },
-    render(h, context) {
-        let { vm, name, props, catchError } = context.props;
+    render(h) {
+        let { vm, name, props, catchError } = this;
 
-        vm = vm || vm.context.parent; // @TODO: 可能不太对，需要验证一下
+        vm = vm || this.$parent;
         const scopedSlot = vm.$scopedSlots[name];
         const slot = vm.$slots[name];
         if (scopedSlot) {
@@ -25,25 +23,20 @@ export default {
                     (slotResult || []).forEach((scopeValue) => {
                         if (scopeValue.tag !== vm.$vnode.tag) {
                             newScopeValue.push(scopeValue);
-                            
-                            if (props?.props?.inTableView) {
-                            
-                                // 获取内部组件渲染的值=scopeValue.componentOptions.propsData的value或text获取，通过this.$contact('u-table-view', (parentVM) => {传递
+                            if (props?.inTableView) {
                                 const propsData = scopeValue.componentOptions.propsData || {};
-                                const value = propsData.value || propsData.text;
-                                debugger
                                 this.$contact('u-table-view', (parentVM) => {
-                                    parentVM.calcData[props?.props?.columnIndex].push(value)
+                                    if (!Array.isArray(parentVM.calcData[props?.columnIndex])) {
+                                        parentVM.calcData[props?.columnIndex] = [];
+                                    }
+                                    parentVM.calcData[props?.columnIndex].push(propsData.value || propsData.text);
                                 });
-                                
                             }
-
-                            
                         }
                     });
                     return newScopeValue;
                 } else
-                    return context.children;
+                    return this.$slots.default;
             } catch (e) {
                 if (catchError)
                     return h('div', e.message || e);
@@ -53,7 +46,17 @@ export default {
         } else if (slot)
             return slot;
         else
-            return context.children;
+            return this.$slots.default;
+    },
+    destroyed() {
+        // 参考column.vue的实现，在组件销毁时重置calcData
+        if (this.props?.inTableView && this.props?.columnIndex !== undefined) {
+            this.$contact('u-table-view', (parentVM) => {
+                if (parentVM.calcData && parentVM.calcData[this.props.columnIndex]) {
+                    parentVM.calcData[this.props.columnIndex] = [];
+                }
+            });
+        }
     },
 };
 </script>

@@ -134,6 +134,7 @@
                                 :footerCalcOption="footerCalcOption"
                                 :visibleColumnVMs="visibleColumnVMs"
                                 :currentData="currentData"
+                                :calcData="calcData"
                             />
                             <tr key="loading" v-if="(currentData === undefined && !currentError) || currentLoading"><!-- 初次加载与加载更多 loading 合并在一起 -->
                                 <td :class="[$style.center, $style.centerSticky]" :colspan="visibleColumnVMs.length">
@@ -284,9 +285,11 @@ export default {
 
         thEllipsis: { type: Boolean, default: false }, // 表头是否缩略展示
         ellipsis: { type: Boolean, default: false }, // 单元格是否缩略展示
+        
         showFooterCalcRow: { type: Boolean, default: false },
         footerCalcText: { type: String, default: '合计' },
         footerCalcOption: { type: String, default: 'sum' },
+        calcData: Array,
 
         resizable: { type: Boolean, default: false },
         minColumnWidth: { type: Number, default: 44 },
